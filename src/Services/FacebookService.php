@@ -10,12 +10,12 @@ class FacebookService
 
     public function __construct()
     {
-        $this->graph_url .= config('whatsappcloudapi.api_version') . '/';
+        $this->graph_url .= config('whatsappcloudapi.api_version').'/';
     }
 
     public function makePostRequest(array $data)
     {
-        $this->graph_url .= config('whatsappcloudapi.phone_number_id') . '/messages';
+        $this->graph_url .= config('whatsappcloudapi.phone_number_id').'/messages';
 
         return Http::withToken(config('whatsappcloudapi.token'))->post($this->graph_url, $data);
     }

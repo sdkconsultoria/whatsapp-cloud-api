@@ -2,9 +2,9 @@
 
 namespace Sdkconsultoria\WhatsappCloudApi\Tests;
 
+use Faker\Factory;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
 use Sdkconsultoria\WhatsappCloudApi\ServiceProvider;
-use Faker\Factory;
 
 abstract class TestCase extends OrchestraTestCase
 {

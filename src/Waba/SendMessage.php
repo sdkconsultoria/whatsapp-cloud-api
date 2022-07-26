@@ -19,7 +19,7 @@ class SendMessage
     public function attachText(string $text)
     {
         $this->data['text'] = [
-            'body'=> $text,
+            'body' => $text,
         ];
 
         return $this;
