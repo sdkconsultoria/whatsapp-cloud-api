@@ -1,0 +1,43 @@
+{
+    "name": "sdkconsultoria/whatsapp-cloud-api",
+    "type": "library",
+    "description": "Funciones basicas y auxiliares, para generar una página web rápidamente",
+    "keywords": [
+        "laravel",
+        "package",
+        "whatsapp cloud api",
+        "whatsapp"
+    ],
+    "license": "MIT",
+    "authors": [{
+        "name": "Camilo Antonio Rodríguez Cruz",
+        "email": "camilo@sdkconsultoria.com",
+        "homepage": "https://sdkconsultoria.com",
+        "role": "Developer"
+    }],
+    "require": {
+        "php": "^8.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^7.6",
+        "laravel/pint": "^0.2.1",
+        "guzzlehttp/guzzle": "^7.4"
+    },
+    "autoload": {
+        "files": [],
+        "psr-4": {
+            "Sdkconsultoria\\WhatsappCloudApi\\": "src/",
+            "Sdkconsultoria\\WhatsappCloudApi\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": ["Sdkconsultoria\\WhatsappCloudApi\\ServiceProvider"],
+            "aliases": {
+                "WhatsappCloudApi": "Sdkconsultoria\\WhatsappCloudApi\\Facade"
+            }
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
