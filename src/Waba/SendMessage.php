@@ -2,13 +2,11 @@
 
 namespace Sdkconsultoria\WhatsappCloudApi\Waba;
 
-use Sdkconsultoria\WhatsappCloudApi\Services\FacebookService;
-
-class SendMessage
+class SendMessage extends BaseWhatsapp
 {
-    protected $data = [];
+    protected $endpoint = 'messages';
 
-    public static function message(string $number)
+    public static function message(int $number)
     {
         $obj = new self();
         $obj->data['to'] = $number;
@@ -23,14 +21,5 @@ class SendMessage
         ];
 
         return $this;
-    }
-
-    public function send()
-    {
-        $service = resolve(FacebookService::class);
-
-        return $service->makePostRequest(array_merge($this->data, [
-            'messaging_product' => 'whatsapp',
-        ]));
     }
 }
