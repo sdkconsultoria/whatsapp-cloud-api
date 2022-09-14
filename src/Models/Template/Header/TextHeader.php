@@ -45,7 +45,7 @@ class TextHeader extends Header
         ];
 
         if ($this->example) {
-            $element['example'] = ['header_text' => $this->example];
+            $element['example'] = ['header_text' => [$this->example]];
         }
 
         return $element;
