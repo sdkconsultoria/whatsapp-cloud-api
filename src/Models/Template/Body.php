@@ -44,7 +44,7 @@ class Body implements MetaElement
         ];
 
         if ($this->example) {
-            $element['example'] = ['body_text' => $this->example];
+            $element['example'] = ['body_text' => [$this->example]];
         }
 
         return $element;
