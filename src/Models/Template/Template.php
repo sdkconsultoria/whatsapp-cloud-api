@@ -3,6 +3,7 @@
 namespace Sdkconsultoria\WhatsappCloudApi\Models\Template;
 
 use ErrorException;
+use Sdkconsultoria\WhatsappCloudApi\Models\Template\Button\ButtonGroup;
 use Sdkconsultoria\WhatsappCloudApi\Models\Template\Header\Header;
 
 class Template
@@ -44,7 +45,7 @@ class Template
         return $this;
     }
 
-    public function buttonComponent(ButtonGroup $buttons)
+    public function buttonsComponent(ButtonGroup $buttons)
     {
         $buttons->validate();
         $this->buttons = $buttons;
