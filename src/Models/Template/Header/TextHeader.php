@@ -32,7 +32,7 @@ class TextHeader extends Header
     public function validate(): void
     {
         $this->validateTextMinLength($this->text, 2);
-        $this->validateTextMaxLength($this->text, 1024);
+        $this->validateTextMaxLength($this->text, 60);
         $this->validateIfNeedExample();
     }
 
