@@ -7,11 +7,11 @@ use Illuminate\Support\Facades\Http;
 
 class ResumableUploadAPI extends FacebookService
 {
-    protected $mime_type;
-    protected $file_size;
-    protected $file;
-    protected $session_id;
-    protected $handler;
+    public $mime_type;
+    public $file_size;
+    public $file;
+    public $session_id;
+    public $handler;
 
     public static function uploadFile(string $file)
     {
