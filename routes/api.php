@@ -14,6 +14,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::namespace('Sdkconsultoria\WhatsappCloudApi\Http\Controllers')->group(function () {
-    Route::get('whatsapp-webhook-subscribe', 'WebhookController@subscribe')->name('meta.webhook.subscribe');
+    Route::get('whatsapp-webhook', 'WebhookController@subscribe')->name('meta.webhook.subscribe');
     Route::post('whatsapp-webhook', 'WebhookController@webhook');
 });

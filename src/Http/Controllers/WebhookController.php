@@ -9,12 +9,14 @@ class WebhookController extends Controller
 {
     public function subscribe(Request $request)
     {
-        if ($request->hub_verify_token === config('whatsappcloudapi.verification_token')) {
+        if ($request->hub_verify_token === config('cloudapi.webhook_token')) {
             return $request->hub_challenge;
         }
     }
 
     public function webhook(Request $request)
     {
+        \Log::info('holis');
+        \Log::info($request->all());
     }
 }
