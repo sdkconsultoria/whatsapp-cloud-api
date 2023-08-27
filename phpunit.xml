@@ -13,9 +13,8 @@
 >
     <php>
         <env name="APP_KEY" value="AckfSECXIvnK5r28GVIWUAxmbBSjTsmF"/>
-        <env name="WHATSAPP_CLOUD_API_TOKEN" value="EAAFKha8XVGIBAEYWxmPAi7hE223Csk6gmc"/>
-        <env name="WHATSAPP_CLOUD_API_PHONE_NUMBER_ID" value="23653244"/>
-        <env name="WHATSAPP_CLOUD_API_VERIFICATION_TOKEN" value="whatsappcloudapitoken"/>
+        <env name="WHATSAPP_TOKEN" value="EAAFKha8XVGIBAEYWxmPAi7hE223Csk6gmc"/>
+        <env name="WHATSAPP_WEBHOOK_TOKEN" value="23653244"/>
     </php>
     <coverage>
         <include>

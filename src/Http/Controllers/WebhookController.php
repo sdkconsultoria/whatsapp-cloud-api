@@ -12,6 +12,8 @@ class WebhookController extends Controller
         if ($request->hub_verify_token === config('cloudapi.webhook_token')) {
             return $request->hub_challenge;
         }
+
+        return response()->json(['error' => 'Invalid verify token'], 400);
     }
 
     public function webhook(Request $request)
