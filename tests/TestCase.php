@@ -2,18 +2,43 @@
 
 namespace Sdkconsultoria\WhatsappCloudApi\Tests;
 
-use Faker\Factory;
-use Orchestra\Testbench\TestCase as OrchestraTestCase;
+
+use Orchestra\Testbench\TestCase as Orchestra;
 use Sdkconsultoria\WhatsappCloudApi\ServiceProvider;
 
-abstract class TestCase extends OrchestraTestCase
+abstract class TestCase extends Orchestra
 {
-    protected $faker;
+    protected static $migration;
+
+    protected static $customMigration;
 
     public function setUp(): void
     {
         parent::setUp();
-        $this->faker = Factory::create();
+
+        if (! self::$migration) {
+            $this->loadLaravelMigrations();
+            $this->artisan('migrate')->run();
+
+            self::$customMigration = true;
+        }
+    }
+
+    protected function getEnvironmentSetUp($app)
+    {
+        $app['config']->set('database.default', 'testbench');
+        $app['config']->set('database.connections.testbench', [
+            'driver' => 'sqlite',
+            'database' => ':memory:',
+            'prefix' => '',
+        ]);
+
+        $app['config']->set('logging.default', 'single');
+        $app['config']->set('logging.channels.single', [
+            'driver' => 'single',
+            'path' => __DIR__.'/logs/test.log',
+            'level' => 'debug',
+        ]);
     }
 
     /**

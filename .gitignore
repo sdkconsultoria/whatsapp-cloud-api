@@ -1,4 +1,6 @@
 vendor
-composer.lock
-.phpunit.result.cache
 html
+.phpunit.result.cache
+.phpunit.cache
+tests/files
+tests/logs

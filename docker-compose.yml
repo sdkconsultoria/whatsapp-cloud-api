@@ -1,0 +1,13 @@
+services:
+    php:
+        build:
+            context: ./
+            dockerfile: Dockerfile
+        image: hellsythe/php-composer
+        volumes:
+            - '.:/app'
+        networks:
+            - services
+networks:
+    services:
+        driver: bridge
