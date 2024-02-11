@@ -1,7 +1,8 @@
 {
     "name": "sdkconsultoria/whatsapp-cloud-api",
+    "version": "1.0.0",
     "type": "library",
-    "description": "Funciones basicas y auxiliares, para generar una página web rápidamente",
+    "description": "Comunicacion rapida y segura con la API de Whatsapp Cloud",
     "keywords": [
         "laravel",
         "package",
