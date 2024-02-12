@@ -16,6 +16,8 @@ return new class extends Migration
         Schema::create('chats', function (Blueprint $table) {
             $table->id();
             $table->foreignId('category_id');
+            $table->string('order');
+            $table->string('color');
             $table->string('from');
             $table->string('to');
             $table->smallInteger('status')->default('20');
