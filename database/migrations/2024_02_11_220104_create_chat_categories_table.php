@@ -13,11 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('destinataries', function (Blueprint $table) {
+        Schema::create('chat_categories', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
             $table->smallInteger('status')->default('20');
-            $table->string('category');
-            $table->string('number');
         });
     }
 
@@ -28,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('destinataries');
+        Schema::dropIfExists('chat_categories');
     }
 };

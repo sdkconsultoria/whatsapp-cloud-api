@@ -4,7 +4,7 @@ namespace Sdkconsultoria\WhatsappCloudApi\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Destinatary extends Model
+class Chat extends Model
 {
 
 }
