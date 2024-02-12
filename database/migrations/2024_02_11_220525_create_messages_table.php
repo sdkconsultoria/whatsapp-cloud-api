@@ -17,9 +17,11 @@ return new class extends Migration
             $table->id();
             $table->foreignId('created_by')->nullable()->constrained('users');
             $table->foreignId('chat_id');
-            $table->timestamp('sent_at')->nullable();
+            $table->timestamp('timestamp')->nullable();
             $table->timestamp('readed_at')->nullable();
             $table->string('message_id')->unique();
+            $table->string('type');
+            $table->json('body');
             $table->smallInteger('status')->default('20');
         });
     }
