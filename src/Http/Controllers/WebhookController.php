@@ -18,7 +18,18 @@ class WebhookController extends Controller
 
     public function webhook(Request $request)
     {
-        \Log::info('holis');
-        \Log::info($request->all());
+        $data = $request->all()['entry'][0]['changes'][0];
+
+        switch ($data['field']) {
+            case 'messages':
+                $this->processMessageHook($data['value']);
+                break;
+        }
     }
+
+    private function processMessageHook($message)
+    {
+        \Log::info($message);
+    }
+
 }
