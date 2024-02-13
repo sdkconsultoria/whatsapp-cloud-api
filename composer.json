@@ -1,6 +1,5 @@
 {
     "name": "sdkconsultoria/whatsapp-cloud-api",
-    "version": "1.0.0",
     "type": "library",
     "description": "Comunicacion rapida y segura con la API de Whatsapp Cloud",
     "keywords": [
