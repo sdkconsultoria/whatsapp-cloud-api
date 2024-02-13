@@ -10,7 +10,7 @@ class WebhookController extends Controller
 {
     public function subscribe(Request $request)
     {
-        if ($request->hub_verify_token === config('cloudapi.webhook_token')) {
+        if ($request->hub_verify_token === config('meta.webhook_token')) {
             return $request->hub_challenge;
         }
 

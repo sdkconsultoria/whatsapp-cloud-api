@@ -13,10 +13,13 @@ class WabaManagerTest extends TestCase
 
     public function test_get_templates_from_waba()
     {
+        Http::fake([
+            '*' => Http::response($this->fakeTemplates(), 200),
+        ]);
+
         $waba = Waba::factory()->create(['waba_id' => '121544050937574']);
         $this->get(route('waba.loadtemplates', ['wabaId' => $waba->waba_id]))
-            ->assertStatus(200)
-            ->dump();
+            ->assertStatus(200);
     }
 
     public function test_get_waba_info()
