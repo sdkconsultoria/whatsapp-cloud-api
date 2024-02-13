@@ -20,21 +20,23 @@ return new class extends Migration
             $table->foreignId('created_by')->nullable()->constrained('users');
             $table->foreignId('updated_by')->nullable()->constrained('users');
             $table->foreignId('waba_id');
-            $table->string('phone_id');
+
+            $table->string('address')->nullable();
+            $table->text('description')->nullable();
+            $table->string('vertical')->nullable();
+            $table->text('about')->nullable();
+            $table->string('email')->nullable();
+            $table->string('websites')->nullable();
+            $table->string('picture_profile')->nullable();
+
             $table->string('name');
-            $table->string('number');
-            $table->string('number_clean');
+            $table->string('code_verification_status')->nullable();
+            $table->string('display_phone_number');
+            $table->string('phone_number_clean');
             $table->string('quality_rating');
-            $table->string('website');
-            $table->string('email');
-            $table->string('address');
-            $table->text('about');
-            $table->text('description');
-            $table->string('vertical');
-            $table->string('picture_profile');
-            $table->string('currency');
-            $table->string('number_status');
-            $table->string('number_approval');
+            $table->string('phone_id');
+
+            $table->string('pin')->nullable();
             $table->smallInteger('status')->default('20');
         });
     }

@@ -2,9 +2,7 @@
 
 namespace Sdkconsultoria\WhatsappCloudApi\Services;
 
-use Illuminate\Support\Facades\Http;
-
-class FacebookService
+abstract class FacebookService
 {
     protected string $graph_url = 'https://graph.facebook.com/';
 

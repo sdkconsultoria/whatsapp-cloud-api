@@ -5,6 +5,8 @@ namespace Sdkconsultoria\WhatsappCloudApi\Services;
 use Exception;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
+use Sdkconsultoria\WhatsappCloudApi\Models\Waba;
+use Sdkconsultoria\WhatsappCloudApi\Models\WabaPhone;
 
 class WabaManagerService extends FacebookService
 {
@@ -13,6 +15,7 @@ class WabaManagerService extends FacebookService
         $this->graph_url .= $wabaId ;
         $response = Http::withToken(config('meta.token'))->get($this->graph_url);
 
+        Waba::saveWaba($response->json());
         return $response->json();
     }
 
@@ -20,6 +23,35 @@ class WabaManagerService extends FacebookService
     {
         $this->graph_url .= $wabaId . '/phone_numbers';
         $response = Http::withToken(config('meta.token'))->get($this->graph_url);
+
+        WabaPhone::savePhones($response->json(), $wabaId);
+        return $response->json();
+    }
+
+    public function getBussinesProfile(string $phoneId): array
+    {
+        $this->graph_url .= $phoneId . '/whatsapp_business_profile?fields=about,address,description,email,profile_picture_url,websites,vertical';
+        $response = Http::withToken(config('meta.token'))->get($this->graph_url);
+
+        return $response->json();
+    }
+
+    public function setBussinesProfile(string $phoneId): array
+    {
+        $this->graph_url .= $phoneId . '/whatsapp_business_profile';
+        $response = Http::withToken(config('meta.token'))->post($this->graph_url, [
+            "messaging_product" => "whatsapp",
+            "address" => "<business-address>",
+            "description" => "<business-description>",
+            "vertical" => "<business-industry>",
+            "about" => "<profile-about-text>",
+            "email" => "<business-email>",
+            "websites" => [
+                "<https://website-1>",
+                "<https://website-2>"
+            ],
+            "profile_picture_handle" => ""
+        ]);
 
         return $response->json();
     }
