@@ -6,13 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class WabaPhone extends Model
 {
-    public static function savePhones(array $phones, $wabaId) : void
+    public static function savePhones(array $phones, $wabaId): void
     {
         foreach ($phones['data'] as $phone) {
             $waba = Waba::where('waba_id', $wabaId)->first();
             $wabaPhone = WabaPhone::where('phone_id', $phone['id'])->first();
 
-            if (!$wabaPhone) {
+            if (! $wabaPhone) {
                 $wabaPhone = new WabaPhone();
                 $wabaPhone->phone_id = $phone['id'];
                 $wabaPhone->waba_id = $waba->id;

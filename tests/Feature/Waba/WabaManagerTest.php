@@ -24,7 +24,7 @@ class WabaManagerTest extends TestCase
         $wabaId = '104996122399160';
         $wabaFakeInfo = $this->getFakeWabaInfo();
 
-        Http::fake(["*$wabaId" => Http::response($wabaFakeInfo, 200) ]);
+        Http::fake(["*$wabaId" => Http::response($wabaFakeInfo, 200)]);
 
         $service = resolve(WabaManagerService::class);
         $service->getWabaInfo($wabaId);
@@ -44,7 +44,7 @@ class WabaManagerTest extends TestCase
         Waba::factory()->create(['waba_id' => $wabaId]);
         $wabaPhonesFake = $this->fakePhoneNumbers();
 
-        Http::fake(["*$wabaId/phone_numbers" => Http::response($wabaPhonesFake, 200) ]);
+        Http::fake(["*$wabaId/phone_numbers" => Http::response($wabaPhonesFake, 200)]);
 
         $service = resolve(WabaManagerService::class);
         $service->getPhoneNumbers($wabaId);

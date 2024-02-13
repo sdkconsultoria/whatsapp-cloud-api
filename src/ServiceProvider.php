@@ -41,7 +41,6 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         });
     }
 
-
     /**
      * Register any application services.
      *

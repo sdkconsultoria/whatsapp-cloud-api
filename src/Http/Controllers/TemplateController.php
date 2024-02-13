@@ -10,6 +10,7 @@ class TemplateController extends Controller
     public function index()
     {
         $templates = resolve(WabaManagerService::class)->getAllTemplates();
+
         return response()->json($templates);
     }
 }

@@ -2,7 +2,6 @@
 
 namespace Sdkconsultoria\WhatsappCloudApi\Tests;
 
-
 use Orchestra\Testbench\TestCase as Orchestra;
 use Sdkconsultoria\WhatsappCloudApi\ServiceProvider;
 

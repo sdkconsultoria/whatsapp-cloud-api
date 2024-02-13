@@ -7,11 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class Message extends Model
 {
     public const STATUS_SENDED = 0;
+
     public $timestamps = false;
 
     public static function processMessage($messageEvent): void
     {
-        if (isset($messageEvent['messages'])){
+        if (isset($messageEvent['messages'])) {
             $content = $messageEvent['messages'][0];
             $chat = self::findOrCreateChat($content['from'], $messageEvent['metadata']['display_phone_number']);
 
@@ -25,7 +26,7 @@ class Message extends Model
             $messageModel->save();
         }
 
-        if (isset($messageEvent['statuses'])){
+        if (isset($messageEvent['statuses'])) {
 
         }
     }

@@ -2,7 +2,6 @@
 
 namespace Sdkconsultoria\WhatsappCloudApi\Models;
 
-use Hamcrest\Core\Set;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -14,7 +13,7 @@ class Waba extends Model
     {
         $waba = Waba::where('waba_id', $wabaInfo['id'])->first();
 
-        if (!$waba) {
+        if (! $waba) {
             $waba = new Waba();
             $waba->waba_id = $wabaInfo['id'];
         }
