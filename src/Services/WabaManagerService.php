@@ -56,6 +56,13 @@ class WabaManagerService extends FacebookService
         return $response->json();
     }
 
+    public function getAllTemplates(string $wabaId): array
+    {
+        $this->graph_url .= $wabaId . '/message_templates';
+        $response = Http::withToken(config('meta.token'))->get($this->graph_url);
+        return $response->json();
+    }
+
     // public function getAllWabas(): Response
     // {
     //     $this->graph_url .= config('meta.app_id') . '/owned_whatsapp_business_accounts';

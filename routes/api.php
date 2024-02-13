@@ -16,4 +16,11 @@ use Illuminate\Support\Facades\Route;
 Route::namespace('Sdkconsultoria\WhatsappCloudApi\Http\Controllers')->group(function () {
     Route::get('whatsapp-webhook', 'WebhookController@subscribe')->name('meta.webhook.subscribe');
     Route::post('whatsapp-webhook', 'WebhookController@webhook')->name('meta.webhook');
+
+    Route::get('waba/{wabaId}/loadtemplates', 'WabaController@loadTemplatesFromWaba')->name('waba.loadtemplates');
+    Route::get('template', 'TemplateController@index')->name('template.index');
+    Route::post('template', 'TemplateController@storage')->name('template.storage');
+    Route::put('template/{id}', 'TemplateController@edit')->name('template.edit');
+    Route::delete('template/{id}', 'TemplateController@delete')->name('template.delete');
+
 });

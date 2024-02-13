@@ -34,4 +34,41 @@ trait FakeWabaResponses
             ]
         ];
     }
+
+    private function fakeTemplates()
+    {
+        return [
+            "data" => [
+                [
+                    "name" => "hello_world",
+                    "previous_category" => "ACCOUNT_UPDATE",
+                    "components" => [
+                        [
+                            "type" => "HEADER",
+                            "format" => "TEXT",
+                            "text" => "Hello World"
+                        ],
+                        [
+                            "type" => "BODY",
+                            "text" => "Welcome and congratulations!! This message demonstrates your ability to send a message notification from WhatsApp Business Platform’s Cloud API. Thank you for taking the time to test with us."
+                        ],
+                        [
+                            "type" => "FOOTER",
+                            "text" => "WhatsApp Business API Team"
+                        ]
+                    ],
+                    "language" => "en_US",
+                    "status" => "APPROVED",
+                    "category" => "MARKETING",
+                    "id" => "1192339204654487"
+                ],
+            ],
+            "paging" => [
+                "cursors" => [
+                    "before" => "MAZDZD",
+                    "after" => "MjQZD"
+                ]
+            ]
+        ];
+    }
 }

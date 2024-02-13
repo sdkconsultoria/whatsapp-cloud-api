@@ -11,6 +11,14 @@ class WabaManagerTest extends TestCase
 {
     use FakeWabaResponses;
 
+    public function test_get_templates_from_waba()
+    {
+        $waba = Waba::factory()->create(['waba_id' => '121544050937574']);
+        $this->get(route('waba.loadtemplates', ['wabaId' => $waba->waba_id]))
+            ->assertStatus(200)
+            ->dump();
+    }
+
     public function test_get_waba_info()
     {
         $wabaId = '104996122399160';
@@ -30,9 +38,6 @@ class WabaManagerTest extends TestCase
         ]);
     }
 
-    /**
-     * @depends test_get_waba_info
-     */
     public function test_get_phone_numbers_from_waba()
     {
         $wabaId = '104996122399160';
