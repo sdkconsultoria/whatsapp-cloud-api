@@ -6,8 +6,9 @@
   cacheDirectory=".phpunit.cache" backupStaticProperties="false">
   <php>
     <env name="APP_KEY" value="AckfSECXIvnK5r28GVIWUAxmbBSjTsmF"/>
-    <env name="WHATSAPP_TOKEN" value="EAAFKha8XVGIBAEYWxmPAi7hE223Csk6gmc"/>
-    <env name="WHATSAPP_WEBHOOK_TOKEN" value="23653244"/>
+    <env name="META_WEBHOOK_TOKEN" value="23653244"/>
+    <env name="META_TOKEN" value="7FLZBhGJ1qYHB3mTB"/>
+    <env name="META_APP_ID" value="3243242451531464"/>
   </php>
   <coverage />
   <testsuites>

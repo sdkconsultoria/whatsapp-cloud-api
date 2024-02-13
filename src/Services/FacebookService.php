@@ -10,6 +10,6 @@ class FacebookService
 
     public function __construct()
     {
-        $this->graph_url .= config('facebook.api_version').'/';
+        $this->graph_url .= config('meta.api_version').'/';
     }
 }

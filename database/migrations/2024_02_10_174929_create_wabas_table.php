@@ -21,8 +21,8 @@ return new class extends Migration
             $table->foreignId('updated_by')->nullable()->constrained('users');
             $table->string('waba_id');
             $table->string('name');
-            $table->string('timezone');
-            $table->string('namespace');
+            $table->string('timezone_id');
+            $table->string('message_template_namespace');
             $table->string('currency');
             $table->smallInteger('status')->default('20');
         });
