@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3253032fb015490dd5c334d6b6522471",
+    "content-hash": "a4ef595f2b079291e004ad9f512de044",
     "packages": [
         {
             "name": "guzzlehttp/guzzle",
