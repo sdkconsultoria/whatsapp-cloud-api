@@ -34,8 +34,8 @@ class MessageController extends Controller
         $phoneNumber = WabaPhone::where('phone_id', $phoneId)->first();
 
         return Chat::firstOrCreate([
-            'from' => $phoneNumber->display_phone_number,
-            'to' => $to,
+            'waba_phone' => $phoneNumber->display_phone_number,
+            'client_phone' => $to,
         ])->id;
     }
 }

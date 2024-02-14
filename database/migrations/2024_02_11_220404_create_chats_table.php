@@ -17,13 +17,14 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->softDeletes();
+            $table->timestamp('last_message')->nullable();
             $table->foreignId('created_by')->nullable()->constrained('users');
             $table->foreignId('updated_by')->nullable()->constrained('users');
             $table->foreignId('category_id')->nullable();
             $table->string('order')->nullable();
             $table->string('color')->nullable();
-            $table->string('from');
-            $table->string('to');
+            $table->string('waba_phone');
+            $table->string('client_phone');
             $table->smallInteger('status')->default('20');
         });
     }
