@@ -32,6 +32,9 @@
             "Sdkconsultoria\\WhatsappCloudApi\\Tests\\": "tests/"
         }
     },
+    "scripts": {
+        "format": "vendor/bin/pint --config pint.json"
+    },
     "extra": {
         "laravel": {
             "providers": ["Sdkconsultoria\\WhatsappCloudApi\\ServiceProvider"],

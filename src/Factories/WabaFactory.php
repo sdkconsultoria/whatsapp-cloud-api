@@ -26,6 +26,7 @@ class WabaFactory extends Factory
             'timezone_id' => $this->faker->word,
             'currency' => $this->faker->word,
             'message_template_namespace' => $this->faker->word,
+            'waba_id' => $this->faker->numberBetween(111111111),
         ];
     }
 }

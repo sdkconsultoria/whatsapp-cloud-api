@@ -2,10 +2,13 @@
 
 namespace Sdkconsultoria\WhatsappCloudApi\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class WabaPhone extends Model
 {
+    use HasFactory;
+
     public static function savePhones(array $phones, $wabaId): void
     {
         foreach ($phones['data'] as $phone) {
