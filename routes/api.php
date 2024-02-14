@@ -18,6 +18,9 @@ Route::namespace('Sdkconsultoria\WhatsappCloudApi\Http\Controllers')->group(func
     Route::post('whatsapp-webhook', 'WebhookController@webhook')->name('meta.webhook');
 
     Route::get('waba/{wabaId}/loadtemplates', 'WabaController@loadTemplatesFromWaba')->name('waba.loadtemplates');
+    Route::get('waba/{wabaId}/getinfo', 'WabaController@getWabaInfoFromMeta')->name('waba.getWabaInfoFromMeta');
+    Route::get('waba/{wabaId}/phonenumbers', 'WabaController@getWabaPhonesFromMeta')->name('waba.getWabaPhonesFromMeta');
+
     Route::get('template', 'TemplateController@index')->name('template.index');
     Route::post('template', 'TemplateController@storage')->name('template.storage');
     Route::put('template/{id}', 'TemplateController@edit')->name('template.edit');

@@ -4,7 +4,6 @@ namespace Sdkconsultoria\WhatsappCloudApi\Tests\Feature\Waba;
 
 use Illuminate\Support\Facades\Http;
 use Sdkconsultoria\WhatsappCloudApi\Models\Waba;
-use Sdkconsultoria\WhatsappCloudApi\Services\WabaManagerService;
 use Sdkconsultoria\WhatsappCloudApi\Tests\TestCase;
 
 class WabaManagerTest extends TestCase
@@ -19,8 +18,7 @@ class WabaManagerTest extends TestCase
         ]);
 
         $waba = Waba::factory()->create(['waba_id' => '121544050937574']);
-        $this->get(route('waba.loadtemplates', ['wabaId' => $waba->waba_id]))
-            ->assertStatus(200);
+        $this->get(route('waba.loadtemplates', ['wabaId' => $waba->waba_id]))->assertStatus(200);
 
         foreach ($fakeTemplates['data'] as $fakeTemplate) {
             $this->assertDatabaseHas('templates', [
@@ -38,8 +36,7 @@ class WabaManagerTest extends TestCase
 
         Http::fake(["*$wabaId" => Http::response($wabaFakeInfo, 200)]);
 
-        $service = resolve(WabaManagerService::class);
-        $service->getWabaInfo($wabaId);
+        $this->get(route('waba.getWabaInfoFromMeta', ['wabaId' => $wabaId]))->assertStatus(200);
 
         $this->assertDatabaseHas('wabas', [
             'waba_id' => $wabaFakeInfo['id'],
@@ -58,8 +55,7 @@ class WabaManagerTest extends TestCase
 
         Http::fake(["*$wabaId/phone_numbers" => Http::response($wabaPhonesFake, 200)]);
 
-        $service = resolve(WabaManagerService::class);
-        $service->getPhoneNumbers($wabaId);
+        $this->get(route('waba.getWabaPhonesFromMeta', ['wabaId' => $wabaId]))->assertStatus(200);
 
         foreach ($wabaPhonesFake['data'] as $wabaPhoneFake) {
             $this->assertDatabaseHas('waba_phones', [

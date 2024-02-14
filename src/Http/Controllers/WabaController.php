@@ -35,4 +35,14 @@ class WabaController extends Controller
         $templateModel->content = json_encode($template);
         $templateModel->save();
     }
+
+    public function getWabaInfoFromMeta($wabaId)
+    {
+        return resolve(WabaManagerService::class)->getWabaInfo($wabaId);
+    }
+
+    public function getWabaPhonesFromMeta($wabaId)
+    {
+        return resolve(WabaManagerService::class)->getPhoneNumbers($wabaId);
+    }
 }
