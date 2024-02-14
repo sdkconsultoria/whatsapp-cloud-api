@@ -21,7 +21,11 @@ return new class extends Migration
             $table->foreignId('updated_by')->nullable()->constrained('users');
             $table->foreignId('waba_id');
             $table->string('name');
-            $table->smallInteger('status')->default('20');
+            $table->string('status');
+            $table->string('category');
+            $table->string('language');
+            $table->string('template_id');
+            // $table->smallInteger('status')->default('20');
             $table->json('content');
         });
     }
