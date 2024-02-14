@@ -23,7 +23,7 @@ class Message extends Model
             $messageModel->status = self::STATUS_SENDED;
             $messageModel->type = $content['type'];
             $messageModel->body = json_encode($content);
-            $messageModel->direction = "toApp";
+            $messageModel->direction = 'toApp';
             $messageModel->save();
         }
 
@@ -35,8 +35,8 @@ class Message extends Model
     private static function findOrCreateChat(string $from, string $to): Chat
     {
         return Chat::firstOrCreate([
-            'waba_phone' => $from,
-            'client_phone' => $to,
+            'waba_phone' => $to,
+            'client_phone' => $from,
             'status' => Chat::STATUS_UNREAD,
         ]);
     }

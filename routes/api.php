@@ -27,6 +27,7 @@ Route::namespace('Sdkconsultoria\WhatsappCloudApi\Http\Controllers')->group(func
     Route::delete('template/{id}', 'TemplateController@delete')->name('template.delete');
 
     Route::post('message/send', 'MessageController@sendMessage')->name('message.send');
+    Route::get('message', 'MessageController@index')->name('message.index');
 
     Route::get('get-conversations', 'ConversationController@index')->name('conversation.index');
 });

@@ -19,31 +19,31 @@ class MessageWebhookTest extends TestCase
                     'changes' => [
                         [
                             'field' => 'messages',
-                            "value" => [
-                                "messaging_product" => "whatsapp",
-                                "metadata" => [
-                                    "display_phone_number" => "16505553333",
-                                    "phone_number_id" => "27681414235104944"
+                            'value' => [
+                                'messaging_product' => 'whatsapp',
+                                'metadata' => [
+                                    'display_phone_number' => '16505553333',
+                                    'phone_number_id' => '27681414235104944',
                                 ],
-                                "contacts" => [
+                                'contacts' => [
                                     [
-                                        "profile" => [
-                                            "name" => "Kerry Fisher"
+                                        'profile' => [
+                                            'name' => 'Kerry Fisher',
                                         ],
-                                        "wa_id" => "16315551234"
-                                    ]
+                                        'wa_id' => '16315551234',
+                                    ],
                                 ],
-                                "messages" => [
+                                'messages' => [
                                     [
-                                        "from" => "16315551234",
-                                        "id" => "wamid.ABGGFlCGg0cvAgo-sJQh43L5Pe4W",
-                                        "timestamp" => "1603059201",
-                                        "text" => [
-                                            "body" => "Hello this is an answer"
+                                        'from' => '16315551234',
+                                        'id' => 'wamid.ABGGFlCGg0cvAgo-sJQh43L5Pe4W',
+                                        'timestamp' => '1603059201',
+                                        'text' => [
+                                            'body' => 'Hello this is an answer',
                                         ],
-                                        "type" => "text"
-                                    ]
-                                ]
+                                        'type' => 'text',
+                                    ],
+                                ],
                             ],
                         ],
                     ],
