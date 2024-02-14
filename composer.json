@@ -33,7 +33,8 @@
         }
     },
     "scripts": {
-        "format": "vendor/bin/pint --config pint.json"
+        "format": "vendor/bin/pint --config pint.json",
+        "test": "vendor/bin/phpunit"
     },
     "extra": {
         "laravel": {
