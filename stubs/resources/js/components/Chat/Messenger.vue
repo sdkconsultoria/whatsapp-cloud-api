@@ -96,7 +96,7 @@ function sendMessage() {
 }
 
 setTimeout(() => {
-    window.Echo.private(`new_whatsapp_message`)
+    window.Echo.channel(`new_whatsapp_message`)
         .listen('.Sdkconsultoria\\WhatsappCloudApi\\Events\\NewWhatsappMessageHook', (e) => {
             console.log(e.chat.chat_id);
             console.log(current_conversation.value.id);
