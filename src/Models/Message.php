@@ -3,7 +3,7 @@
 namespace Sdkconsultoria\WhatsappCloudApi\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Sdkconsultoria\WhatsappCloudApi\Events\NewWhatsappMessage;
+use Sdkconsultoria\WhatsappCloudApi\Events\NewWhatsappMessageHook;
 
 class Message extends Model
 {
@@ -27,7 +27,7 @@ class Message extends Model
             $messageModel->direction = 'toApp';
             $messageModel->save();
 
-            NewWhatsappMessage::dispatch([
+            NewWhatsappMessageHook::dispatch([
                 'chat_id' => $chat->id,
             ]);
         }

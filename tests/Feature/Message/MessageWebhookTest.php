@@ -4,6 +4,9 @@ namespace Sdkconsultoria\WhatsappCloudApi\Tests\Feature\Message;
 
 use Illuminate\Foundation\Testing\WithFaker;
 use Sdkconsultoria\WhatsappCloudApi\Tests\TestCase;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Log;
+use Sdkconsultoria\WhatsappCloudApi\Events\NewWhatsappMessageHook;
 
 class MessageWebhookTest extends TestCase
 {
@@ -12,6 +15,7 @@ class MessageWebhookTest extends TestCase
     public function test_recive_webhook_message()
     {
         // $this->withoutExceptionHandling();
+        Event::fake();
 
         $response = $this->post(route('meta.webhook'), [
             'entry' => [
@@ -52,5 +56,9 @@ class MessageWebhookTest extends TestCase
         ]);
 
         $response->assertStatus(200);
+
+        Event::assertDispatched(NewWhatsappMessageHook::class, function ($e) {
+            return true ;
+        });
     }
 }
