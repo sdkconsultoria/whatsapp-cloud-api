@@ -4,6 +4,8 @@ namespace Sdkconsultoria\WhatsappCloudApi;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Broadcast;
+use Illuminate\Support\Facades\Event;
 
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
 {
@@ -15,8 +17,16 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     public function boot()
     {
         $this->loadRoutesFrom(__DIR__.'/../routes/api.php');
+        $this->registerBroadcasting();
         $this->registerMigrations();
         $this->registerCustomFactory();
+    }
+
+    private function registerBroadcasting()
+    {
+        Broadcast::routes();
+
+        require (__DIR__.'/../routes/channels.php');
     }
 
     private function registerMigrations()

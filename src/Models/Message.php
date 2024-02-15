@@ -3,6 +3,7 @@
 namespace Sdkconsultoria\WhatsappCloudApi\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Sdkconsultoria\WhatsappCloudApi\Events\NewWhatsappMessage;
 
 class Message extends Model
 {
@@ -25,6 +26,10 @@ class Message extends Model
             $messageModel->body = json_encode($content);
             $messageModel->direction = 'toApp';
             $messageModel->save();
+
+            NewWhatsappMessage::dispatch([
+                'chat_id' => $chat->id,
+            ]);
         }
 
         if (isset($messageEvent['statuses'])) {
