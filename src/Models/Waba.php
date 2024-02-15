@@ -22,7 +22,7 @@ class Waba extends Model
         $waba->name = $wabaInfo['name'];
         $waba->timezone_id = $wabaInfo['timezone_id'];
         $waba->message_template_namespace = $wabaInfo['message_template_namespace'];
-        $waba->currency = $wabaInfo['currency'];
+        $waba->currency = $wabaInfo['currency'] ?? 'USD';
         $waba->save();
     }
 }
