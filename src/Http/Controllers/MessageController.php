@@ -37,27 +37,26 @@ class MessageController extends APIResourceController
     public function sendMessage(Request $request)
     {
         $request = $request->all();
+        $phoneNumber = WabaPhone::where('phone_id', $request['phone_id'])->orWhere('phone_number_clean', $request['phone_id'])->first();
 
-        $message = resolve(MessageService::class)->sendMessage($request['phone_id'], $request['to'], $request['message']);
+        $message = resolve(MessageService::class)->sendMessage($phoneNumber->phone_id, $request['to'], $request['message']);
 
         $messageModel = new Message();
         $messageModel->direction = 'toClient';
-        $messageModel->body = json_encode($message);
+        $messageModel->body = json_encode($request['message']);
         $messageModel->timestamp = time();
         $messageModel->message_id = $message['messages'][0]['id'];
         $messageModel->type = 'text';
-        $messageModel->chat_id = $this->getChatId($request['phone_id'], $request['to']);
+        $messageModel->chat_id = $this->getChatId($phoneNumber, $request['to']);
         $messageModel->save();
 
         return response()->json($message);
     }
 
-    private function getChatId($phoneId, $to)
+    private function getChatId($phoneNumber, $to)
     {
-        $phoneNumber = WabaPhone::where('phone_id', $phoneId)->first();
-
         return Chat::firstOrCreate([
-            'waba_phone' => $phoneNumber->display_phone_number,
+            'waba_phone' => $phoneNumber->phone_number_clean,
             'client_phone' => $to,
         ])->id;
     }

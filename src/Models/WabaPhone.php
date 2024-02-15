@@ -24,7 +24,7 @@ class WabaPhone extends Model
             $wabaPhone->name = $phone['verified_name'];
             $wabaPhone->display_phone_number = $phone['display_phone_number'];
             $wabaPhone->quality_rating = $phone['quality_rating'];
-            $wabaPhone->phone_number_clean = trim(str_replace('+', '', $phone['display_phone_number']));
+            $wabaPhone->phone_number_clean = str_replace(' ', '', trim(str_replace('+', '', $phone['display_phone_number'])));
             $wabaPhone->save();
         }
     }
