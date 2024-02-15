@@ -4,6 +4,7 @@ namespace Sdkconsultoria\WhatsappCloudApi\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
+use Sdkconsultoria\WhatsappCloudApi\Services\FileManager;
 
 class InstallCommand extends Command
 {
@@ -39,14 +40,15 @@ class InstallCommand extends Command
     public function handle()
     {
         $this->updateNode();
-        (new Filesystem)->copyDirectory(__DIR__.'/../../../stubs', base_path());
-
-        $this->info('SDK Whatsapp Messenger se instalo correctamente.');
-        $this->comment('Ejecuta el comando "npm install && npm run dev" para generar tus assets.');
+        $this->copyStubs();
+        $this->enableBroadcastServiceProvider();
+        $this->finishMessage();
     }
 
     private function updateNode()
     {
+        $this->info('Actualizando Node Packages...');
+
         $this->updateNodePackages(function ($packages) {
             return [
                 'autoprefixer' => '^10.4.17',
@@ -68,7 +70,7 @@ class InstallCommand extends Command
      * @param  bool  $dev
      * @return void
      */
-    protected static function updateNodePackages(callable $callback, $dev = true)
+    private function updateNodePackages(callable $callback, $dev = true)
     {
         if (! file_exists(base_path('package.json'))) {
             return;
@@ -89,5 +91,31 @@ class InstallCommand extends Command
             base_path('package.json'),
             json_encode($packages, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT).PHP_EOL
         );
+    }
+
+    private function copyStubs()
+    {
+        $this->info('Copiando los archivos de configuración...');
+
+        (new Filesystem)->copyDirectory(__DIR__.'/../../../stubs', base_path());
+    }
+
+    private function enableBroadcastServiceProvider()
+    {
+        $this->info('Activando el BroadcastServiceProvider');
+
+        $file = base_path('config').'/app.php';
+
+        FileManager::replace(
+            "// App\Providers\BroadcastServiceProvider::class",
+            "App\Providers\BroadcastServiceProvider::class",
+            $file
+        );
+    }
+
+    private function finishMessage()
+    {
+        $this->info('SDK Whatsapp Messenger se instalo correctamente.');
+        $this->comment('Ejecuta el comando "npm install && npm run dev" para generar tus assets.');
     }
 }
