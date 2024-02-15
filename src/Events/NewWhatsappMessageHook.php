@@ -2,9 +2,7 @@
 
 namespace Sdkconsultoria\WhatsappCloudApi\Events;
 
-use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
@@ -19,10 +17,8 @@ class NewWhatsappMessageHook implements ShouldBroadcast
      */
     public function __construct(
         public $chat
-    )
-    {
+    ) {
         //
-        \Log::info('anime desde el package');
     }
 
     /**
