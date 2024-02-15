@@ -19,6 +19,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         $this->registerBroadcasting();
         $this->registerMigrations();
         $this->registerCustomFactory();
+        $this->registerCommands();
     }
 
     private function registerBroadcasting()
@@ -48,6 +49,15 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
             return $namespace.$model_name.'Factory';
         });
+    }
+
+    private function registerCommands(): void
+    {
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                \Sdkconsultoria\WhatsappCloudApi\Console\Commands\InstallCommand::class,
+            ]);
+        }
     }
 
     /**
