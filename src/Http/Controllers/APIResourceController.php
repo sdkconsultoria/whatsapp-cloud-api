@@ -8,20 +8,17 @@ use Illuminate\Routing\Controller;
 class APIResourceController extends Controller
 {
     protected $resource;
+
     protected $transformer;
 
-    private function defaultOptions($models, Request $request)
+    protected function defaultOptions($models, Request $request)
     {
         return $models;
     }
 
-    private function filters(): array
+    protected function filters(): array
     {
-        return [
-            'chat_id' => function ($query, $value) {
-                return $query->where('chat_id', "$value");
-            },
-        ];
+        return [];
     }
 
     private function applyFilters($query, Request $request)
@@ -45,8 +42,10 @@ class APIResourceController extends Controller
 
         if ($this->transformer) {
             $transformer = $this->transformer;
+
             return $transformer::collection($models);
         }
+
         return response()->json($models);
     }
 }

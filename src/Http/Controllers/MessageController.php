@@ -12,7 +12,24 @@ use Sdkconsultoria\WhatsappCloudApi\Services\MessageService;
 class MessageController extends APIResourceController
 {
     protected $resource = Message::class;
+
     protected $transformer = MessageResource::class;
+
+    protected function defaultOptions($models, Request $request)
+    {
+        $models->where('type', 'text');
+
+        return $models;
+    }
+
+    protected function filters(): array
+    {
+        return [
+            'chat_id' => function ($query, $value) {
+                return $query->where('chat_id', "$value");
+            },
+        ];
+    }
 
     public function sendMessage(Request $request)
     {

@@ -19,7 +19,19 @@ class MessageResource extends JsonResource
             'chat_id' => $this->chat_id,
             'type' => $this->type,
             'direction' => $this->direction,
-            'body' => json_decode($this->body),
+            'text' => $this->getTextContent($this->phone_id, $this->to),
+            'timestamp' => $this->timestamp,
         ];
+    }
+
+    private function getTextContent($phoneId, $to)
+    {
+        $body = json_decode($this->body);
+
+        if ($this->type == 'text') {
+            return $body->text->body;
+        }
+
+        return '';
     }
 }
