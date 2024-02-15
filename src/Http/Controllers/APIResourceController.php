@@ -11,6 +11,8 @@ class APIResourceController extends Controller
 
     protected $transformer;
 
+    protected $isReverseElements = false;
+
     protected function defaultOptions($models, Request $request)
     {
         return $models;
@@ -38,14 +40,23 @@ class APIResourceController extends Controller
         $models = new $this->resource;
         $models = $this->applyFilters($models, $request);
         $models = $this->defaultOptions($models, $request);
-        $models = $models->paginate()->appends(request()->except('page'));
+        $models = $models->simplePaginate()->appends(request()->except('page'));
 
         if ($this->transformer) {
             $transformer = $this->transformer;
 
-            return $transformer::collection($models);
+            return $transformer::collection($this->reverseElements($models));
         }
 
         return response()->json($models);
+    }
+
+    private function reverseElements($models)
+    {
+        if ($this->isReverseElements) {
+            return $models->reverse();
+        }
+
+        return $models;
     }
 }

@@ -15,9 +15,12 @@ class MessageController extends APIResourceController
 
     protected $transformer = MessageResource::class;
 
+    protected $isReverseElements = true;
+
     protected function defaultOptions($models, Request $request)
     {
         $models->where('type', 'text');
+        $models->orderBy('timestamp', 'desc');
 
         return $models;
     }
