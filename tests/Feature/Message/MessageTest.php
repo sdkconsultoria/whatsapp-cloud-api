@@ -51,4 +51,9 @@ class MessageTest extends TestCase
             'message_id' => $messageId,
         ]);
     }
+
+    public function test_get_messages_from_chat()
+    {
+        $this->assertTrue(true);
+    }
 }

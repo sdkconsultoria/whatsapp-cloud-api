@@ -8,6 +8,7 @@ use Illuminate\Routing\Controller;
 class APIResourceController extends Controller
 {
     protected $resource;
+    protected $transformer;
 
     private function defaultOptions($models, Request $request)
     {
@@ -42,6 +43,10 @@ class APIResourceController extends Controller
         $models = $this->defaultOptions($models, $request);
         $models = $models->paginate()->appends(request()->except('page'));
 
+        if ($this->transformer) {
+            $transformer = $this->transformer;
+            return $transformer::collection($models);
+        }
         return response()->json($models);
     }
 }

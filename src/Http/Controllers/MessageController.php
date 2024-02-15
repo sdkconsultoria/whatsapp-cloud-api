@@ -3,6 +3,7 @@
 namespace Sdkconsultoria\WhatsappCloudApi\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Sdkconsultoria\WhatsappCloudApi\Http\Resources\MessageResource;
 use Sdkconsultoria\WhatsappCloudApi\Models\Chat;
 use Sdkconsultoria\WhatsappCloudApi\Models\Message;
 use Sdkconsultoria\WhatsappCloudApi\Models\WabaPhone;
@@ -11,6 +12,7 @@ use Sdkconsultoria\WhatsappCloudApi\Services\MessageService;
 class MessageController extends APIResourceController
 {
     protected $resource = Message::class;
+    protected $transformer = MessageResource::class;
 
     public function sendMessage(Request $request)
     {
