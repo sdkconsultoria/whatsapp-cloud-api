@@ -21,6 +21,7 @@ return new class extends Migration
             $table->foreignId('created_by')->nullable()->constrained('users');
             $table->foreignId('updated_by')->nullable()->constrained('users');
             $table->foreignId('category_id')->nullable();
+            $table->smallInteger('unread_messages')->nullable()->default('0');
             $table->string('order')->nullable();
             $table->string('color')->nullable();
             $table->string('waba_phone');
