@@ -10,6 +10,14 @@ Descripción
 
 Este paquete está en desarrollo, todavía no es una versión estable y optimizada.
 
+Video Demo
+
+ - https://youtu.be/Tw5X-AVTMa0
+
+Tutorial de instalación
+
+ - https://youtu.be/EUyvuYIFRz8
+
 Instalación
 ------------
 Ejecuta el comando para instalar la librería en tu proyecto Laravel
@@ -25,7 +33,7 @@ php artisan migrate
 
 Si quieres usar el Messenger en VUE (opcional), también puedes usar los endpoints
 ```
-sdk:whatsapp-messenger-install
+php artisan sdk:whatsapp-messenger-install
 ```
 
 Configuración con Laravel sail y soketi
