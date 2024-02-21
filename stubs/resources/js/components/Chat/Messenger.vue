@@ -1,14 +1,23 @@
 <template>
     <div class="flex min-h-full h-full" style="height: 800px;">
         <div class="w-1/3 bg-base-200 overflow-auto h-full">
-            <div class="p-2">
-                <input @change="loadConversations" v-model="search" type="text" placeholder="Buscar Chat" class="input w-full" />
+            <div class="p-2 flex">
+                <input @change="loadConversations" v-model="search" type="text" placeholder="Buscar Chat"
+                    class="input w-full" />
+                <button class="btn btn-primary">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                    </svg>
+                </button>
             </div>
             <ul class="menu w-full p-0 overflow-auto">
                 <li v-for="conversation in conversations" @click="setConversation(conversation)">
                     <a :class="{ active: conversation.id == current_conversation.id }">
                         {{ conversation.client_phone }}
-                        <span v-if="conversation.unread_messages" class="indicator-item badge badge-secondary">{{conversation.unread_messages}}</span>
+                        <span v-if="conversation.unread_messages" class="indicator-item badge badge-secondary">{{
+                            conversation.unread_messages }}</span>
                     </a>
                 </li>
             </ul>
@@ -57,15 +66,14 @@ const convertTimestamp = computed(() => {
 loadConversations();
 
 async function loadConversations() {
-    await fetch('/get-conversations?client_phone='+search.value)
+    await fetch('/get-conversations?client_phone=' + search.value)
         .then(response => response.json())
         .then(data => conversations.value = data.data);
 
-        if (current_conversation.value.id == 0)
-        {
-            current_conversation.value = conversations.value[0];
-            loadMessagesFromConversation();
-        }
+    if (current_conversation.value.id == 0) {
+        current_conversation.value = conversations.value[0];
+        loadMessagesFromConversation();
+    }
 }
 
 function setConversation(conversation) {
