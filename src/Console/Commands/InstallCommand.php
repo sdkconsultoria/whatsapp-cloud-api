@@ -59,7 +59,7 @@ class InstallCommand extends Command
                 '@vitejs/plugin-vue' => '^5.0.4',
                 'daisyui' => '^4.7.2',
                 'laravel-echo' => '^1.15.3',
-                'pusher-js' => '^8.4.0-rc2',
+                'pusher-js' => '^8.3.0',
             ] + $packages;
         });
     }
