@@ -71,6 +71,7 @@ async function loadConversations() {
 function setConversation(conversation) {
     current_conversation.value = conversation;
     loadMessagesFromConversation();
+    loadConversations();
 }
 
 async function loadMessagesFromConversation() {
