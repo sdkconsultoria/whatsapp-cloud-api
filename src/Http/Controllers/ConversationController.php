@@ -6,12 +6,23 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Sdkconsultoria\WhatsappCloudApi\Models\Chat;
 
-class ConversationController extends Controller
+class ConversationController extends APIResourceController
 {
-    public function index(Request $request)
+    protected $resource = Chat::class;
+
+    protected function defaultOptions($models, Request $request)
     {
-        $request = $request->all();
-        $chat = Chat::orderBy('last_message', 'desc')->get();
-        return response()->json($chat);
+        $models = $models->orderBy('last_message', 'desc');
+
+        return $models;
+    }
+
+    protected function filters(): array
+    {
+        return [
+            'client_phone' => function ($query, $value) {
+                return $query->where('client_phone', 'like', "%$value%");
+            },
+        ];
     }
 }

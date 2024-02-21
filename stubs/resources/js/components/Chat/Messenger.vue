@@ -2,7 +2,7 @@
     <div class="flex min-h-full h-full" style="height: 800px;">
         <div class="w-1/3 bg-base-200 overflow-auto h-full">
             <div class="p-2">
-                <input type="text" placeholder="Buscar Chat" class="input w-full" />
+                <input @change="loadConversations" v-model="search" type="text" placeholder="Buscar Chat" class="input w-full" />
             </div>
             <ul class="menu w-full p-0 overflow-auto">
                 <li v-for="conversation in conversations" @click="setConversation(conversation)">
@@ -29,7 +29,7 @@
             </div>
             <div class="w-full flex mt-3">
                 <div class="w-5/6 mr-1">
-                    <input v-model="model" type="text" placeholder="Escribe un mensaje"
+                    <input v-model="message" type="text" placeholder="Escribe un mensaje"
                         class="input border-1 border-gray-200 w-full" />
                 </div>
                 <div class="w-1/6">
@@ -42,7 +42,8 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-const model = ref('')
+const message = ref('')
+const search = ref('')
 
 const conversations = ref('')
 const current_conversation = ref({ id: 0 })
@@ -56,11 +57,15 @@ const convertTimestamp = computed(() => {
 loadConversations();
 
 async function loadConversations() {
-    await fetch('/get-conversations')
+    await fetch('/get-conversations?client_phone='+search.value)
         .then(response => response.json())
-        .then(data => conversations.value = data);
-    current_conversation.value = conversations.value[0];
-    loadMessagesFromConversation();
+        .then(data => conversations.value = data.data);
+
+        if (current_conversation.value.id == 0)
+        {
+            current_conversation.value = conversations.value[0];
+            loadMessagesFromConversation();
+        }
 }
 
 function setConversation(conversation) {
@@ -87,13 +92,14 @@ function sendMessage() {
                 "type": "text",
                 "text": {
                     "preview_url": false,
-                    "body": model.value
+                    "body": message.value
                 }
 
             }
         })
     }).then(response => response.json())
         .then(data => {
+            message.value = '';
             loadMessagesFromConversation();
         });
 }
@@ -101,6 +107,7 @@ function sendMessage() {
 setTimeout(() => {
     window.Echo.channel(`new_whatsapp_message`)
         .listen('.Sdkconsultoria\\WhatsappCloudApi\\Events\\NewWhatsappMessageHook', (e) => {
+            loadConversations();
             if (e.chat.chat_id == current_conversation.value.id) {
                 loadMessagesFromConversation();
             }
