@@ -55,9 +55,28 @@ class MessageController extends APIResourceController
 
     private function getChatId($phoneNumber, $to)
     {
-        return Chat::firstOrCreate([
+        $chat = Chat::firstOrCreate([
             'waba_phone' => $phoneNumber->phone_number_clean,
             'client_phone' => $to,
-        ])->id;
+        ]);
+
+        $chat->last_message = date('Y-m-d H:i:s');
+        $chat->save();
+
+        return $chat->id;
+    }
+
+    public function index(Request $request)
+    {
+        $models = new $this->resource;
+        $models = $this->applyFilters($models, $request);
+        $models = $this->defaultOptions($models, $request);
+        $models = $models->simplePaginate()->appends(request()->except('page'));
+
+        $chat = Chat::where('id', $request->input('chat_id'))->first();
+        $chat->unread_messages = 0;
+        $chat->save();
+
+        return $this->transformer::collection($this->reverseElements($models));
     }
 }
