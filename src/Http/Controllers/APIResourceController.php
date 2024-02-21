@@ -23,7 +23,7 @@ class APIResourceController extends Controller
         return [];
     }
 
-    private function applyFilters($query, Request $request)
+    protected function applyFilters($query, Request $request)
     {
         foreach ($this->filters() as $index => $filter) {
             $search_value = $request->input($index);
@@ -51,7 +51,7 @@ class APIResourceController extends Controller
         return response()->json($models);
     }
 
-    private function reverseElements($models)
+    protected function reverseElements($models)
     {
         if ($this->isReverseElements) {
             return $models->reverse();
