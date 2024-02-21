@@ -1,12 +1,15 @@
 <template>
     <div class="flex min-h-full h-full" style="height: 800px;">
-        <div class="w-1/3 bg-base-200">
+        <div class="w-1/3 bg-base-200 overflow-auto h-full">
             <div class="p-2">
                 <input type="text" placeholder="Buscar Chat" class="input w-full" />
             </div>
             <ul class="menu w-full p-0 overflow-auto">
                 <li v-for="conversation in conversations" @click="setConversation(conversation)">
-                    <a :class="{ active: conversation.id == current_conversation.id }">{{ conversation.client_phone }}</a>
+                    <a :class="{ active: conversation.id == current_conversation.id }">
+                        {{ conversation.client_phone }}
+                        <span v-if="conversation.unread_messages" class="indicator-item badge badge-secondary">{{conversation.unread_messages}}</span>
+                    </a>
                 </li>
             </ul>
         </div>
@@ -46,7 +49,7 @@ const current_conversation = ref({ id: 0 })
 const messages = ref({})
 const convertTimestamp = computed(() => {
     return (timestamp) => {
-        const date = new Date(parseInt(timestamp));
+        const date = new Date(parseInt(timestamp * 1000));
         return date.toLocaleString();
     }
 });
@@ -98,8 +101,6 @@ function sendMessage() {
 setTimeout(() => {
     window.Echo.channel(`new_whatsapp_message`)
         .listen('.Sdkconsultoria\\WhatsappCloudApi\\Events\\NewWhatsappMessageHook', (e) => {
-            console.log(e.chat.chat_id);
-            console.log(current_conversation.value.id);
             if (e.chat.chat_id == current_conversation.value.id) {
                 loadMessagesFromConversation();
             }
