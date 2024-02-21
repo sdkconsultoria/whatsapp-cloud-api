@@ -11,7 +11,7 @@ class ConversationController extends Controller
     public function index(Request $request)
     {
         $request = $request->all();
-
-        return response()->json(Chat::all());
+        $chat = Chat::orderBy('last_message', 'desc')->get();
+        return response()->json($chat);
     }
 }

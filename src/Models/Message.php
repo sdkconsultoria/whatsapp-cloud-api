@@ -39,10 +39,16 @@ class Message extends Model
 
     private static function findOrCreateChat(string $from, string $to): Chat
     {
-        return Chat::firstOrCreate([
+        $chat = Chat::firstOrCreate([
             'waba_phone' => $to,
             'client_phone' => $from,
-            'status' => Chat::STATUS_UNREAD,
         ]);
+
+        $chat->unread_messages += 1;
+        $chat->last_message = date('Y-m-d H:i:s');
+        $chat->status = Chat::STATUS_UNREAD;
+        $chat->save();
+
+        return $chat;
     }
 }
