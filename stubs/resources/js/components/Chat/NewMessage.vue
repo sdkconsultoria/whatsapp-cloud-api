@@ -1,38 +1,40 @@
 <template>
     <button class="btn btn-primary" onclick="my_modal_1.showModal()">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-            class="w-6 h-6">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-        </svg>
+        <PlusCircleIcon class="h-6 w-6"  />
     </button>
     <dialog id="my_modal_1" class="modal">
         <div class="modal-box">
             <h3 class="font-bold text-lg">Enviar Nuevo Mensaje</h3>
-            <div role="alert" class="alert shadow-lg">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                    class="stroke-current shrink-0 w-6 h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                </svg>
-                <span>Recuerda que para iniciar una conversacion se debe hacer por medio de una plantilla</span>
+            <div role="alert" class="alert shadow-lg mt-5 mb-5">
+                <InformationCircleIcon class="h-6 w-6"  />
+                <span>Recuerda que para iniciar una conversación se debe hacer por medio de una plantilla</span>
             </div>
-            <div class="mt-5">
-                <select class="select select-bordered w-full max-w-xs">
-                    <option disabled selected>Plantilla</option>
+            <div class="">
+                <select class="select select-bordered w-full mb-2">
+                    <option disabled selected>---</option>
                     <option v-for="template in templates ">{{ template.name }}</option>
                 </select>
+
+                <label class="input input-bordered flex items-center gap-2">
+                    <PhoneIcon class="h-6 w-6"  />
+                    <input type="text" class="grow" placeholder="Teléfono" />
+                </label>
             </div>
             <div class="modal-action">
-                <button class="btn btn-primary">Enviar</button>
-                <form method="dialog">
-                    <button class="btn">Cancelar</button>
-                </form>
+                <div class="flex flex-row-reverse">
+                    <button class="btn btn-primary">Enviar</button>
+                    <form method="dialog">
+                        <button class="btn mr-2">Cancelar</button>
+                    </form>
+                </div>
             </div>
         </div>
     </dialog>
 </template>
 <script setup>
 import { ref, computed } from 'vue'
+import { InformationCircleIcon, PlusCircleIcon} from '@heroicons/vue/24/outline'
+import { PhoneIcon} from '@heroicons/vue/24/solid'
 
 getTemplates();
 console.log('getTemplates');
