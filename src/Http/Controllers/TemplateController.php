@@ -3,14 +3,13 @@
 namespace Sdkconsultoria\WhatsappCloudApi\Http\Controllers;
 
 use Illuminate\Routing\Controller;
+use Sdkconsultoria\WhatsappCloudApi\Http\Resources\TemplateResource;
+use Sdkconsultoria\WhatsappCloudApi\Models\Template;
 use Sdkconsultoria\WhatsappCloudApi\Services\WabaManagerService;
 
-class TemplateController extends Controller
+class TemplateController extends APIResourceController
 {
-    public function index()
-    {
-        // $templates = resolve(WabaManagerService::class)->getAllTemplates();
+    protected $resource = Template::class;
 
-        return response()->json('templates');
-    }
+    protected $transformer = TemplateResource::class;
 }
