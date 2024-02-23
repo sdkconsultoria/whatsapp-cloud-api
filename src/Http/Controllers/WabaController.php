@@ -27,8 +27,7 @@ class WabaController extends Controller
     {
         $templateModel = Template::where('template_id', $template['id'])->first();
 
-        if (!$templateModel)
-        {
+        if (! $templateModel) {
             $templateModel = new Template();
         }
 
