@@ -60,6 +60,7 @@ class InstallCommand extends Command
                 'daisyui' => '^4.7.2',
                 'laravel-echo' => '^1.15.3',
                 'pusher-js' => '^8.3.0',
+                '@heroicons/vue' => '^2.1.1',
             ] + $packages;
         });
     }
