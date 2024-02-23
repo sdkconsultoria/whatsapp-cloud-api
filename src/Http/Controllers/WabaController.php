@@ -25,7 +25,13 @@ class WabaController extends Controller
 
     private function saveTemplate($template, $wabaId)
     {
-        $templateModel = new Template();
+        $templateModel = Template::where('template_id', $template['id'])->first();
+
+        if (!$templateModel)
+        {
+            $templateModel = new Template();
+        }
+
         $templateModel->waba_id = $wabaId;
         $templateModel->name = $template['name'];
         $templateModel->status = $template['status'];
