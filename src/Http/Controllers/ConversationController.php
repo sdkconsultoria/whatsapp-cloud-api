@@ -3,7 +3,6 @@
 namespace Sdkconsultoria\WhatsappCloudApi\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
 use Sdkconsultoria\WhatsappCloudApi\Models\Chat;
 
 class ConversationController extends APIResourceController
