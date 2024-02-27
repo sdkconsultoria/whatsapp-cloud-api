@@ -33,6 +33,7 @@ class MessageService extends FacebookService
                 'language' => [
                     'code' => $template->language,
                 ],
+                'components' => $template->getComponentsWithVars(),
             ],
         ]);
 

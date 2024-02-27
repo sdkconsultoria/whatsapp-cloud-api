@@ -15,6 +15,8 @@ class Template extends Model
 
     public const STATUS_REJECTED = 'REJECTED';
 
+    private $componentsWithVars = [];
+
     public function getMessage()
     {
         $components = $this->getComponents();
@@ -25,6 +27,16 @@ class Template extends Model
             ],
             'type' => 'text',
         ];
+    }
+
+    public function setComponentsWithVars(array $components)
+    {
+        $this->componentsWithVars = $components;
+    }
+
+    public function getComponentsWithVars(): array
+    {
+        return $this->componentsWithVars;
     }
 
     private function getComponents(): array
