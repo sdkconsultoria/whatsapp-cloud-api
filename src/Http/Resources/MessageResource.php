@@ -21,6 +21,7 @@ class MessageResource extends JsonResource
             'direction' => $this->direction,
             'text' => $this->getTextContent($this->phone_id, $this->to),
             'timestamp' => $this->timestamp,
+            'sended_by' => $this->sended_by,
         ];
     }
 

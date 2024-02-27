@@ -23,7 +23,7 @@
                 <div :class="{ chat: true, 'chat-start': message.direction == 'toApp', 'chat-end': message.direction != 'toApp' }"
                     v-for="message in messages">
                     <div class="chat-header">
-                        <time class="text-xs opacity-50">{{ convertTimestamp(message.timestamp) }}</time>
+                        <span v-if="message.sended_by">Enviado por: {{ message.sended_by }}</span> <time class="text-xs opacity-50">{{ convertTimestamp(message.timestamp) }}</time>
                     </div>
                     <div :class="{ 'chat-bubble': true, 'chat-bubble-primary': message.direction != 'toApp' }">
                         {{ message.text }}
@@ -56,7 +56,7 @@ const messages = ref({})
 const convertTimestamp = computed(() => {
     return (timestamp) => {
         const date = new Date(parseInt(timestamp * 1000));
-        return date.toLocaleString();
+        return date.toLocaleString('es-MX');
     }
 });
 loadConversations();

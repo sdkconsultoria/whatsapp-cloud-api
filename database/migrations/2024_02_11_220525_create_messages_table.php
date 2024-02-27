@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('message_id')->unique();
             $table->string('type');
             $table->string('direction');
+            $table->string('sended_by')->nullable();
             $table->json('body');
             $table->smallInteger('status')->default('20');
         });

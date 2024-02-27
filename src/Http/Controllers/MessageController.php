@@ -102,6 +102,7 @@ class MessageController extends APIResourceController
         $messageModel->message_id = $message['messages'][0]['id'];
         $messageModel->type = 'text';
         $messageModel->chat_id = $this->getChatId($phoneNumber, $request['to']);
+        $messageModel->sended_by = 'BOT';
         $messageModel->save();
 
         return response()->json($message);
