@@ -61,6 +61,7 @@ class InstallCommand extends Command
                 'laravel-echo' => '^1.15.3',
                 'pusher-js' => '^8.3.0',
                 '@heroicons/vue' => '^2.1.1',
+                'sweetalert2' => '^11.10.5',
             ] + $packages;
         });
     }

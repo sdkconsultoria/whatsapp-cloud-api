@@ -3,6 +3,8 @@
 namespace Sdkconsultoria\WhatsappCloudApi\Services;
 
 use Illuminate\Support\Facades\Http;
+use Sdkconsultoria\WhatsappCloudApi\Models\Template;
+use Sdkconsultoria\WhatsappCloudApi\Models\WabaPhone;
 
 class MessageService extends FacebookService
 {
@@ -14,6 +16,25 @@ class MessageService extends FacebookService
             'recipient_type' => 'individual',
             'to' => $to,
         ], $message));
+
+        return $response->json();
+    }
+
+    public function sendTemplate(WabaPhone $phone, string $to, Template $template, array $data = []): array
+    {
+        $this->graph_url .= "$phone->phone_id/messages";
+        $response = Http::withToken(config('meta.token'))->post($this->graph_url, [
+            'messaging_product' => 'whatsapp',
+            'recipient_type' => 'individual',
+            'to' => $to,
+            'type' => 'template',
+            'template' => [
+                'name' => $template->name,
+                'language' => [
+                    'code' => $template->language,
+                ],
+            ],
+        ]);
 
         return $response->json();
     }

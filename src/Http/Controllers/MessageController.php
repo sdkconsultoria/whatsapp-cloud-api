@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Sdkconsultoria\WhatsappCloudApi\Http\Resources\MessageResource;
 use Sdkconsultoria\WhatsappCloudApi\Models\Chat;
 use Sdkconsultoria\WhatsappCloudApi\Models\Message;
+use Sdkconsultoria\WhatsappCloudApi\Models\Template;
 use Sdkconsultoria\WhatsappCloudApi\Models\WabaPhone;
 use Sdkconsultoria\WhatsappCloudApi\Services\MessageService;
 
@@ -78,5 +79,31 @@ class MessageController extends APIResourceController
         $chat->save();
 
         return $this->transformer::collection($this->reverseElements($models));
+    }
+
+    public function sendTemplate(Request $request)
+    {
+
+        $request->validate([
+            'waba_phone' => 'required',
+            'to' => 'required',
+            'template' => 'required',
+        ]);
+
+        $template = Template::find($request['template']);
+        $phoneNumber = WabaPhone::where('id', $request['waba_phone'])->first();
+        $message = resolve(MessageService::class)
+            ->sendTemplate($phoneNumber, '521'.$request['to'], $template);
+
+        $messageModel = new Message();
+        $messageModel->direction = 'toClient';
+        $messageModel->body = json_encode($template->getMessage());
+        $messageModel->timestamp = time();
+        $messageModel->message_id = $message['messages'][0]['id'];
+        $messageModel->type = 'text';
+        $messageModel->chat_id = $this->getChatId($phoneNumber, $request['to']);
+        $messageModel->save();
+
+        return response()->json($message);
     }
 }
