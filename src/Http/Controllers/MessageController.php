@@ -93,7 +93,7 @@ class MessageController extends APIResourceController
         $template = Template::find($request['template']);
         $phoneNumber = WabaPhone::where('id', $request['waba_phone'])->first();
         $message = resolve(MessageService::class)
-            ->sendTemplate($phoneNumber, '521'.$request['to'], $template);
+            ->sendTemplate($phoneNumber, $request['to'], $template);
 
         $messageModel = new Message();
         $messageModel->direction = 'toClient';

@@ -13,7 +13,8 @@
                 <label>Teléfono:</label>
                 <select v-model="wabaNumber" class="select select-bordered w-full mb-4">
                     <option disabled selected>---</option>
-                    <option :value="wabaNumber.id" v-for="wabaNumber in wabaNumbers ">{{ wabaNumber.display_phone_number }}</option>
+                    <option :value="wabaNumber.id" v-for="wabaNumber in wabaNumbers ">{{ wabaNumber.display_phone_number }}
+                    </option>
                 </select>
 
                 <label>Plantilla:</label>
@@ -22,11 +23,24 @@
                     <option :value="template.id" v-for="template in templates ">{{ template.name }}</option>
                 </select>
 
-                <label>Cliente:</label>
-                <label class="input input-bordered flex items-center gap-2">
-                    <PhoneIcon class="h-6 w-6" />
-                    <input v-model="phone" type="text" class="grow" placeholder="Teléfono" />
-                </label>
+                <div class="flex">
+                    <div class="mr-2">
+                        <label>Lada:</label>
+                        <select v-model="countryCode" class="select select-bordered w-full mb-4">
+                            <option disabled selected>---</option>
+                            <option value="521">+521</option>
+                        </select>
+                    </div>
+                    <div class="w-full">
+                        <label>Cliente:</label>
+                        <label class="input input-bordered flex items-center gap-2">
+                            <PhoneIcon class="h-6 w-6" />
+                            <input v-model="phone" type="text" class="grow" placeholder="Teléfono" />
+                        </label>
+                    </div>
+                </div>
+
+
             </div>
             <div class="modal-action">
                 <div class="flex flex-row-reverse">
@@ -49,6 +63,7 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 getTemplates();
 getWabaPhones();
 
+const countryCode = ref('521')
 const templates = ref('')
 const template = ref('')
 const wabaNumbers = ref('')
@@ -80,7 +95,7 @@ function sentMessageTemplate() {
         },
         body: JSON.stringify({
             template: template.value,
-            to: phone.value,
+            to: countryCode.value + phone.value,
             waba_phone: wabaNumber.value
         }),
     })
