@@ -25,6 +25,8 @@ return new class extends Migration
             $table->string('sended_by')->nullable();
             $table->json('body');
             $table->smallInteger('status')->default('20');
+            $table->foreignId('response_to')->nullable()->constrained('messages');
+            $table->string('reaction')->nullable();
         });
     }
 

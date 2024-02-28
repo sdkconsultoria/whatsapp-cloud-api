@@ -27,6 +27,8 @@ return new class extends Migration
             $table->string('waba_phone');
             $table->string('client_phone');
             $table->smallInteger('status')->default('20');
+            $table->string('expiration_timestamp')->nullable();
+            $table->string('origin')->nullable();
         });
     }
 
