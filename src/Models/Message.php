@@ -13,23 +13,10 @@ class Message extends Model
 
     public static function processMessage($messageEvent): void
     {
+        // \Log::debug('Message received', $messageEvent);
+
         if (isset($messageEvent['messages'])) {
-            $content = $messageEvent['messages'][0];
-            $chat = self::findOrCreateChat($content['from'], $messageEvent['metadata']['display_phone_number']);
-
-            $messageModel = new Message();
-            $messageModel->chat_id = $chat->id;
-            $messageModel->message_id = $content['id'];
-            $messageModel->timestamp = $content['timestamp'];
-            $messageModel->status = self::STATUS_SENDED;
-            $messageModel->type = $content['type'];
-            $messageModel->body = json_encode($content);
-            $messageModel->direction = 'toApp';
-            $messageModel->save();
-
-            NewWhatsappMessageHook::dispatch([
-                'chat_id' => $chat->id,
-            ]);
+            self::processConversation($messageEvent);
         }
 
         if (isset($messageEvent['statuses'])) {
@@ -37,18 +24,38 @@ class Message extends Model
         }
     }
 
-    private static function findOrCreateChat(string $from, string $to): Chat
+    private static function processConversation(array $messageEvent)
     {
-        $chat = Chat::firstOrCreate([
-            'waba_phone' => $to,
-            'client_phone' => $from,
-        ]);
+        $content = $messageEvent['messages'][0];
+        $chat = Chat::findOrCreateChat($content['from'], $messageEvent['metadata']['display_phone_number']);
 
-        $chat->unread_messages += 1;
-        $chat->last_message = date('Y-m-d H:i:s');
-        $chat->status = Chat::STATUS_UNREAD;
-        $chat->save();
+        switch ($content['type']) {
+            case 'text':
+                self::processTextMessage($chat, $content);
+                break;
+            case 'audio':
+                break;
+            case 'sticker':
+                break;
+            case 'reaction':
+                break;
+            case 'image':
+                break;
+        }
 
-        return $chat;
+        NewWhatsappMessageHook::dispatch(['chat_id' => $chat->id]);
+    }
+
+    private static function processTextMessage(Chat $chat, array $content): void
+    {
+        $messageModel = new Message();
+        $messageModel->chat_id = $chat->id;
+        $messageModel->message_id = $content['id'];
+        $messageModel->timestamp = $content['timestamp'];
+        $messageModel->status = self::STATUS_SENDED;
+        $messageModel->type = $content['type'];
+        $messageModel->body = json_encode($content);
+        $messageModel->direction = 'toApp';
+        $messageModel->save();
     }
 }
