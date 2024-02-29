@@ -20,7 +20,6 @@ class Message extends Model
         }
 
         if (isset($messageEvent['statuses'])) {
-
         }
     }
 
@@ -31,15 +30,12 @@ class Message extends Model
 
         switch ($content['type']) {
             case 'text':
+            case 'audio':
+            case 'sticker':
+            case 'image':
                 self::processTextMessage($chat, $content);
                 break;
-            case 'audio':
-                break;
-            case 'sticker':
-                break;
             case 'reaction':
-                break;
-            case 'image':
                 break;
         }
 
