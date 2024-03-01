@@ -31,6 +31,9 @@
                 </div>
             </div>
             <div class="w-full flex mt-3">
+                <div class="flex justify-center items-center">
+                    <PaperClipIcon class="h-8 w-8" />
+                </div>
                 <div class="w-5/6 mr-1">
                     <input v-model="message" type="text" placeholder="Escribe un mensaje"
                         class="input border-1 border-gray-200 w-full" />
@@ -46,6 +49,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import NewMessage from './NewMessage.vue';
+import { PaperClipIcon} from '@heroicons/vue/24/solid'
 
 const message = ref('')
 const search = ref('')
