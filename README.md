@@ -62,3 +62,21 @@ META_WEBHOOK_TOKEN=
 META_TOKEN=
 ```
 
+Configuración de Whatsapp Business Account WABA
+------------
+
+Puedes obtener la informacion desde
+
+https://developers.facebook.com/apps/
+
+Si no tienes una APP debes crear una.
+
+###### Registrar el webhook en meta
+
+{{HOST}}/whatsapp-webhook
+
+###### Obtener la informacion de la waba
+{{HOST}}/waba/{{id}}/getinfo
+
+###### Obtener los numeros telefonicos
+{{HOST}}/waba/{{id}}/phonenumbers
