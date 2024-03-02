@@ -4,6 +4,7 @@ namespace Sdkconsultoria\WhatsappCloudApi\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Sdkconsultoria\WhatsappCloudApi\Events\NewWhatsappMessageHook;
+use Sdkconsultoria\WhatsappCloudApi\Services\MediaManagerService;
 
 class Message extends Model
 {
@@ -13,8 +14,6 @@ class Message extends Model
 
     public static function processMessage($messageEvent): void
     {
-        // \Log::debug('Message received', $messageEvent);
-
         if (isset($messageEvent['messages'])) {
             self::processConversation($messageEvent);
         }
@@ -25,15 +24,22 @@ class Message extends Model
 
     private static function processConversation(array $messageEvent)
     {
+        $phoneNumberId = $messageEvent['metadata']['phone_number_id'];
+
         $content = $messageEvent['messages'][0];
         $chat = Chat::findOrCreateChat($content['from'], $messageEvent['metadata']['display_phone_number']);
 
         switch ($content['type']) {
             case 'text':
+                self::processTextMessage($chat, $content);
+                break;
             case 'audio':
+                break;
             case 'sticker':
+                break;
             case 'image':
                 self::processTextMessage($chat, $content);
+                self::saveFile($content['image'], $phoneNumberId, $chat);
                 break;
             case 'reaction':
                 break;
@@ -53,5 +59,11 @@ class Message extends Model
         $messageModel->body = json_encode($content);
         $messageModel->direction = 'toApp';
         $messageModel->save();
+    }
+
+    private static function saveFile(array $file, string $phoneNumberId, Chat $chat): void
+    {
+        $service = resolve(MediaManagerService::class);
+        $service->download($file['id'], $phoneNumberId, "$chat->id/{$file['id']}");
     }
 }

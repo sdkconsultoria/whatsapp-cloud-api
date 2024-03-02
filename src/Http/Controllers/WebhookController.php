@@ -20,7 +20,7 @@ class WebhookController extends Controller
     public function webhook(Request $request)
     {
         $data = $request->all()['entry'][0]['changes'][0];
-
+        \Log::debug('message debug', $data);
         switch ($data['field']) {
             case 'messages':
                 Message::processMessage($data['value']);
