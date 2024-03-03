@@ -1,0 +1,40 @@
+<?php
+
+namespace Sdkconsultoria\WhatsappCloudApi\Factories;
+
+use Illuminate\Database\Eloquent\Factories\Factory;
+use Sdkconsultoria\WhatsappCloudApi\Models\Chat;
+use Sdkconsultoria\WhatsappCloudApi\Models\Message;
+
+class MessageFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = Message::class;
+
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        return [
+            'chat_id' => Chat::factory(),
+            'timestamp' => time(),
+            'sent_in' => null,
+            'delivered_at' => null,
+            'readed_at' => null,
+            'message_id' => 'wamid.'.$this->faker->numberBetween(1111111),
+            'type' => 'text',
+            'direction' => 'toApp',
+            'body' => '---',
+            'status' => 20,
+            'response_to' => null,
+            'reaction' => null,
+        ];
+    }
+}

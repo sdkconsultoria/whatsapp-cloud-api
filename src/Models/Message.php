@@ -2,12 +2,15 @@
 
 namespace Sdkconsultoria\WhatsappCloudApi\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Sdkconsultoria\WhatsappCloudApi\Events\NewWhatsappMessageHook;
 use Sdkconsultoria\WhatsappCloudApi\Services\MediaManagerService;
 
 class Message extends Model
 {
+    use HasFactory;
+
     public const STATUS_SENDED = 0;
 
     public $timestamps = false;
