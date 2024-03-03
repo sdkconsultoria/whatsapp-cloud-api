@@ -38,7 +38,8 @@ class Message extends Model
             case 'sticker':
                 break;
             case 'image':
-                $content['image']['url'] = self::saveFile($content['image'], $phoneNumberId, $chat);
+            case 'video':
+                $content[$content['type']]['url'] = self::saveFile($content[$content['type']], $phoneNumberId, $chat);
                 self::processTextMessage($chat, $content);
                 break;
             case 'reaction':

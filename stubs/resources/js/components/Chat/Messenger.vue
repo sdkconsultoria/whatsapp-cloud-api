@@ -32,7 +32,10 @@
                             {{ message.content.caption }}
                             <img :src="message.content.url" alt="" class="w-1/6" />
                         </span>
-
+                        <span v-if="message.type == 'video'">
+                            {{ message.content.caption }}
+                            <video :src="message.content.url" alt="" class="w-2/6" controls />
+                        </span>
                     </div>
                 </div>
             </div>

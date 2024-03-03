@@ -42,11 +42,13 @@ class MessageResource extends JsonResource
     {
         $body = json_decode($this->body);
 
-        if ($this->type == 'image') {
-            return [
-                'url' => Url::to($body->image->url),
-                'caption' => $body->image->caption ?? '',
-            ];
+        switch ($this->type) {
+            case 'image':
+            case 'video':
+                return [
+                    'url' => Url::to($body->{$this->type}->url),
+                    'caption' => $body->{$this->type}->caption ?? '',
+                ];
         }
     }
 }
