@@ -4,14 +4,14 @@
             <div class="p-2 flex">
                 <input @change="loadConversations" v-model="search" type="text" placeholder="Buscar Chat"
                     class="input w-full" />
-                    <NewMessage />
+                <NewMessage />
             </div>
             <ul class="menu w-full p-0 overflow-auto">
                 <li v-for="conversation in conversations" @click="setConversation(conversation)">
                     <a :class="{ active: conversation.id == current_conversation.id }">
                         {{ conversation.client_phone }}
                         <span v-if="conversation.unread_messages" class="indicator-item badge badge-secondary">{{
-                            conversation.unread_messages }}</span>
+                    conversation.unread_messages }}</span>
                     </a>
                 </li>
             </ul>
@@ -24,35 +24,40 @@
                 <div :class="{ chat: true, 'chat-start': message.direction == 'toApp', 'chat-end': message.direction != 'toApp' }"
                     v-for="message in messages">
                     <div class="chat-header">
-                        <span v-if="message.sended_by">Enviado por: {{ message.sended_by }}</span> <time class="text-xs opacity-50">{{ convertTimestamp(message.timestamp) }}</time>
+                        <span v-if="message.sended_by">Enviado por: {{ message.sended_by }}</span> <time
+                            class="text-xs opacity-50">{{ convertTimestamp(message.timestamp) }}</time>
                     </div>
                     <div :class="{ 'chat-bubble': true, 'chat-bubble-primary': message.direction != 'toApp' }">
-                        <span v-if="message.type == 'text'">{{ message.text }}</span>
-                        <span v-if="message.type == 'image'">
-                            {{ message.content.caption }}
-                            <img :src="message.content.url" alt="" class="w-1/6" />
-                        </span>
-                        <span v-if="message.type == 'sticker'">
-                            <img :src="message.content.url" alt="" class="w-1/6" />
-                        </span>
-                        <span v-if="message.type == 'video'">
-                            {{ message.content.caption }}
-                            <video :src="message.content.url" alt="" class="w-2/6" controls />
-                        </span>
-                        <span v-if="message.type == 'audio'">
-                            <audio :src="message.content.url" alt="" controls />
-                        </span>
-                        <span v-if="message.type == 'document'">
-                            <button class="btn btn-primary"> <a :href="message.content.url" download> Descargar Archivo </a> </button>
-                        </span>
-                        <span v-if="message.type == 'contacts'">
-                            <ul v-for="contact in message.content">
-                                <li>Nombre: {{ contact.name.first_name }}</li>
-                                <li>Telefonos:
+                        <div class="indicator">
+                            <span v-if="message.reaction" class="indicator-item indicator-start badge badge-secondary indicator-bottom" style="bottom: -10px;">{{ message.reaction }}</span>
+                            <span v-if="message.type == 'text'">{{ message.content }}</span>
+                            <span v-if="message.type == 'image'">
+                                {{ message.content.caption }}
+                                <img :src="message.content.url" alt="" class="w-1/6" />
+                            </span>
+                            <span v-if="message.type == 'sticker'">
+                                <img :src="message.content.url" alt="" class="w-1/6" />
+                            </span>
+                            <span v-if="message.type == 'video'">
+                                {{ message.content.caption }}
+                                <video :src="message.content.url" alt="" class="w-2/6" controls />
+                            </span>
+                            <span v-if="message.type == 'audio'">
+                                <audio :src="message.content.url" alt="" controls />
+                            </span>
+                            <span v-if="message.type == 'document'">
+                                <button class="btn btn-primary"> <a :href="message.content.url" download> Descargar
+                                        Archivo </a> </button>
+                            </span>
+                            <span v-if="message.type == 'contacts'">
+                                <ul v-for="contact in message.content">
+                                    <li>Nombre: {{ contact.name.first_name }}</li>
+                                    <li>Telefonos:
                                         <span v-for="phone in contact.phones">{{ phone.phone }}</span>
-                                </li>
-                            </ul>
-                        </span>
+                                    </li>
+                                </ul>
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -75,7 +80,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import NewMessage from './NewMessage.vue';
-import { PaperClipIcon} from '@heroicons/vue/24/solid'
+import { PaperClipIcon } from '@heroicons/vue/24/solid'
 
 const message = ref('')
 const search = ref('')

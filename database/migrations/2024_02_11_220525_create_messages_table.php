@@ -18,6 +18,8 @@ return new class extends Migration
             $table->foreignId('created_by')->nullable()->constrained('users');
             $table->foreignId('chat_id');
             $table->string('timestamp')->nullable();
+            $table->string('sent_in')->nullable();
+            $table->string('delivered_at')->nullable();
             $table->string('readed_at')->nullable();
             $table->string('message_id')->unique();
             $table->string('type');

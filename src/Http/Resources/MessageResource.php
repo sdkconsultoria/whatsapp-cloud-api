@@ -20,22 +20,15 @@ class MessageResource extends JsonResource
             'chat_id' => $this->chat_id,
             'type' => $this->type,
             'direction' => $this->direction,
-            'text' => $this->getTextContent($this->phone_id, $this->to),
             'content' => $this->getContent($this->phone_id, $this->to),
             'timestamp' => $this->timestamp,
             'sended_by' => $this->sended_by,
+            'reaction' => $this->reaction,
+            'sent_in' => $this->sent_in,
+            'readed_at' => $this->readed_at,
+            'delivered_at' => $this->delivered_at,
+            'response_to' => $this->getResponseTo(),
         ];
-    }
-
-    private function getTextContent($phoneId, $to)
-    {
-        $body = json_decode($this->body);
-
-        if ($this->type == 'text') {
-            return $body->text->body;
-        }
-
-        return '';
     }
 
     private function getContent()
@@ -54,6 +47,19 @@ class MessageResource extends JsonResource
                 ];
             case 'contacts':
                 return $body->contacts;
+            case 'text':
+                return $body->text->body;
         }
+    }
+
+    private function getResponseTo()
+    {
+        $body = json_decode($this->body);
+
+        if ($body->context ?? false) {
+            return $body->context;
+        }
+
+        return null;
     }
 }

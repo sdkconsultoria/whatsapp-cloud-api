@@ -32,6 +32,7 @@ class Message extends Model
         switch ($content['type']) {
             case 'contacts':
             case 'text':
+                self::processIfIsResponse($content);
                 self::processTextMessage($chat, $content);
                 break;
             case 'document':
@@ -39,14 +40,25 @@ class Message extends Model
             case 'image':
             case 'video':
             case 'audio':
+                self::processIfIsResponse($content);
                 $content[$content['type']]['url'] = self::saveFile($content[$content['type']], $phoneNumberId, $chat);
                 self::processTextMessage($chat, $content);
                 break;
             case 'reaction':
+                Message::where('message_id', $content['reaction']['message_id'])
+                    ->update(['reaction' => $content['reaction']['emoji']]);
                 break;
         }
 
         NewWhatsappMessageHook::dispatch(['chat_id' => $chat->id]);
+    }
+
+    private static function processIfIsResponse(array &$content): void
+    {
+        if (isset($content['context'])) {
+            $message = Message::where('message_id', $content['context']['id'])->first();
+            $content['context']['message'] = $message->body;
+        }
     }
 
     private static function processTextMessage(Chat $chat, array $content): void
