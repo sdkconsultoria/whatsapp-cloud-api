@@ -52,6 +52,8 @@ class MessageResource extends JsonResource
                     'url' => Url::to($body->{$this->type}->url),
                     'caption' => $body->{$this->type}->caption ?? '',
                 ];
+            case 'contacts':
+                return $body->contacts;
         }
     }
 }
