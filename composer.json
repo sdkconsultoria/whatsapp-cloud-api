@@ -24,7 +24,8 @@
         "phpunit/phpunit": "^10.4",
         "orchestra/testbench": "^8.15",
         "fakerphp/faker": "^1.23",
-        "laravel/pint": "^1.13"
+        "laravel/pint": "^1.13",
+        "php-coveralls/php-coveralls": "^0.1.0"
     },
     "autoload": {
         "files": [],
@@ -35,7 +36,8 @@
     },
     "scripts": {
         "format": "vendor/bin/pint --config pint.json",
-        "test": "vendor/bin/phpunit"
+        "test": "vendor/bin/phpunit",
+        "coverage": "vendor/bin/phpunit --coverage-html html"
     },
     "extra": {
         "laravel": {
