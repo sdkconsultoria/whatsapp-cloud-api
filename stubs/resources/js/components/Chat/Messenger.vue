@@ -16,7 +16,8 @@
                 </li>
             </ul>
         </div>
-        <div class="w-2/3 pl-1">
+        <div class="w-2/3">
+            <div class="bg-base-200 p-4">{{ current_conversation.client_phone }}</div>
             <div class="chat chat-start"></div>
             <div class="chat chat-end"></div>
             <div class="w-full overflow-auto h-full">
@@ -26,7 +27,12 @@
                         <span v-if="message.sended_by">Enviado por: {{ message.sended_by }}</span> <time class="text-xs opacity-50">{{ convertTimestamp(message.timestamp) }}</time>
                     </div>
                     <div :class="{ 'chat-bubble': true, 'chat-bubble-primary': message.direction != 'toApp' }">
-                        {{ message.text }}
+                        <span v-if="message.type == 'text'">{{ message.text }}</span>
+                        <span v-if="message.type == 'image'">
+                            {{ message.content.caption }}
+                            <img :src="message.content.url" alt="" class="w-1/6" />
+                        </span>
+
                     </div>
                 </div>
             </div>
