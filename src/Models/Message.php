@@ -38,8 +38,8 @@ class Message extends Model
             case 'sticker':
                 break;
             case 'image':
+                $content['image']['url'] = self::saveFile($content['image'], $phoneNumberId, $chat);
                 self::processTextMessage($chat, $content);
-                self::saveFile($content['image'], $phoneNumberId, $chat);
                 break;
             case 'reaction':
                 break;
@@ -61,9 +61,10 @@ class Message extends Model
         $messageModel->save();
     }
 
-    private static function saveFile(array $file, string $phoneNumberId, Chat $chat): void
+    private static function saveFile(array $file, string $phoneNumberId, Chat $chat): string
     {
         $service = resolve(MediaManagerService::class);
-        $service->download($file['id'], $phoneNumberId, "$chat->id/{$file['id']}");
+
+        return $service->download($file['id'], $phoneNumberId, "$chat->id/{$file['id']}", 'public');
     }
 }

@@ -20,7 +20,7 @@ class MessageController extends APIResourceController
 
     protected function defaultOptions($models, Request $request)
     {
-        $models->where('type', 'text');
+        $models = $models->orWhere([['type', 'text'], ['type', 'image']]);
         $models->orderBy('timestamp', 'desc');
 
         return $models;

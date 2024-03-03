@@ -2,7 +2,6 @@
 
 namespace Sdkconsultoria\WhatsappCloudApi\Services;
 
-use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 
@@ -11,7 +10,8 @@ class MediaManagerService extends FacebookService
     public function download(string $mediaId, string $phoneNumberId, string $filename, string $disk = 'local')
     {
         $media = $this->getMediaUrl($mediaId, $phoneNumberId);
-        $this->downloadMedia($media['url'], $filename);
+
+        return $this->downloadMedia($media['url'], $filename, $disk);
     }
 
     private function getMediaUrl(string $mediaId, string $phoneNumberId): array
@@ -22,7 +22,7 @@ class MediaManagerService extends FacebookService
         return $response->json();
     }
 
-    private function downloadMedia(string $mediaUrl, string $filename, string $disk = 'local'): Response
+    private function downloadMedia(string $mediaUrl, string $filename, string $disk): string
     {
         $response = Http::withToken(config('meta.token'))->get($mediaUrl);
 
@@ -30,6 +30,6 @@ class MediaManagerService extends FacebookService
 
         Storage::disk($disk)->put("$filename$extension", $response->getBody()->getContents());
 
-        return $response;
+        return Storage::disk($disk)->url("$filename$extension");
     }
 }
