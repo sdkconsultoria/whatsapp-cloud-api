@@ -8,9 +8,13 @@ Descripción
 - Conexión WhatsApp bussines manager
 - Chat en tiempo real con WhatsApp
 
-Este paquete está en desarrollo, todavía no es una versión estable y optimizada.
+Este paquete está en desarrollo, todavía no es una versión estable ni optimizada.
 
-Video Demo
+###### Coverage
+
+https://coveralls.io/github/sdkconsultoria/whatsapp-cloud-api#step1
+
+###### Video Demo
 
  - https://youtu.be/Tw5X-AVTMa0
 
