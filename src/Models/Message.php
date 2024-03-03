@@ -30,15 +30,15 @@ class Message extends Model
         $chat = Chat::findOrCreateChat($content['from'], $messageEvent['metadata']['display_phone_number']);
 
         switch ($content['type']) {
+            case 'contacts':
             case 'text':
                 self::processTextMessage($chat, $content);
                 break;
-            case 'audio':
-                break;
+            case 'document':
             case 'sticker':
-                break;
             case 'image':
             case 'video':
+            case 'audio':
                 $content[$content['type']]['url'] = self::saveFile($content[$content['type']], $phoneNumberId, $chat);
                 self::processTextMessage($chat, $content);
                 break;

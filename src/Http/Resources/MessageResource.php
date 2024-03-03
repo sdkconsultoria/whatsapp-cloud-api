@@ -45,6 +45,9 @@ class MessageResource extends JsonResource
         switch ($this->type) {
             case 'image':
             case 'video':
+            case 'audio':
+            case 'sticker':
+            case 'document':
                 return [
                     'url' => Url::to($body->{$this->type}->url),
                     'caption' => $body->{$this->type}->caption ?? '',
