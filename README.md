@@ -10,17 +10,17 @@ Descripción
 
 Este paquete está en desarrollo, todavía no es una versión estable ni optimizada.
 
-###### Coverage
-
-https://coveralls.io/github/sdkconsultoria/whatsapp-cloud-api#step1
-
-###### Video Demo
+Video Demo
 
  - https://youtu.be/Tw5X-AVTMa0
 
 Tutorial de instalación
 
  - https://youtu.be/EUyvuYIFRz8
+
+##### Coverage
+
+https://coveralls.io/github/sdkconsultoria/whatsapp-cloud-api#step1
 
 Instalación
 ------------

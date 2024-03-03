@@ -37,6 +37,9 @@ jobs:
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress
 
+    - name: Check code style
+      run: ./vendor/bin/pint --test
+
     - name: Run phpunit Tests
       run: |
         vendor/bin/phpunit --coverage-clover build/logs/clover.xml
