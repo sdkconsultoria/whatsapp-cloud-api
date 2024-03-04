@@ -9,14 +9,15 @@ class Chat extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['waba_phone', 'client_phone', 'status'];
+    protected $fillable = ['waba_phone', 'client_phone', 'status', 'waba_phone_id'];
 
     public const STATUS_UNREAD = 0;
 
-    public static function findOrCreateChat(string $from, string $to): Chat
+    public static function findOrCreateChat(string $from, WabaPhone $wabaPhoneNumber): Chat
     {
         $chat = Chat::firstOrCreate([
-            'waba_phone' => $to,
+            'waba_phone_id' => $wabaPhoneNumber->id,
+            'waba_phone' => $wabaPhoneNumber->phone_number_clean,
             'client_phone' => $from,
         ]);
 

@@ -30,9 +30,10 @@ class Message extends Model
     private static function processConversation(array $messageEvent)
     {
         $phoneNumberId = $messageEvent['metadata']['phone_number_id'];
+        $wabaPhoneNumber = WabaPhone::where('phone_id', $phoneNumberId)->first();
 
         $content = $messageEvent['messages'][0];
-        $chat = Chat::findOrCreateChat($content['from'], $messageEvent['metadata']['display_phone_number']);
+        $chat = Chat::findOrCreateChat($content['from'], $wabaPhoneNumber);
 
         switch ($content['type']) {
             case 'contacts':

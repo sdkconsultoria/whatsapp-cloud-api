@@ -24,6 +24,7 @@ return new class extends Migration
             $table->smallInteger('unread_messages')->nullable()->default('0');
             $table->string('order')->nullable();
             $table->string('color')->nullable();
+            $table->foreignId('waba_phone_id');
             $table->string('waba_phone');
             $table->string('client_phone');
             $table->smallInteger('status')->default('20');

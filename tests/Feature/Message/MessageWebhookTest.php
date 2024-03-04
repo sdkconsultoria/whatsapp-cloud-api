@@ -5,6 +5,7 @@ namespace Sdkconsultoria\WhatsappCloudApi\Tests\Feature\Message;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Event;
 use Sdkconsultoria\WhatsappCloudApi\Events\NewWhatsappMessageHook;
+use Sdkconsultoria\WhatsappCloudApi\Models\WabaPhone;
 use Sdkconsultoria\WhatsappCloudApi\Tests\TestCase;
 
 class MessageWebhookTest extends TestCase
@@ -14,6 +15,7 @@ class MessageWebhookTest extends TestCase
     public function test_recive_webhook_message()
     {
         // $this->withoutExceptionHandling();
+        $wabaPhone = WabaPhone::factory()->create();
         Event::fake();
 
         $response = $this->post(route('meta.webhook'), [
@@ -25,8 +27,8 @@ class MessageWebhookTest extends TestCase
                             'value' => [
                                 'messaging_product' => 'whatsapp',
                                 'metadata' => [
-                                    'display_phone_number' => '16505553333',
-                                    'phone_number_id' => '27681414235104944',
+                                    'display_phone_number' => $wabaPhone->display_phone_number,
+                                    'phone_number_id' => $wabaPhone->phone_id,
                                 ],
                                 'contacts' => [
                                     [

@@ -126,7 +126,7 @@ function sendMessage() {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            phone_id: current_conversation.value.waba_phone,
+            waba_phone_id: current_conversation.value.waba_phone_id,
             to: current_conversation.value.client_phone,
             message: {
                 "type": "text",

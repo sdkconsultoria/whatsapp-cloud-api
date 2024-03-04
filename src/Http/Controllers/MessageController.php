@@ -4,11 +4,10 @@ namespace Sdkconsultoria\WhatsappCloudApi\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Sdkconsultoria\WhatsappCloudApi\Http\Resources\MessageResource;
+use Sdkconsultoria\WhatsappCloudApi\Lib\Message\SendMessage;
+use Sdkconsultoria\WhatsappCloudApi\Lib\Message\SendTemplate;
 use Sdkconsultoria\WhatsappCloudApi\Models\Chat;
 use Sdkconsultoria\WhatsappCloudApi\Models\Message;
-use Sdkconsultoria\WhatsappCloudApi\Models\Template;
-use Sdkconsultoria\WhatsappCloudApi\Models\WabaPhone;
-use Sdkconsultoria\WhatsappCloudApi\Services\MessageService;
 
 class MessageController extends APIResourceController
 {
@@ -35,38 +34,6 @@ class MessageController extends APIResourceController
         ];
     }
 
-    public function sendMessage(Request $request)
-    {
-        $request = $request->all();
-        $phoneNumber = WabaPhone::where('phone_id', $request['phone_id'])->orWhere('phone_number_clean', $request['phone_id'])->first();
-
-        $message = resolve(MessageService::class)->sendMessage($phoneNumber->phone_id, $request['to'], $request['message']);
-
-        $messageModel = new Message();
-        $messageModel->direction = 'toClient';
-        $messageModel->body = json_encode($request['message']);
-        $messageModel->timestamp = time();
-        $messageModel->message_id = $message['messages'][0]['id'];
-        $messageModel->type = 'text';
-        $messageModel->chat_id = $this->getChatId($phoneNumber, $request['to']);
-        $messageModel->save();
-
-        return response()->json($message);
-    }
-
-    private function getChatId($phoneNumber, $to)
-    {
-        $chat = Chat::firstOrCreate([
-            'waba_phone' => $phoneNumber->phone_number_clean,
-            'client_phone' => $to,
-        ]);
-
-        $chat->last_message = date('Y-m-d H:i:s');
-        $chat->save();
-
-        return $chat->id;
-    }
-
     public function index(Request $request)
     {
         $models = new $this->resource;
@@ -81,29 +48,22 @@ class MessageController extends APIResourceController
         return $this->transformer::collection($this->reverseElements($models));
     }
 
+    public function sendMessage(Request $request)
+    {
+        $message = resolve(SendMessage::class)->send($request->all());
+
+        return response()->json($message);
+    }
+
     public function sendTemplate(Request $request)
     {
-
         $request->validate([
             'waba_phone' => 'required',
             'to' => 'required',
             'template' => 'required',
         ]);
 
-        $template = Template::find($request['template']);
-        $phoneNumber = WabaPhone::where('id', $request['waba_phone'])->first();
-        $message = resolve(MessageService::class)
-            ->sendTemplate($phoneNumber, $request['to'], $template);
-
-        $messageModel = new Message();
-        $messageModel->direction = 'toClient';
-        $messageModel->body = json_encode($template->getMessage());
-        $messageModel->timestamp = time();
-        $messageModel->message_id = $message['messages'][0]['id'];
-        $messageModel->type = 'text';
-        $messageModel->chat_id = $this->getChatId($phoneNumber, $request['to']);
-        $messageModel->sended_by = 'BOT';
-        $messageModel->save();
+        $message = resolve(SendTemplate::class)->send($request->all());
 
         return response()->json($message);
     }
