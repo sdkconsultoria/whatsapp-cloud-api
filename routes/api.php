@@ -32,5 +32,5 @@ Route::namespace('Sdkconsultoria\WhatsappCloudApi\Http\Controllers')->group(func
 
     Route::get('waba-phone', 'WabaPhoneController@index')->name('waba.waba_number');
 
-    Route::get('get-conversations', 'ConversationController@index')->name('conversation.index');
+    Route::get('chat', 'ChatController@index')->name('chat.index');
 });

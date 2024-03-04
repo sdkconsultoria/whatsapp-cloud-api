@@ -5,7 +5,7 @@ namespace Sdkconsultoria\WhatsappCloudApi\Http\Controllers;
 use Illuminate\Http\Request;
 use Sdkconsultoria\WhatsappCloudApi\Models\Chat;
 
-class ConversationController extends APIResourceController
+class ChatController extends APIResourceController
 {
     protected $resource = Chat::class;
 

@@ -97,7 +97,7 @@ const convertTimestamp = computed(() => {
 loadConversations();
 
 async function loadConversations() {
-    await fetch('/get-conversations?client_phone=' + search.value)
+    await fetch('/chat?client_phone=' + search.value)
         .then(response => response.json())
         .then(data => conversations.value = data.data);
 
