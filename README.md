@@ -37,6 +37,12 @@ Ejecutar las migraciones, para generar las tablas donde se guardaran los chats
 php artisan migrate
 ```
 
+Linkear el storage público para poder obtener la URL de los archivos recibidos y enviados
+
+```
+php artisan storage:link
+```
+
 Si quieres usar el Messenger en VUE (opcional), también puedes usar los endpoints
 ```
 php artisan sdk:whatsapp-messenger-install
