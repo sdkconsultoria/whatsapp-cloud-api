@@ -31,7 +31,7 @@ class MessageFactory extends Factory
             'message_id' => 'wamid.'.$this->faker->numberBetween(1111111),
             'type' => 'text',
             'direction' => 'toApp',
-            'body' => '---',
+            'body' => '{"text": {"body": "Todo bien", "preview_url": false}, "type": "text"}',
             'status' => 20,
             'response_to' => null,
             'reaction' => null,

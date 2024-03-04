@@ -4,6 +4,8 @@ namespace Sdkconsultoria\WhatsappCloudApi\Tests\Feature\Message;
 
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Http;
+use Sdkconsultoria\WhatsappCloudApi\Models\Chat;
+use Sdkconsultoria\WhatsappCloudApi\Models\Message;
 use Sdkconsultoria\WhatsappCloudApi\Models\Template;
 use Sdkconsultoria\WhatsappCloudApi\Models\WabaPhone;
 use Sdkconsultoria\WhatsappCloudApi\Tests\TestCase;
@@ -82,5 +84,16 @@ class MessageTest extends TestCase
                 ],
             ], 200),
         ]);
+    }
+
+    public function test_get_messages_filter_by_chat_id()
+    {
+        $chat = Chat::factory()->create();
+        Message::factory()->count(5)->create();
+        Message::factory()->count(10)->create(['chat_id' => $chat->id]);
+
+        $this->get(route('message.index').'?chat_id='.$chat->id)
+            ->assertJsonCount(10, 'data')
+            ->assertStatus(200);
     }
 }
