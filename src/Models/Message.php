@@ -5,6 +5,7 @@ namespace Sdkconsultoria\WhatsappCloudApi\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Sdkconsultoria\WhatsappCloudApi\Events\NewWhatsappMessageHook;
+use Sdkconsultoria\WhatsappCloudApi\Lib\Message\ProcessConversationHook;
 use Sdkconsultoria\WhatsappCloudApi\Services\MediaManagerService;
 
 class Message extends Model
@@ -22,6 +23,7 @@ class Message extends Model
         }
 
         if (isset($messageEvent['statuses'])) {
+            resolve(ProcessConversationHook::class)->process($messageEvent);
         }
     }
 
@@ -82,5 +84,10 @@ class Message extends Model
         $service = resolve(MediaManagerService::class);
 
         return $service->download($file['id'], $phoneNumberId, "$chat->id/{$file['id']}", 'public');
+    }
+
+    public function chat()
+    {
+        return $this->belongsTo(Chat::class);
     }
 }

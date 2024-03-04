@@ -25,9 +25,9 @@ class MessageFactory extends Factory
         return [
             'chat_id' => Chat::factory(),
             'timestamp' => time(),
-            'sent_in' => null,
+            'sent_at' => null,
             'delivered_at' => null,
-            'readed_at' => null,
+            'read_at' => null,
             'message_id' => 'wamid.'.$this->faker->numberBetween(1111111),
             'type' => 'text',
             'direction' => 'toApp',
