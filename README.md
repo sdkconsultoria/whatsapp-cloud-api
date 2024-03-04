@@ -20,7 +20,9 @@ Tutorial de instalación
 
 ##### Coverage
 
-https://coveralls.io/github/sdkconsultoria/whatsapp-cloud-api#step1
+https://coveralls.io/github/sdkconsultoria/whatsapp-cloud-api
+
+[![Coverage Status](https://coveralls.io/repos/github/sdkconsultoria/whatsapp-cloud-api/badge.svg?branch=develop)](https://coveralls.io/github/sdkconsultoria/whatsapp-cloud-api?branch=develop)
 
 Instalación
 ------------
