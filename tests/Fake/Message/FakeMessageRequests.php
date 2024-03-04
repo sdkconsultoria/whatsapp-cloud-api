@@ -1,10 +1,10 @@
 <?php
 
-namespace Sdkconsultoria\WhatsappCloudApi\Tests\Feature\Message;
+namespace Sdkconsultoria\WhatsappCloudApi\Tests\Fake\Message;
 
 use Sdkconsultoria\WhatsappCloudApi\Models\Message;
 
-class FakeWebhookRequests
+class FakeMessageRequests
 {
     public static function getFakeMessageStatusWebhookSent(Message $message)
     {

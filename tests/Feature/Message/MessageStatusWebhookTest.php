@@ -3,6 +3,7 @@
 namespace Sdkconsultoria\WhatsappCloudApi\Tests\Feature\Message;
 
 use Sdkconsultoria\WhatsappCloudApi\Models\Message;
+use Sdkconsultoria\WhatsappCloudApi\Tests\Fake\Message\FakeMessageRequests;
 use Sdkconsultoria\WhatsappCloudApi\Tests\TestCase;
 
 class MessageStatusWebhookTest extends TestCase
@@ -10,7 +11,7 @@ class MessageStatusWebhookTest extends TestCase
     public function test_sent_hook()
     {
         $message = Message::factory()->create();
-        $this->post(route('meta.webhook'), FakeWebhookRequests::getFakeMessageStatusWebhookSent($message));
+        $this->post(route('meta.webhook'), FakeMessageRequests::getFakeMessageStatusWebhookSent($message));
 
         $this->assertDatabaseHas('messages', [
             'message_id' => $message->message_id,
@@ -26,7 +27,7 @@ class MessageStatusWebhookTest extends TestCase
     public function test_delivered_hook()
     {
         $message = Message::factory()->create();
-        $this->post(route('meta.webhook'), FakeWebhookRequests::getFakeMessageStatusWebhookDelivered($message));
+        $this->post(route('meta.webhook'), FakeMessageRequests::getFakeMessageStatusWebhookDelivered($message));
 
         $this->assertDatabaseHas('messages', [
             'message_id' => $message->message_id,
@@ -37,7 +38,7 @@ class MessageStatusWebhookTest extends TestCase
     public function test_read_hook()
     {
         $message = Message::factory()->create();
-        $this->post(route('meta.webhook'), FakeWebhookRequests::getFakeMessageStatusWebhookRead($message));
+        $this->post(route('meta.webhook'), FakeMessageRequests::getFakeMessageStatusWebhookRead($message));
 
         $this->assertDatabaseHas('messages', [
             'message_id' => $message->message_id,

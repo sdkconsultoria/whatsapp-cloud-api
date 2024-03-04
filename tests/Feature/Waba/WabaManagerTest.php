@@ -4,15 +4,14 @@ namespace Sdkconsultoria\WhatsappCloudApi\Tests\Feature\Waba;
 
 use Illuminate\Support\Facades\Http;
 use Sdkconsultoria\WhatsappCloudApi\Models\Waba;
+use Sdkconsultoria\WhatsappCloudApi\Tests\Fake\Waba\FakeWabaResponses;
 use Sdkconsultoria\WhatsappCloudApi\Tests\TestCase;
 
 class WabaManagerTest extends TestCase
 {
-    use FakeWabaResponses;
-
     public function test_get_templates_from_waba()
     {
-        $fakeTemplates = $this->fakeTemplates();
+        $fakeTemplates = FakeWabaResponses::fakeTemplates();
         Http::fake([
             '*' => Http::response($fakeTemplates, 200),
         ]);
@@ -32,7 +31,7 @@ class WabaManagerTest extends TestCase
     public function test_get_waba_info()
     {
         $wabaId = '104996122399160';
-        $wabaFakeInfo = $this->getFakeWabaInfo();
+        $wabaFakeInfo = FakeWabaResponses::getFakeWabaInfo();
 
         Http::fake(["*$wabaId" => Http::response($wabaFakeInfo, 200)]);
 
@@ -51,7 +50,7 @@ class WabaManagerTest extends TestCase
     {
         $wabaId = '104996122399160';
         Waba::factory()->create(['waba_id' => $wabaId]);
-        $wabaPhonesFake = $this->fakePhoneNumbers();
+        $wabaPhonesFake = FakeWabaResponses::fakePhoneNumbers();
 
         Http::fake(["*$wabaId/phone_numbers" => Http::response($wabaPhonesFake, 200)]);
 

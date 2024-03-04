@@ -15,8 +15,7 @@
     <testsuite name="core">
       <directory suffix=".php">./tests/</directory>
       <exclude>./tests/TestCase.php</exclude>
-      <exclude>./tests/Feature/Waba/FakeWabaResponses.php</exclude>
-      <exclude>./tests/Feature/Message/FakeWebhookRequests.php</exclude>
+      <exclude>./tests/Fake/</exclude>
     </testsuite>
   </testsuites>
   <source>

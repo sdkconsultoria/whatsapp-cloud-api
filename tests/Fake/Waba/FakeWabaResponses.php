@@ -1,10 +1,10 @@
 <?php
 
-namespace Sdkconsultoria\WhatsappCloudApi\Tests\Feature\Waba;
+namespace Sdkconsultoria\WhatsappCloudApi\Tests\Fake\Waba;
 
-trait FakeWabaResponses
+class FakeWabaResponses
 {
-    private function getFakeWabaInfo()
+    public static function getFakeWabaInfo()
     {
         return [
             'id' => '104996122399160',
@@ -15,7 +15,7 @@ trait FakeWabaResponses
         ];
     }
 
-    private function fakePhoneNumbers()
+    public static function fakePhoneNumbers()
     {
         return [
             'data' => [
@@ -35,7 +35,7 @@ trait FakeWabaResponses
         ];
     }
 
-    private function fakeTemplates()
+    public static function fakeTemplates()
     {
         return [
             'data' => [
