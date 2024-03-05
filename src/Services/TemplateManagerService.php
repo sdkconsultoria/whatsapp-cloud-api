@@ -6,35 +6,43 @@ use Illuminate\Support\Facades\Http;
 
 class TemplateManagerService extends FacebookService
 {
-    public function getAllTemplates(string $wabaId): array
+    public function createTemplate(string $wabaId, array $template)
     {
-        $this->graph_url .= $wabaId;
-        $response = Http::withToken(config('meta.token'))->get($this->graph_url);
+        $this->graph_url .= $wabaId.'/message_templates';
+        $response = Http::withToken(config('meta.token'))->post($this->graph_url, $template);
 
         return $response->json();
     }
 
-    public function getTemplate(string $wabaId): array
-    {
-        $this->graph_url .= $wabaId.'/phone_numbers';
-        $response = Http::withToken(config('meta.token'))->get($this->graph_url);
+    // public function getAllTemplates(string $wabaId): array
+    // {
+    //     $this->graph_url .= $wabaId;
+    //     $response = Http::withToken(config('meta.token'))->get($this->graph_url);
 
-        return $response->json();
-    }
+    //     return $response->json();
+    // }
 
-    public function setTemplate(string $phoneId): array
-    {
-        $this->graph_url .= $phoneId.'/whatsapp_business_profile?fields=about,address,description,email,profile_picture_url,websites,vertical';
-        $response = Http::withToken(config('meta.token'))->get($this->graph_url);
+    // public function getTemplate(string $wabaId): array
+    // {
+    //     $this->graph_url .= $wabaId.'/phone_numbers';
+    //     $response = Http::withToken(config('meta.token'))->get($this->graph_url);
 
-        return $response->json();
-    }
+    //     return $response->json();
+    // }
 
-    public function deleteTemplate(string $phoneId): array
-    {
-        $this->graph_url .= $phoneId.'/whatsapp_business_profile?fields=about,address,description,email,profile_picture_url,websites,vertical';
-        $response = Http::withToken(config('meta.token'))->get($this->graph_url);
+    // public function setTemplate(string $phoneId): array
+    // {
+    //     $this->graph_url .= $phoneId.'/whatsapp_business_profile?fields=about,address,description,email,profile_picture_url,websites,vertical';
+    //     $response = Http::withToken(config('meta.token'))->get($this->graph_url);
 
-        return $response->json();
-    }
+    //     return $response->json();
+    // }
+
+    // public function deleteTemplate(string $phoneId): array
+    // {
+    //     $this->graph_url .= $phoneId.'/whatsapp_business_profile?fields=about,address,description,email,profile_picture_url,websites,vertical';
+    //     $response = Http::withToken(config('meta.token'))->get($this->graph_url);
+
+    //     return $response->json();
+    // }
 }

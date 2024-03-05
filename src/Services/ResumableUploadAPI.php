@@ -17,16 +17,16 @@ class ResumableUploadAPI extends FacebookService
 
     public $handler;
 
-    public static function uploadFile(string $file)
+    public function uploadFile(string $file)
     {
-        $object = new self($file);
-        $object->createUploadSession();
-        $object->uploadOrFail();
+        $this->validate($file);
+        $this->createUploadSession();
+        $this->uploadOrFail();
 
-        return $object;
+        return $this;
     }
 
-    public function __construct(string $file)
+    private function validate(string $file)
     {
         if (file_exists($file)) {
             $this->file = $file;
