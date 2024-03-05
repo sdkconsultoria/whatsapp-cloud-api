@@ -53,7 +53,7 @@ class SendMessagesTest extends TestCase
         ]);
 
         Storage::fake('local');
-        $file = UploadedFile::fake()->create('file.jpg');
+        $file = UploadedFile::fake()->image('avatar.jpg', 100, 100)->size(100);
 
         $this->post(route('message.send'), [
             'waba_phone_id' => $wabaPhone->id,
