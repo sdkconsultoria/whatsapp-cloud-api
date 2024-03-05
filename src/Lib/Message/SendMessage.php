@@ -33,9 +33,12 @@ class SendMessage
             case 'text':
                 return $request;
                 break;
+            case 'audio':
+            case 'video':
+            case 'document':
             case 'image':
-                $media = resolve(MediaManagerService::class)->upload($phoneNumber->phone_id, $request['image']);
-                $request['image'] = ['id' => $media['id']];
+                $media = resolve(MediaManagerService::class)->upload($phoneNumber->phone_id, $request[$request['type']]);
+                $request[$request['type']] = ['id' => $media['id']];
 
                 return $request;
                 break;

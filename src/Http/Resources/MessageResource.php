@@ -42,7 +42,7 @@ class MessageResource extends JsonResource
             case 'sticker':
             case 'document':
                 return [
-                    'url' => Url::to($body->{$this->type}->url),
+                    'url' => Url::to($body->{$this->type}->url ?? ''),
                     'caption' => $body->{$this->type}->caption ?? '',
                 ];
             case 'contacts':
