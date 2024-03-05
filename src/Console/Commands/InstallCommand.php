@@ -97,18 +97,18 @@ class InstallCommand extends Command
 
     private function copyStubs()
     {
-        $this->info('Copiando los archivos de configuración...');
+        $this->info('Copiando archivos de configuración...');
 
         (new Filesystem)->copyDirectory(__DIR__.'/../../../stubs', base_path());
     }
 
     private function enableBroadcastServiceProvider()
     {
-        $this->info('Activando el BroadcastServiceProvider');
+        $this->info('Habilitando BroadcastServiceProvider...');
 
         $file = base_path('config').'/app.php';
 
-        FileManager::replace(
+        resolve(FileManager::class)::replace(
             "// App\Providers\BroadcastServiceProvider::class",
             "App\Providers\BroadcastServiceProvider::class",
             $file
@@ -117,7 +117,7 @@ class InstallCommand extends Command
 
     private function finishMessage()
     {
-        $this->info('SDK Whatsapp Messenger se instalo correctamente.');
-        $this->comment('Ejecuta el comando "npm install && npm run dev" para generar tus assets.');
+        $this->info('SDK Whatsapp Messenger instalado correctamente.');
+        $this->comment('Ejecuta "npm install && npm run dev" para compilar tu frontend.');
     }
 }
