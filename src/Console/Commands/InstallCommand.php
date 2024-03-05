@@ -45,6 +45,9 @@ class InstallCommand extends Command
         $this->finishMessage();
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     private function updateNode()
     {
         $this->info('Actualizando Node Packages...');
@@ -67,6 +70,7 @@ class InstallCommand extends Command
     }
 
     /**
+     * @codeCoverageIgnore
      * Update the "package.json" file.
      *
      * @param  bool  $dev
