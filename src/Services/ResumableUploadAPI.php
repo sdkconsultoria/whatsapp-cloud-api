@@ -39,10 +39,11 @@ class ResumableUploadAPI extends FacebookService
 
     private function createUploadSession(): void
     {
-        $url = $this->graph_url.config('facebook.app_id').'/uploads';
+        $url = $this->graph_url.config('meta.api_version').'/app/uploads';
         $url .= '?file_length='.$this->file_size;
         $url .= '&file_type='.$this->mime_type;
-        $url .= '&access_token='.config('facebook.app_token');
+        $url .= '&file_name=myprofile.jpg';
+        $url .= '&access_token='.config('meta.token');
 
         $response = Http::post($url)->throw()->json();
         $this->session_id = $response['id'];
@@ -53,7 +54,7 @@ class ResumableUploadAPI extends FacebookService
         $url = $this->graph_url.$this->session_id;
 
         $response = Http::withHeaders([
-            'Authorization' => 'OAuth '.config('facebook.app_token'),
+            'Authorization' => 'OAuth '.config('meta.token'),
             'file_offset' => $offset,
         ])->withBody(file_get_contents($this->file), $this->mime_type)
             ->post($url)->throw()->json();

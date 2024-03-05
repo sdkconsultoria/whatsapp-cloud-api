@@ -7,7 +7,21 @@ use Illuminate\Support\Facades\Storage;
 
 class MediaManagerService extends FacebookService
 {
-    public function download(string $mediaId, string $phoneNumberId, string $filename, string $disk = 'local')
+    public function upload(string $phoneNumberId, $file, string $filename = 'sin titulo'): array
+    {
+        $url = "{$this->graph_url}{$phoneNumberId}/media";
+
+        $response = Http::withToken(config('meta.token'))
+            ->attach('file', file_get_contents($file->getRealPath()), $file->getClientOriginalName(), ['Content-Type' => $file->getClientMimeType()])
+            ->post($url, [
+                'filename' => $filename,
+                'messaging_product' => 'whatsapp',
+            ]);
+
+        return $response->json();
+    }
+
+    public function download(string $mediaId, string $phoneNumberId, string $filename, string $disk = 'local'): string
     {
         $media = $this->getMediaUrl($mediaId, $phoneNumberId);
 

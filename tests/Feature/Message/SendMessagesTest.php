@@ -42,28 +42,32 @@ class SendMessagesTest extends TestCase
         ]);
     }
 
-    // public function test_send_image_message()
-    // {
-    //     $messageId = 'wamid.' . $this->faker()->numberBetween(111, 450);
-    //     $wabaPhone = WabaPhone::factory()->create();
+    public function test_send_image_message()
+    {
+        $messageId = 'wamid.'.$this->faker()->numberBetween(111, 450);
+        $wabaPhone = WabaPhone::factory()->create();
 
-    //     Http::fake([
-    //         "*/$wabaPhone->phone_id/messages" => Http::response(FakeMessageCreteResponse::getFakeMessageCreateResponse($messageId)),
-    //     ]);
+        Http::fake([
+            "*/$wabaPhone->phone_id/media" => Http::response(['id' => $this->faker()->uuid]),
+            "*/$wabaPhone->phone_id/messages" => Http::response(FakeMessageCreteResponse::getFakeMessageCreateResponse($messageId)),
+        ]);
 
-    //     Storage::fake('local');
-    //     $file = UploadedFile::fake()->create('file.jpg');
+        Storage::fake('local');
+        $file = UploadedFile::fake()->create('file.jpg');
 
-    //     $this->post(route('message.send'), [
-    //         'phone_id' => $wabaPhone->phone_id,
-    //         'to' => '2213428198',
-    //         'image' => $file,
-    //     ])
-    //         ->assertStatus(200);
+        $this->post(route('message.send'), [
+            'waba_phone_id' => $wabaPhone->id,
+            'to' => '2213428198',
+            'message' => [
+                'type' => 'image',
+                'image' => $file,
+            ],
+        ])
+            ->assertStatus(200);
 
-    //     $this->assertDatabaseHas('messages', [
-    //         'direction' => 'toClient',
-    //         'message_id' => $messageId,
-    //     ]);
-    // }
+        $this->assertDatabaseHas('messages', [
+            'direction' => 'toClient',
+            'message_id' => $messageId,
+        ]);
+    }
 }
