@@ -84,11 +84,16 @@ https://developers.facebook.com/apps/
 Si no tienes una APP debes crear una.
 
 ###### Registrar el webhook en meta
+{{HOST}}/api/v1/whatsapp-webhook
 
-{{HOST}}/whatsapp-webhook
+###### Obtener la información de la waba desde Meta
+{{HOST}}/api/v1/waba/{{id}}/get-info
 
-###### Obtener la informacion de la waba
-{{HOST}}/waba/{{id}}/getinfo
+###### Obtener los numeros telefonicos desde Meta
+{{HOST}}/api/v1/waba/{{id}}/get-phones
 
-###### Obtener los numeros telefonicos
-{{HOST}}/waba/{{id}}/phonenumbers
+###### Obtener las plantillas desde Meta
+{{HOST}}/api/v1/waba/{{id}}/get-templates
+
+###### shortcut obtener waba, numeros y plantillas desde Meta con una sola petición
+{{HOST}}/api/v1/waba/{{id}}/init
