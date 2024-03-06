@@ -71,7 +71,7 @@ const wabaNumber = ref('')
 const phone = ref('')
 
 function getWabaPhones() {
-    fetch('/waba-phone')
+    fetch('/api/v1/waba-phone')
         .then(response => response.json())
         .then(data => {
             wabaNumbers.value = data.data;
@@ -79,7 +79,7 @@ function getWabaPhones() {
 }
 
 function getTemplates() {
-    fetch('/template?status=approved')
+    fetch('/api/v1/template?status=approved')
         .then(response => response.json())
         .then(data => {
             templates.value = data.data;
@@ -87,7 +87,7 @@ function getTemplates() {
 }
 
 function sentMessageTemplate() {
-    fetch('/message/template/send', {
+    fetch('/api/v1/message/template/send', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

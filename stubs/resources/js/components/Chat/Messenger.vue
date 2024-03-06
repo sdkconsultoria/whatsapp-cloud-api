@@ -97,7 +97,7 @@ const convertTimestamp = computed(() => {
 loadConversations();
 
 async function loadConversations() {
-    await fetch('/chat?client_phone=' + search.value)
+    await fetch('/api/v1/chat?client_phone=' + search.value)
         .then(response => response.json())
         .then(data => conversations.value = data.data);
 
@@ -114,13 +114,13 @@ function setConversation(conversation) {
 }
 
 async function loadMessagesFromConversation() {
-    await fetch('/message?chat_id=' + current_conversation.value.id)
+    await fetch('/api/v1/message?chat_id=' + current_conversation.value.id)
         .then(response => response.json())
         .then(data => messages.value = data.data);
 }
 
 function sendMessage() {
-    fetch('/message/send', {
+    fetch('/api/v1/message/send', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
