@@ -8,6 +8,16 @@ use Sdkconsultoria\WhatsappCloudApi\Services\WabaManagerService;
 
 class WabaController extends Controller
 {
+    public function init(string $wabaId)
+    {
+        resolve(WabaManagerService::class)->getWabaInfo($wabaId);
+        resolve(WabaManagerService::class)->getPhoneNumbers($wabaId);
+        $templates = resolve(WabaManagerService::class)->getAllTemplates($wabaId);
+        $this->saveTemplates($templates, $wabaId);
+
+        return response()->json($templates);
+    }
+
     public function loadTemplatesFromWaba(string $wabaId)
     {
         $templates = resolve(WabaManagerService::class)->getAllTemplates($wabaId);

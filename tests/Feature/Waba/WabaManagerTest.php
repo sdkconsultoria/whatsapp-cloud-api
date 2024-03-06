@@ -13,11 +13,11 @@ class WabaManagerTest extends TestCase
     {
         $fakeTemplates = FakeWabaResponses::fakeTemplates();
         Http::fake([
-            '*' => Http::response($fakeTemplates, 200),
+            '*/message_templates' => Http::response($fakeTemplates, 200),
         ]);
 
         $waba = Waba::factory()->create(['waba_id' => '121544050937574']);
-        $this->get(route('waba.loadtemplates', ['wabaId' => $waba->waba_id]))->assertStatus(200);
+        $this->get(route('waba.getTemplatesFromMeta', ['wabaId' => $waba->waba_id]))->assertStatus(200);
 
         foreach ($fakeTemplates['data'] as $fakeTemplate) {
             $this->assertDatabaseHas('templates', [
@@ -35,7 +35,7 @@ class WabaManagerTest extends TestCase
 
         Http::fake(["*$wabaId" => Http::response($wabaFakeInfo, 200)]);
 
-        $this->get(route('waba.getWabaInfoFromMeta', ['wabaId' => $wabaId]))->assertStatus(200);
+        $this->get(route('waba.getInfoFromMeta', ['wabaId' => $wabaId]))->assertStatus(200);
 
         $this->assertDatabaseHas('wabas', [
             'waba_id' => $wabaFakeInfo['id'],
@@ -54,7 +54,7 @@ class WabaManagerTest extends TestCase
 
         Http::fake(["*$wabaId/phone_numbers" => Http::response($wabaPhonesFake, 200)]);
 
-        $this->get(route('waba.getWabaPhonesFromMeta', ['wabaId' => $wabaId]))->assertStatus(200);
+        $this->get(route('waba.getPhonesFromMeta', ['wabaId' => $wabaId]))->assertStatus(200);
 
         foreach ($wabaPhonesFake['data'] as $wabaPhoneFake) {
             $this->assertDatabaseHas('waba_phones', [
@@ -64,6 +64,18 @@ class WabaManagerTest extends TestCase
                 'quality_rating' => $wabaPhoneFake['quality_rating'],
             ]);
         }
+    }
+
+    public function test_waba_init()
+    {
+        $wabaId = '104996122399160';
+
+        Http::fake([
+            "*$wabaId" => Http::response(FakeWabaResponses::getFakeWabaInfo(), 200),
+            "*$wabaId/phone_numbers" => Http::response(FakeWabaResponses::fakePhoneNumbers(), 200),
+            '*/message_templates' => Http::response(FakeWabaResponses::fakeTemplates(), 200),
+        ]);
+
     }
 
     public function test_set_phone_numbers_profile()
