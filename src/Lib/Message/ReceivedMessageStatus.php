@@ -4,7 +4,7 @@ namespace Sdkconsultoria\WhatsappCloudApi\Lib\Message;
 
 use Sdkconsultoria\WhatsappCloudApi\Models\Message;
 
-class ProcessConversationHook
+class ReceivedMessageStatus
 {
     public function process($messageEvent): void
     {
@@ -19,7 +19,6 @@ class ProcessConversationHook
                 $this->processRead($messageEvent);
                 break;
         }
-
     }
 
     private function processSent($messageEvent): void

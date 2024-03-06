@@ -4,7 +4,7 @@ namespace Sdkconsultoria\WhatsappCloudApi\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Sdkconsultoria\WhatsappCloudApi\Models\Message;
+use Sdkconsultoria\WhatsappCloudApi\Lib\Message\ReceivedMessage;
 
 class WebhookController extends Controller
 {
@@ -23,7 +23,7 @@ class WebhookController extends Controller
         \Log::debug('message debug', $data);
         switch ($data['field']) {
             case 'messages':
-                Message::processMessage($data['value']);
+                resolve(ReceivedMessage::class)->processMessage($data['value']);
                 break;
         }
     }
