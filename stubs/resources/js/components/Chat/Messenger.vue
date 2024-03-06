@@ -4,7 +4,7 @@
             <div class="p-2 flex">
                 <input @change="loadConversations" v-model="search" type="text" placeholder="Buscar Chat"
                     class="input w-full" />
-                <NewMessage />
+                <SendNew />
             </div>
             <ul class="menu w-full p-0 overflow-auto">
                 <li v-for="conversation in conversations" @click="setConversation(conversation)">
@@ -79,7 +79,7 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import NewMessage from './NewMessage.vue';
+import SendNew from './SendNew.vue';
 import { PaperClipIcon } from '@heroicons/vue/24/solid'
 
 const message = ref('')

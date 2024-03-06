@@ -12,14 +12,17 @@ class CampaignController extends APIResourceController
 
     public function store(StoreCampaignRequest $request)
     {
+        $file = file_get_contents($request->file->getRealPath());
+        $phones = explode(',', $file);
+
         $campaign = new Campaign();
         $campaign->name = $request->name;
         $campaign->template_id = $request->template_id;
         $campaign->waba_phone_id = $request->waba_phone_id;
-        $campaign->total_messages = count($request->phones);
+        $campaign->total_messages = count($phones);
         $campaign->save();
 
-        foreach ($request->phones as $phone) {
+        foreach ($phones as $phone) {
             resolve(SendTemplate::class)->send([
                 'waba_phone' => $campaign->waba_phone_id,
                 'to' => $phone,

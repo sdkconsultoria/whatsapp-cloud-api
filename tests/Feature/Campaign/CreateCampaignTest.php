@@ -3,6 +3,7 @@
 namespace Sdkconsultoria\WhatsappCloudApi\Tests\Feature\Conversation;
 
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Http;
 use Sdkconsultoria\WhatsappCloudApi\Models\Campaign;
 use Sdkconsultoria\WhatsappCloudApi\Tests\Fake\Message\FakeMessageCreteResponse;
@@ -12,7 +13,7 @@ class CreateCampaignTest extends TestCase
 {
     use WithFaker;
 
-    public function test_create_campaign_without_vars()
+    public function test_create_campaign_simple_template()
     {
         $messageId = 'wamid.'.$this->faker->numberBetween(111, 450);
         $campaign = Campaign::factory()->make();
@@ -21,6 +22,7 @@ class CreateCampaignTest extends TestCase
             $this->faker->e164PhoneNumber(),
             $this->faker->e164PhoneNumber(),
         ];
+        $file = UploadedFile::fake()->createWithContent('document.csv', implode(',', $phones));
 
         Http::fake([
             '*/messages' => Http::response(FakeMessageCreteResponse::getFakeMessageCreateResponse($messageId)),
@@ -30,7 +32,7 @@ class CreateCampaignTest extends TestCase
             'name' => $campaign->name,
             'waba_phone_id' => $campaign->waba_phone_id,
             'template_id' => $campaign->template_id,
-            'phones' => $phones,
+            'file' => $file,
         ])->assertStatus(200);
 
         $this->assertDatabaseHas('campaigns', [
