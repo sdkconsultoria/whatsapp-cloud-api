@@ -12,7 +12,15 @@ class Message extends Model
 {
     use HasFactory;
 
-    public const STATUS_SENDED = 0;
+    public const STATUS_CREATED = 0;
+
+    public const STATUS_PENDING = 10;
+
+    public const STATUS_SEND = 20;
+
+    public const STATUS_DELIVERED = 30;
+
+    public const STATUS_READ = 40;
 
     public $timestamps = false;
 
@@ -73,7 +81,7 @@ class Message extends Model
         $messageModel->chat_id = $chat->id;
         $messageModel->message_id = $content['id'];
         $messageModel->timestamp = $content['timestamp'];
-        $messageModel->status = self::STATUS_SENDED;
+        $messageModel->status = self::STATUS_DELIVERED;
         $messageModel->type = $content['type'];
         $messageModel->body = json_encode($content);
         $messageModel->direction = 'toApp';
@@ -84,7 +92,7 @@ class Message extends Model
     {
         $service = resolve(MediaManagerService::class);
 
-        return $service->download($file['id'], $phoneNumberId, "$chat->id/{$file['id']}", 'public');
+        return $service->download($file['id'], $phoneNumberId, "received/$chat->id/{$file['id']}", 'public');
     }
 
     public function chat()

@@ -28,4 +28,9 @@ class Chat extends Model
 
         return $chat;
     }
+
+    public function wabaPhone()
+    {
+        return $this->belongsTo(WabaPhone::class);
+    }
 }

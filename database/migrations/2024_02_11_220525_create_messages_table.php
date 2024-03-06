@@ -21,11 +21,11 @@ return new class extends Migration
             $table->string('sent_at')->nullable();
             $table->string('delivered_at')->nullable();
             $table->string('read_at')->nullable();
-            $table->string('message_id')->unique();
+            $table->string('message_id')->nullable();
             $table->string('type');
             $table->string('direction');
             $table->string('sended_by')->nullable();
-            $table->json('body');
+            $table->json('body')->nullable();
             $table->smallInteger('status')->default('20');
             $table->foreignId('response_to')->nullable()->constrained('messages');
             $table->string('reaction')->nullable();
