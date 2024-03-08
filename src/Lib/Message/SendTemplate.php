@@ -36,9 +36,6 @@ class SendTemplate
             'client_phone' => $to,
         ]);
 
-        $chat->last_message = date('Y-m-d H:i:s');
-        $chat->save();
-
         return $chat->id;
     }
 }
