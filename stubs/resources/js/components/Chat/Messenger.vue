@@ -62,11 +62,9 @@
                 </div>
             </div>
             <div class="w-full flex mt-3">
-                <div class="flex justify-center items-center">
-                    <PaperClipIcon class="h-8 w-8" />
-                </div>
+                <SendMediaMessage @sendMessage="sendMediaMessage" />
                 <div class="w-5/6 mr-1">
-                    <input v-model="message" type="text" placeholder="Escribe un mensaje"
+                    <input v-model="message" type="text" placeholder="Escribe un mensaje" @keyup.enter="sendMessage"
                         class="input border-1 border-gray-200 w-full" />
                 </div>
                 <div class="w-1/6">
@@ -80,7 +78,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import SendNew from './SendNew.vue';
-import { PaperClipIcon } from '@heroicons/vue/24/solid'
+import SendMediaMessage from './SendMediaMessage.vue';
 
 const message = ref('')
 const search = ref('')
@@ -140,6 +138,22 @@ function sendMessage() {
     }).then(response => response.json())
         .then(data => {
             message.value = '';
+            loadMessagesFromConversation();
+        });
+}
+
+function sendMediaMessage(file, type) {
+    const formdata = new FormData();
+    formdata.append("waba_phone_id", current_conversation.value.waba_phone_id);
+    formdata.append("to", current_conversation.value.client_phone,);
+    formdata.append("message[type]", type);
+    formdata.append(`message[${type}]`, file);
+    console.log(formdata);
+    fetch('/api/v1/message/send', {
+        method: 'POST',
+        body: formdata,
+    }).then(response => response.json())
+        .then(data => {
             loadMessagesFromConversation();
         });
 }
