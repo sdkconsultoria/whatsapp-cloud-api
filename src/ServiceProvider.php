@@ -56,6 +56,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->commands([
                 \Sdkconsultoria\WhatsappCloudApi\Console\Commands\InstallCommand::class,
+                \Sdkconsultoria\WhatsappCloudApi\Console\Commands\CopyMessengerCommand::class,
             ]);
         }
     }
