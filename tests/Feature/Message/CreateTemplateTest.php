@@ -19,7 +19,7 @@ class CreateTemplateTest extends TestCase
         $sessionId = $this->faker()->uuid;
 
         Http::fake([
-            '*/app/uploads*' => Http::response(['id' => $sessionId]),
+            '*/uploads*' => Http::response(['id' => $sessionId]),
             "*/$sessionId" => Http::response(['h' => $this->faker()->uuid]),
             "*/$waba->waba_id/message_templates" => Http::response([
                 'id' => $this->faker()->uuid,

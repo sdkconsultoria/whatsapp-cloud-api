@@ -72,6 +72,7 @@ VITE_PUSHER_APP_CLUSTER="${PUSHER_APP_CLUSTER}"
 
 META_WEBHOOK_TOKEN=
 META_TOKEN=
+META_APP_ID=
 ```
 
 Configuración de Whatsapp Business Account WABA

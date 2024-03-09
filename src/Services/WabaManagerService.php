@@ -37,22 +37,12 @@ class WabaManagerService extends FacebookService
         return $response->json();
     }
 
-    public function setBussinesProfile(string $phoneId): array
+    public function setBussinesProfile(string $phoneId, $data): array
     {
         $this->graph_url .= $phoneId.'/whatsapp_business_profile';
-        $response = Http::withToken(config('meta.token'))->post($this->graph_url, [
-            'messaging_product' => 'whatsapp',
-            'address' => '<business-address>',
-            'description' => '<business-description>',
-            'vertical' => '<business-industry>',
-            'about' => '<profile-about-text>',
-            'email' => '<business-email>',
-            'websites' => [
-                '<https://website-1>',
-                '<https://website-2>',
-            ],
-            'profile_picture_handle' => '',
-        ]);
+
+        $response = Http::withToken(config('meta.token'))
+            ->post($this->graph_url, array_merge($data, ['messaging_product' => 'whatsapp']));
 
         return $response->json();
     }

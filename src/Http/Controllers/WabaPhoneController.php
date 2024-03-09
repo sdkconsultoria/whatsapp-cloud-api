@@ -2,6 +2,7 @@
 
 namespace Sdkconsultoria\WhatsappCloudApi\Http\Controllers;
 
+use Illuminate\Http\Request;
 use Sdkconsultoria\WhatsappCloudApi\Lib\Message\BussinessProfile;
 use Sdkconsultoria\WhatsappCloudApi\Models\WabaPhone;
 
@@ -21,5 +22,10 @@ class WabaPhoneController extends APIResourceController
     public function getBussinesProfile(string $phoneId)
     {
         return resolve(BussinessProfile::class)->process($phoneId);
+    }
+
+    public function setBussinesProfile(string $phoneId, Request $request)
+    {
+        return resolve(BussinessProfile::class)->update($phoneId, $request->all());
     }
 }

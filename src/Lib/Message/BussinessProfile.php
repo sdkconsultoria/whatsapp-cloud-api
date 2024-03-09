@@ -3,6 +3,7 @@
 namespace Sdkconsultoria\WhatsappCloudApi\Lib\Message;
 
 use Sdkconsultoria\WhatsappCloudApi\Models\WabaPhone;
+use Sdkconsultoria\WhatsappCloudApi\Services\ResumableUploadAPI;
 use Sdkconsultoria\WhatsappCloudApi\Services\WabaManagerService;
 
 class BussinessProfile
@@ -11,10 +12,10 @@ class BussinessProfile
     {
         $bussinesProfile = resolve(WabaManagerService::class)->getBussinesProfile($phoneId);
 
-        return $this->updateWabaPhone($phoneId, $bussinesProfile['data'][0]);
+        return $this->saveWabaPhone($phoneId, $bussinesProfile['data'][0]);
     }
 
-    private function updateWabaPhone(string $phoneId, array $profile): WabaPhone
+    private function saveWabaPhone(string $phoneId, array $profile): WabaPhone
     {
         $wabaPhone = WabaPhone::where('phone_id', $phoneId)->first();
         $wabaPhone->about = $profile['about'];
@@ -28,5 +29,19 @@ class BussinessProfile
         $wabaPhone->save();
 
         return $wabaPhone;
+    }
+
+    public function update(string $phoneId, array $profile)
+    {
+        if (isset($profile['picture_profile'])) {
+            $filePath = $profile['picture_profile']->getRealPath();
+            $handler = resolve(ResumableUploadAPI::class)->uploadFile($filePath);
+            unset($profile['picture_profile']);
+            $profile['profile_picture_handle'] = $handler->handler;
+        }
+
+        resolve(WabaManagerService::class)->setBussinesProfile($phoneId, $profile);
+
+        return $this->process($phoneId);
     }
 }

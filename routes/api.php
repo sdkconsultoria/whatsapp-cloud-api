@@ -31,8 +31,9 @@ $routes = function () {
     Route::post('message/template/send', 'MessageController@sendTemplate')->name('message.template.send');
     Route::get('message', 'MessageController@index')->name('message.index');
 
-    Route::get('waba-phone', 'WabaPhoneController@index')->name('waba.waba_number');
-    Route::get('waba-phone/{phoneId}/bussines_profile', 'WabaPhoneController@getBussinesProfile')->name('waba.bussines_profile');
+    Route::get('waba-phone', 'WabaPhoneController@index')->name('waba_phone.waba_number');
+    Route::get('waba-phone/{phoneId}/bussines_profile', 'WabaPhoneController@getBussinesProfile')->name('waba_phone.bussines_profile');
+    Route::post('waba-phone/{phoneId}/bussines_profile', 'WabaPhoneController@setBussinesProfile')->name('waba_phone.storage_bussines_profile');
 
     Route::get('chat', 'ChatController@index')->name('chat.index');
 

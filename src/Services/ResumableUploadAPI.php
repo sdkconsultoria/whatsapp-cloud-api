@@ -39,7 +39,8 @@ class ResumableUploadAPI extends FacebookService
 
     private function createUploadSession(): void
     {
-        $url = $this->graph_url.config('meta.api_version').'/app/uploads';
+        $appId = config('meta.app_id');
+        $url = $this->graph_url."{$appId}/uploads";
         $url .= '?file_length='.$this->file_size;
         $url .= '&file_type='.$this->mime_type;
         $url .= '&file_name=myprofile.jpg';
