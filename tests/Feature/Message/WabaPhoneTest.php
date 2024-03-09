@@ -3,8 +3,10 @@
 namespace Sdkconsultoria\WhatsappCloudApi\Tests\Feature\Message;
 
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Http;
 use Sdkconsultoria\WhatsappCloudApi\Models\Waba;
 use Sdkconsultoria\WhatsappCloudApi\Models\WabaPhone;
+use Sdkconsultoria\WhatsappCloudApi\Tests\Fake\Waba\FakeWabaResponses;
 use Sdkconsultoria\WhatsappCloudApi\Tests\TestCase;
 
 class WabaPhoneTest extends TestCase
@@ -30,5 +32,20 @@ class WabaPhoneTest extends TestCase
         $this->get(route('waba.waba_number')."?waba_id=$waba->id")
             ->assertJsonCount(5, 'data')
             ->assertStatus(200);
+    }
+
+    public function test_get_bussines_profile()
+    {
+        $wabaPhone = WabaPhone::factory()->create();
+        Http::fake([
+            "*/$wabaPhone->phone_id/whatsapp_business_profile?fields=about,address,description,email,profile_picture_url,websites,vertical" => Http::response(FakeWabaResponses::fakeBussinesProfile(), 200),
+        ]);
+
+        $this->get(route('waba.bussines_profile', ['phoneId' => $wabaPhone->phone_id]))->assertStatus(200);
+    }
+
+    public function test_set_bussines_profile()
+    {
+
     }
 }

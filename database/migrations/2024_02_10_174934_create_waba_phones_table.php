@@ -27,7 +27,8 @@ return new class extends Migration
             $table->text('about')->nullable();
             $table->string('email')->nullable();
             $table->string('websites')->nullable();
-            $table->string('picture_profile')->nullable();
+            $table->string('profile_picture_url')->nullable();
+            $table->string('messaging_product')->nullable();
 
             $table->string('name');
             $table->string('code_verification_status')->nullable();

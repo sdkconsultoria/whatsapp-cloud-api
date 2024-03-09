@@ -71,4 +71,24 @@ class FakeWabaResponses
             ],
         ];
     }
+
+    public static function fakeBussinesProfile()
+    {
+        return [
+            'data' => [
+                [
+                    'about' => 'Hey there! I am using WhatsApp.',
+                    'address' => 'Aldama #703',
+                    'description' => 'Empresa de desarrollo de software, desde ERPS hasta sitios web Ecommerce',
+                    'email' => 'ventas@sdkconsultoria.com',
+                    'profile_picture_url' => 'https://pps.whatsapp.net/v/t61.24694-24/343259757_536735815203707_3565496183133281608_n.jpg?ccb=11-4&oh=01_AdRPsqmjabi6keV4__SnK7x_dlRYwFb_SicAa46sJkQbsQ&oe=65EFEB2F&_nc_sid=e6ed6c&_nc_cat=106',
+                    'websites' => [
+                        'https://sdkconsultoria.com/',
+                    ],
+                    'vertical' => 'PROF_SERVICES',
+                    'messaging_product' => 'whatsapp',
+                ],
+            ],
+        ];
+    }
 }

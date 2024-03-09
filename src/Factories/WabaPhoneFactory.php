@@ -30,7 +30,7 @@ class WabaPhoneFactory extends Factory
             'about' => $this->faker->word,
             'email' => $this->faker->word,
             'websites' => $this->faker->word,
-            'picture_profile' => $this->faker->word,
+            'profile_picture_url' => $this->faker->word,
             'name' => $this->faker->word,
             'code_verification_status' => $this->faker->word,
             'display_phone_number' => $this->faker->word,

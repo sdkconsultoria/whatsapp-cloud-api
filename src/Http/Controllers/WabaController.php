@@ -51,12 +51,12 @@ class WabaController extends Controller
         $templateModel->save();
     }
 
-    public function getWabaInfoFromMeta($wabaId)
+    public function getWabaInfoFromMeta(string $wabaId)
     {
         return resolve(WabaManagerService::class)->getWabaInfo($wabaId);
     }
 
-    public function getWabaPhonesFromMeta($wabaId)
+    public function getWabaPhonesFromMeta(string $wabaId)
     {
         return resolve(WabaManagerService::class)->getPhoneNumbers($wabaId);
     }

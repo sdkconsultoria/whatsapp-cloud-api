@@ -76,10 +76,6 @@ class WabaManagerTest extends TestCase
             '*/message_templates' => Http::response(FakeWabaResponses::fakeTemplates(), 200),
         ]);
 
-    }
-
-    public function test_set_phone_numbers_profile()
-    {
-
+        $this->get(route('waba.init', ['wabaId' => $wabaId]))->assertStatus(200);
     }
 }
