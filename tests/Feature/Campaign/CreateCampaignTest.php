@@ -1,6 +1,6 @@
 <?php
 
-namespace Sdkconsultoria\WhatsappCloudApi\Tests\Feature\Conversation;
+namespace Sdkconsultoria\WhatsappCloudApi\Tests\Feature\Campaign;
 
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;

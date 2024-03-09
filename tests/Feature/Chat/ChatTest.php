@@ -1,6 +1,6 @@
 <?php
 
-namespace Sdkconsultoria\WhatsappCloudApi\Tests\Feature\Conversation;
+namespace Sdkconsultoria\WhatsappCloudApi\Tests\Feature\Chat;
 
 use Sdkconsultoria\WhatsappCloudApi\Models\Chat;
 use Sdkconsultoria\WhatsappCloudApi\Tests\TestCase;
