@@ -10,18 +10,7 @@ use Sdkconsultoria\WhatsappCloudApi\Services\MediaManagerService;
 
 class ReceivedMessage
 {
-    public function processMessage($messageEvent): void
-    {
-        if (isset($messageEvent['messages'])) {
-            $this->processConversation($messageEvent);
-        }
-
-        if (isset($messageEvent['statuses'])) {
-            resolve(ReceivedMessageStatus::class)->process($messageEvent);
-        }
-    }
-
-    private function processConversation(array $messageEvent)
+    public function process(array $messageEvent)
     {
         $phoneNumberId = $messageEvent['metadata']['phone_number_id'];
         $wabaPhoneNumber = WabaPhone::where('phone_id', $phoneNumberId)->first();
