@@ -28,9 +28,9 @@
                             class="text-xs opacity-50">{{ convertTimestamp(message.timestamp) }}</time>
                     </div>
                     <div :class="{ 'chat-bubble': true, 'chat-bubble-primary': message.direction != 'toApp' }">
-                        <div class="indicator">
+                        <div class="indicator w-11/12">
                             <span v-if="message.reaction" class="indicator-item indicator-start badge badge-secondary indicator-bottom" style="bottom: -10px;">{{ message.reaction }}</span>
-                            <span v-if="message.type == 'text'" class="w-11/12 ">{{ message.content }}</span>
+                            <span v-if="message.type == 'text'" class="w-11/12">{{ message.content }}</span>
                             <span v-if="message.type == 'image'">
                                 {{ message.content.caption }}
                                 <img :src="message.content.url" alt="" class="w-1/6" />
