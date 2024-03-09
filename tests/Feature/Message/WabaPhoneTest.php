@@ -3,7 +3,9 @@
 namespace Sdkconsultoria\WhatsappCloudApi\Tests\Feature\Message;
 
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 use Sdkconsultoria\WhatsappCloudApi\Models\Waba;
 use Sdkconsultoria\WhatsappCloudApi\Models\WabaPhone;
 use Sdkconsultoria\WhatsappCloudApi\Tests\Fake\Waba\FakeWabaResponses;
@@ -45,6 +47,31 @@ class WabaPhoneTest extends TestCase
     }
 
     public function test_set_bussines_profile()
+    {
+        $wabaPhone = WabaPhone::factory()->create();
+        $sessionId = $this->faker()->uuid;
+        Storage::fake('local');
+        $file = UploadedFile::fake()->create('file.jpg');
+
+        Http::fake([
+            '*/uploads*' => Http::response(['id' => $sessionId]),
+            "*/$sessionId" => Http::response(['h' => $this->faker()->uuid]),
+            "*/$wabaPhone->phone_id/whatsapp_business_profile" => Http::response(['success' => true], 200),
+            "*/$wabaPhone->phone_id/whatsapp_business_profile?fields=about,address,description,email,profile_picture_url,websites,vertical" => Http::response(FakeWabaResponses::fakeBussinesProfile(), 200),
+        ]);
+
+        $this->post(route('waba_phone.storage_bussines_profile', ['phoneId' => $wabaPhone->phone_id]), [
+            'address' => $wabaPhone['address'],
+            'description' => $wabaPhone['description'],
+            'vertical' => $wabaPhone['vertical'],
+            'about' => $wabaPhone['about'],
+            'email' => $wabaPhone['email'],
+            'websites' => json_decode($wabaPhone['websites']),
+            'picture_profile' => $file,
+        ])->assertStatus(200);
+    }
+
+    public function test_set_bussines_profile_without_profile_picture()
     {
         $wabaPhone = WabaPhone::factory()->create();
         $sessionId = $this->faker()->uuid;
