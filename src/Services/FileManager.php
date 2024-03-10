@@ -13,7 +13,7 @@ class FileManager
     public static function append(string $file_path, string $text): void
     {
         $file = fopen($file_path, 'a') or exit('Unable to open file!');
-        fwrite($file, self::fixString($text));
+        fwrite($file, PHP_EOL.self::fixString($text));
         fclose($file);
     }
 

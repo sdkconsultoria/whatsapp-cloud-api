@@ -41,6 +41,7 @@ class InstallCommand extends Command
     {
         $this->updateNode();
         $this->copyStubs();
+        $this->addRoutes();
         $this->enableBroadcastServiceProvider();
         $this->finishMessage();
     }
@@ -104,6 +105,16 @@ class InstallCommand extends Command
         $this->info('Copiando archivos de configuración...');
 
         (new Filesystem)->copyDirectory(__DIR__.'/../../../stubs', base_path());
+    }
+
+    private function addRoutes()
+    {
+        $this->info('Agregando rutas...');
+
+        $file = base_path('routes').'/web.php';
+
+        resolve(FileManager::class)::append($file, "Route::get('/messenger', fn() => view('messenger'));");
+        resolve(FileManager::class)::append($file, "Route::get('/templates', fn() => view('template'));");
     }
 
     private function enableBroadcastServiceProvider()

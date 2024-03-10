@@ -13,6 +13,8 @@ class APIResourceController extends Controller
 
     protected $isReverseElements = false;
 
+    protected int $perPage = 20;
+
     protected function defaultOptions($models, Request $request)
     {
         return $models;
@@ -40,7 +42,7 @@ class APIResourceController extends Controller
         $models = new $this->resource;
         $models = $this->applyFilters($models, $request);
         $models = $this->defaultOptions($models, $request);
-        $models = $models->simplePaginate()->appends(request()->except('page'));
+        $models = $models->simplePaginate($this->perPage)->appends(request()->except('page'));
 
         if ($this->transformer) {
             $transformer = $this->transformer;

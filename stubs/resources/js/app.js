@@ -2,6 +2,7 @@ import Echo from 'laravel-echo';
 import Pusher from 'pusher-js';
 import { createApp } from 'vue'
 import MessengerComponent from "./components/Chat/Messenger.vue";
+import TemplateComponent from "./components/Template/Index.vue";
 
 window.Pusher = Pusher;
 
@@ -20,6 +21,7 @@ let element = document.getElementById('messenger')
 if (element !== null) {
     const app = createApp({});
     app.component('MessengerComponent', MessengerComponent)
+    app.component('TemplateComponent', TemplateComponent)
 
     app.mount('#messenger');
 }

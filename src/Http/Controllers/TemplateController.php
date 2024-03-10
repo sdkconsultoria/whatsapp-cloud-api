@@ -22,7 +22,7 @@ class TemplateController extends APIResourceController
                 return $query->where('status', "$value");
             },
             'name' => function ($query, $value) {
-                return $query->where('name', "$value");
+                return $query->where('name', 'like', "%$value%");
             },
         ];
     }
