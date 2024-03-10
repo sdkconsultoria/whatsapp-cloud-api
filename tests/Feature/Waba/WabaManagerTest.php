@@ -2,6 +2,7 @@
 
 namespace Sdkconsultoria\WhatsappCloudApi\Tests\Feature\Waba;
 
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Http;
 use Sdkconsultoria\WhatsappCloudApi\Models\Waba;
 use Sdkconsultoria\WhatsappCloudApi\Tests\Fake\Waba\FakeWabaResponses;
@@ -9,6 +10,8 @@ use Sdkconsultoria\WhatsappCloudApi\Tests\TestCase;
 
 class WabaManagerTest extends TestCase
 {
+    use WithFaker;
+
     public function test_get_templates_from_waba()
     {
         $fakeTemplates = FakeWabaResponses::fakeTemplates();
@@ -48,11 +51,14 @@ class WabaManagerTest extends TestCase
 
     public function test_get_phone_numbers_from_waba()
     {
-        $wabaId = '104996122399160';
-        Waba::factory()->create(['waba_id' => $wabaId]);
+        $waba = Waba::factory()->create();
+        $wabaId = $waba->waba_id;
         $wabaPhonesFake = FakeWabaResponses::fakePhoneNumbers();
 
-        Http::fake(["*$wabaId/phone_numbers" => Http::response($wabaPhonesFake, 200)]);
+        Http::fake([
+            "*$wabaId/phone_numbers" => Http::response($wabaPhonesFake, 200),
+            '*/whatsapp_business_profile?fields=about,address,description,email,profile_picture_url,websites,vertical' => Http::response(FakeWabaResponses::fakeBussinesProfile(), 200),
+        ]);
 
         $this->get(route('waba.getPhonesFromMeta', ['wabaId' => $wabaId]))->assertStatus(200);
 
@@ -68,12 +74,14 @@ class WabaManagerTest extends TestCase
 
     public function test_waba_init()
     {
-        $wabaId = '104996122399160';
+        $waba = Waba::factory()->create();
+        $wabaId = $waba->waba_id;
 
         Http::fake([
             "*$wabaId" => Http::response(FakeWabaResponses::getFakeWabaInfo(), 200),
             "*$wabaId/phone_numbers" => Http::response(FakeWabaResponses::fakePhoneNumbers(), 200),
             '*/message_templates' => Http::response(FakeWabaResponses::fakeTemplates(), 200),
+            '*/whatsapp_business_profile?fields=about,address,description,email,profile_picture_url,websites,vertical' => Http::response(FakeWabaResponses::fakeBussinesProfile(), 200),
         ]);
 
         $this->get(route('waba.init', ['wabaId' => $wabaId]))->assertStatus(200);

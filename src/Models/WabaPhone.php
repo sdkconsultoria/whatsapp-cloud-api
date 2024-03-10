@@ -4,6 +4,7 @@ namespace Sdkconsultoria\WhatsappCloudApi\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Sdkconsultoria\WhatsappCloudApi\Lib\Message\BussinessProfile;
 
 class WabaPhone extends Model
 {
@@ -26,6 +27,16 @@ class WabaPhone extends Model
             $wabaPhone->quality_rating = $phone['quality_rating'];
             $wabaPhone->phone_number_clean = str_replace(['-', ' ', '+'], '', $phone['display_phone_number']);
             $wabaPhone->save();
+
+            resolve(BussinessProfile::class)->process($phone['id']);
         }
+    }
+
+    /**
+     * @codeCoverageIgnore
+     */
+    public function waba()
+    {
+        return $this->belongsTo(Waba::class);
     }
 }

@@ -3,19 +3,26 @@ SDK Consultoría - Whatsapp Cloud API
 
 Descripción
 ------------
-##### ¿Que puedo esperar de esta librería?
+##### ¿Qué puedo esperar de esta librería?
 - Conexión WhatsApp cloud API
 - Conexión WhatsApp bussines manager
 - Chat en tiempo real con WhatsApp
+- Envíos y recepción de mensajes de video, imagen, texto, pdf, stickers y reacciones.
+- Envíos masivos de whatsapp
+- Envíos de plantillas
 
 Este paquete está en desarrollo, todavía no es una versión estable ni optimizada.
 
 Video Demo
-
  - https://youtu.be/Tw5X-AVTMa0
 
-Tutorial de instalación
+Video envíos masivos de whatsapp
+ - https://youtu.be/x2nPfEt6HYw
 
+Video envíos y recepción de mensajes de video, imagen, texto, pdf, stickers y reacciones.
+ - https://youtu.be/BZUQSeo7yz0
+
+Tutorial de instalación
  - https://youtu.be/EUyvuYIFRz8
 
 ##### Coverage
@@ -78,23 +85,15 @@ META_APP_ID=
 Configuración de Whatsapp Business Account WABA
 ------------
 
-Puedes obtener la informacion desde
+Puedes obtener la información desde
 
 https://developers.facebook.com/apps/
 
-Si no tienes una APP debes crear una.
+Si no tienes una APP debes crear una en la página de facebook developers.
+https://developers.facebook.com/apps
 
 ###### Registrar el webhook en meta
 {{HOST}}/api/v1/whatsapp-webhook
 
-###### Obtener la información de la waba desde Meta
-{{HOST}}/api/v1/waba/{{id}}/get-info
-
-###### Obtener los numeros telefonicos desde Meta
-{{HOST}}/api/v1/waba/{{id}}/get-phones
-
-###### Obtener las plantillas desde Meta
-{{HOST}}/api/v1/waba/{{id}}/get-templates
-
-###### shortcut obtener waba, numeros y plantillas desde Meta con una sola petición
-{{HOST}}/api/v1/waba/{{id}}/init
+###### Obtener waba, plantillas, números telefónicos y bussiness profile desde Meta
+{{HOST}}/api/v1/waba/{{wabaId}}/init
