@@ -15,7 +15,22 @@ class MessageTest extends TestCase
     {
         $chat = Chat::factory()->create();
         Message::factory()->count(5)->create();
-        Message::factory()->count(10)->create(['chat_id' => $chat->id]);
+        Message::factory()->count(7)->create(['chat_id' => $chat->id]);
+        Message::factory()->create([
+            'chat_id' => $chat->id,
+            'type' => 'image',
+            'body' => '{"image":{"url":"https:\/\/los-chavos.site\/storage\/received\/16\/2514991862013041.jpg"}}',
+        ]);
+        Message::factory()->create([
+            'chat_id' => $chat->id,
+            'type' => 'contacts',
+            'body' => '{"contacts":{"contact":"Mire esta slegible"}}',
+        ]);
+        Message::factory()->create([
+            'chat_id' => $chat->id,
+            'type' => 'contacts',
+            'body' => '{"contacts":{"contact":"Mire esta slegible"},"context": "contexto"}',
+        ]);
 
         $this->get(route('message.index').'?chat_id='.$chat->id)
             ->assertJsonCount(10, 'data')
