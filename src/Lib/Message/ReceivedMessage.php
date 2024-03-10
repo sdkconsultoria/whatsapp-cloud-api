@@ -26,9 +26,9 @@ class ReceivedMessage
                 break;
             case 'document':
             case 'sticker':
-            case 'image':
             case 'video':
             case 'audio':
+            case 'image':
                 $this->processIfIsResponse($content);
                 $content[$content['type']]['url'] = $this->saveFile($content[$content['type']], $phoneNumberId, $chat);
                 $this->processTextMessage($chat, $content);

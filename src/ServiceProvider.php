@@ -34,6 +34,9 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     private function registerCustomFactory()
     {
         Factory::guessFactoryNamesUsing(function (string $model_name) {

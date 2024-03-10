@@ -41,6 +41,22 @@ class FileManagerTest extends TestCase
     /**
      * @depends test_append_to_file
      */
+    public function test_writte_after_to_file(array $data): void
+    {
+        $faker = Factory::create();
+        $new_word = $faker->unique()->name();
+
+        FileManager::writteAfter($data['word'], $new_word, $data['file_path']);
+
+        $file_content = file_get_contents($data['file_path']);
+
+        // $this->assertStringNotContainsString($data['word'], $file_content);
+        $this->assertStringContainsString($data['word'].$new_word, $file_content);
+    }
+
+    /**
+     * @depends test_append_to_file
+     */
     public function test_replace_file(array $data): void
     {
         $faker = Factory::create();
