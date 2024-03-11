@@ -2,7 +2,10 @@ import Echo from 'laravel-echo';
 import Pusher from 'pusher-js';
 import { createApp } from 'vue'
 import MessengerComponent from "./components/Chat/Messenger.vue";
-import TemplateComponent from "./components/Template/Index.vue";
+import TemplateIndex from "./components/Template/Index.vue";
+import TemplateCreate from "./components/Template/Create.vue";
+import TemplateUpdate from "./components/Template/Update.vue";
+import TemplateDetail from "./components/Template/Detail.vue";
 
 window.Pusher = Pusher;
 
@@ -21,8 +24,12 @@ let element = document.getElementById('messenger')
 if (element !== null) {
     const app = createApp({});
     app.component('MessengerComponent', MessengerComponent)
-    app.component('TemplateComponent', TemplateComponent)
+    app.component('TemplateIndex', TemplateIndex)
+    app.component('TemplateCreate', TemplateCreate)
+    app.component('TemplateUpdate', TemplateUpdate)
+    app.component('TemplateDetail', TemplateDetail)
 
     app.mount('#messenger');
 }
 
+// const files = require.context('../myFolder', true, /(Module|Utils)\.js$/)

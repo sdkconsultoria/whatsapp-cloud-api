@@ -17,7 +17,7 @@
 
         <div class="flex items-center gap-2 ml-auto">
             <button class="btn btn-warning">Búsqueda avazada</button>
-            <button class="btn btn-primary">Crear Nueva plantilla</button>
+            <a href="template/create" class="btn btn-primary">Crear Nueva plantilla</a>
         </div>
     </div>
     <!-- <div>
@@ -49,9 +49,9 @@
                     <td>{{ item.language }}</td>
                     <td>{{ item.status }}</td>
                     <td class="flex gap-1">
-                        <button><EyeIcon class="h-4 w-4"/></button>
-                        <button><PencilSquareIcon class="h-4 w-4"/></button>
-                        <button><TrashIcon class="h-4 w-4"/></button>
+                        <a :href="'/templates/'+item.id"><button><EyeIcon class="h-4 w-4"/></button></a>
+                        <a :href="'/templates/'+item.id"><button><PencilSquareIcon class="h-4 w-4"/></button></a>
+                        <a :href="'/templates/'+item.id"><button><TrashIcon class="h-4 w-4"/></button></a>
                     </td>
                 </tr>
             </tbody>
