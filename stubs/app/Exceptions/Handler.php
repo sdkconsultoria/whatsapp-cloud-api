@@ -40,7 +40,7 @@ class Handler extends ExceptionHandler
     public function render($request, Throwable $e)
     {
 
-        if ($e instanceof ValidationException && ($request->ajax() || $request->wantsJson()) || $request->is('api/*')) {
+        if ($e instanceof ValidationException && ($request->ajax() || $request->wantsJson() || $request->is('api/*'))) {
             return response()->json($e->errors(), 422);
         }
 

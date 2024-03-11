@@ -2,7 +2,7 @@
 
 namespace Sdkconsultoria\WhatsappCloudApi\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Sdkconsultoria\WhatsappCloudApi\Http\Requests\StoreTemplateRequest;
 use Sdkconsultoria\WhatsappCloudApi\Http\Resources\TemplateResource;
 use Sdkconsultoria\WhatsappCloudApi\Models\Template;
 use Sdkconsultoria\WhatsappCloudApi\Models\Waba;
@@ -27,7 +27,7 @@ class TemplateController extends APIResourceController
         ];
     }
 
-    public function storage(Request $request)
+    public function storage(StoreTemplateRequest $request)
     {
         $waba = Waba::find($request->waba_id);
         $processTemplate = $this->processTemplate($request->all());
