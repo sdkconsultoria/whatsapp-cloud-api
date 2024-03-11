@@ -31,7 +31,7 @@ class CreateTemplateTest extends TestCase
         Storage::fake('local');
         $file = UploadedFile::fake()->create('file.jpg');
 
-        $this->post(route('template.storage'), [
+        $this->post(route('template.store'), [
             'waba_id' => $waba->id,
             'name' => 'seasonal_promotion_text_only',
             'language' => 'en',

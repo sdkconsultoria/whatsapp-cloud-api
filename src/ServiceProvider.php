@@ -4,25 +4,25 @@ namespace Sdkconsultoria\WhatsappCloudApi;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Broadcast;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
 {
     /**
      * Bootstrap any application services.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         $this->loadRoutesFrom(__DIR__.'/../routes/api.php');
         $this->registerBroadcasting();
         $this->registerMigrations();
         $this->registerCustomFactory();
         $this->registerCommands();
+        $this->registerRouteMacro();
     }
 
-    private function registerBroadcasting()
+    private function registerBroadcasting(): void
     {
         Broadcast::routes();
 
@@ -37,7 +37,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     /**
      * @codeCoverageIgnore
      */
-    private function registerCustomFactory()
+    private function registerCustomFactory(): void
     {
         Factory::guessFactoryNamesUsing(function (string $model_name) {
             $sdk = Str::startsWith($model_name, 'Sdkconsultoria');
@@ -64,12 +64,28 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         }
     }
 
+    private function registerRouteMacro(): void
+    {
+        Route::macro('ResourceView', function ($uri) {
+            Route::get("{$uri}", fn () => view("{$uri}.index"))->name("{$uri}_view.index");
+            Route::get("{$uri}/create", fn () => view("{$uri}.create"))->name("{$uri}_view.create");
+            Route::get("{$uri}/update/{id}", fn () => view("{$uri}.edit"))->name("{$uri}_view.edit");
+            Route::get("{$uri}/{id}", fn () => view("{$uri}.show"))->name("{$uri}_view.show");
+        });
+
+        Route::macro('ApiResource', function ($uri, $controller) {
+            Route::get("{$uri}", "{$controller}@index")->name("{$uri}.index");
+            Route::post("{$uri}/create", "{$controller}@storage")->name("{$uri}.storage");
+            Route::put("{$uri}/update/{id}", "{$controller}@update")->name("{$uri}.update");
+            Route::get("{$uri}/{id}", "{$controller}@show")->name("{$uri}.show");
+            Route::delete("{$uri}/{id}", "{$controller}@destroy")->name("{$uri}.destroy");
+        });
+    }
+
     /**
      * Register any application services.
-     *
-     * @return void
      */
-    public function register()
+    public function register(): void
     {
         $this->mergeConfigFrom(
             __DIR__.'/../config/cloudapi.php', 'meta'

@@ -22,10 +22,7 @@ $routes = function () {
     Route::get('waba/{wabaId}/get-info', 'WabaController@getWabaInfoFromMeta')->name('waba.getInfoFromMeta');
     Route::get('waba/{wabaId}/get-phones', 'WabaController@getWabaPhonesFromMeta')->name('waba.getPhonesFromMeta');
 
-    Route::get('template', 'TemplateController@index')->name('template.index');
-    Route::post('template', 'TemplateController@storage')->name('template.storage');
-    Route::put('template/{id}', 'TemplateController@edit')->name('template.edit');
-    Route::delete('template/{id}', 'TemplateController@delete')->name('template.delete');
+    Route::ApiResource('template', 'TemplateController');
 
     Route::post('message/send', 'MessageController@sendMessage')->name('message.send');
     Route::post('message/template/send', 'MessageController@sendTemplate')->name('message.template.send');
@@ -42,7 +39,4 @@ $routes = function () {
 
 Route::namespace('Sdkconsultoria\WhatsappCloudApi\Http\Controllers')
     ->prefix('api/v1')
-    ->group($routes);
-
-Route::namespace('Sdkconsultoria\WhatsappCloudApi\Http\Controllers')
     ->group($routes);

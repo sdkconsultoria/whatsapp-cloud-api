@@ -27,7 +27,7 @@ class TemplateController extends APIResourceController
         ];
     }
 
-    public function storage(StoreTemplateRequest $request)
+    public function store(StoreTemplateRequest $request)
     {
         $waba = Waba::find($request->waba_id);
         $processTemplate = $this->processTemplate($request->all());

@@ -114,7 +114,7 @@ class InstallCommand extends Command
         $file = base_path('routes').'/web.php';
 
         resolve(FileManager::class)::append($file, "Route::get('/messenger', fn() => view('messenger'));");
-        resolve(FileManager::class)::append($file, "Route::get('/templates', fn() => view('template'));");
+        resolve(FileManager::class)::append($file, "Route::ResourceView('template');");
     }
 
     private function enableBroadcastServiceProvider()
