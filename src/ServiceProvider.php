@@ -64,6 +64,9 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         }
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     private function registerRouteMacro(): void
     {
         Route::macro('ResourceView', function ($uri) {
