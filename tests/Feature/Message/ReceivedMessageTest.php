@@ -3,7 +3,9 @@
 namespace Sdkconsultoria\WhatsappCloudApi\Tests\Feature\Message;
 
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Http;
 use Mockery\MockInterface;
 use Sdkconsultoria\WhatsappCloudApi\Events\NewWhatsappMessageHook;
 use Sdkconsultoria\WhatsappCloudApi\Models\Message;
@@ -14,6 +16,62 @@ use Sdkconsultoria\WhatsappCloudApi\Tests\TestCase;
 class ReceivedMessageTest extends TestCase
 {
     use WithFaker;
+
+    public function test_recive_text_message_proxy_enabled()
+    {
+        Config::set('meta.webhook_redirect', 'http://localhost-fake/webhook');
+        Http::fake([
+            'http://localhost-fake/webhook' => Http::response(['status' => 'ok'], 200),
+        ]);
+
+        $messageId = 'wamid.'.$this->faker()->numberBetween(111, 450);
+        $wabaPhone = WabaPhone::factory()->create();
+        Event::fake();
+
+        $response = $this->post(route('meta.webhook'), [
+            'entry' => [
+                [
+                    'changes' => [
+                        [
+                            'field' => 'messages',
+                            'value' => [
+                                'messaging_product' => 'whatsapp',
+                                'metadata' => [
+                                    'display_phone_number' => $wabaPhone->display_phone_number,
+                                    'phone_number_id' => $wabaPhone->phone_id,
+                                ],
+                                'contacts' => [
+                                    [
+                                        'profile' => [
+                                            'name' => 'Kerry Fisher',
+                                        ],
+                                        'wa_id' => '16315551234',
+                                    ],
+                                ],
+                                'messages' => [
+                                    [
+                                        'from' => '16315551234',
+                                        'id' => $messageId,
+                                        'timestamp' => '1603059201',
+                                        'text' => [
+                                            'body' => 'Hello this is an answer',
+                                        ],
+                                        'type' => 'text',
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ]);
+
+        $response->assertStatus(200);
+
+        Event::assertDispatched(NewWhatsappMessageHook::class, function ($e) {
+            return true;
+        });
+    }
 
     public function test_recive_text_message()
     {

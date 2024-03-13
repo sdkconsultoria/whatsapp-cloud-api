@@ -6,6 +6,7 @@ class ProcessMessageWebhook
 {
     public function process($messageEvent): void
     {
+        \Log::info('ProcessMessageWebhook', $messageEvent);
         if (isset($messageEvent['messages'])) {
             resolve(ReceivedMessage::class)->process($messageEvent);
         }
