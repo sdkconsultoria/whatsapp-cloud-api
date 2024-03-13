@@ -1,16 +1,30 @@
 <template>
     <Breadcrumb :breadcrumbs="breadcrumbs" />
-    <form @submit.prevent="submit" class="flex flex-col gap-2 max-w-xs">
-        <FormModel v-model:model="model"></FormModel>
-        <button class="btn btn-primary w-ful">Crear Plantilla</button>
-    </form>
+    <div class="flex">
+        <form @submit.prevent="submit" class="flex flex-col gap-2 w-2/3">
+            <FormModel v-model:model="model"></FormModel>
+            <button class="btn btn-primary w-ful">Crear Plantilla</button>
+        </form>
+        <div class="w-1/3 flex">
+            <TemplatePreview :model="model" />
+        </div>
+    </div>
 </template>
 <script setup>
 import { ref } from 'vue';
 import Breadcrumb from '../Ui/Breadcrumb.vue';
 import FormModel from './Forms/Form.vue';
+import TemplatePreview from './Preview/Index.vue';
 
-const model = ref({});
+const model = ref({
+    components: {
+        header: {type: null},
+        body: {text: null},
+        footer: {},
+        buttons: [],
+    },
+});
+
 const breadcrumbs = [
     { link: '/template', label: 'Plantillas de whatsapp' },
     { label: 'Crear Plantilla' }
