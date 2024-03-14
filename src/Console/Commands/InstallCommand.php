@@ -54,6 +54,9 @@ class InstallCommand extends Command
         (new Filesystem)->copyDirectory(__DIR__.'/../../../stubs/interface', base_path());
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     private function installLibrary(): void
     {
         $this->info('Instalando librería...');
@@ -81,6 +84,9 @@ class InstallCommand extends Command
         return intval($laravel::VERSION);
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     private function copyConfigurationFileForLaravel10()
     {
         $this->info('Copiando archivos de configuración para laravel 10...');
