@@ -24,8 +24,8 @@ class MessageResource extends JsonResource
             'timestamp' => $this->timestamp,
             'sended_by' => $this->sended_by,
             'reaction' => $this->reaction,
-            'sent_in' => $this->sent_in,
-            'readed_at' => $this->readed_at,
+            'sent_at' => $this->sent_at,
+            'read_at' => $this->read_at,
             'delivered_at' => $this->delivered_at,
             'response_to' => $this->getResponseTo(),
         ];
