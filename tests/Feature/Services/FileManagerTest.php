@@ -3,6 +3,7 @@
 namespace Sdkconsultoria\WhatsappCloudApi\Tests\Feature\Services;
 
 use Faker\Factory;
+use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\TestCase;
 use Sdkconsultoria\WhatsappCloudApi\Services\FileManager;
 
@@ -18,9 +19,7 @@ class FileManagerTest extends TestCase
         return $file_path;
     }
 
-    /**
-     * @depends test_create_file
-     */
+    #[Depends('test_create_file')]
     public function test_append_to_file(string $file_path): array
     {
         $faker = Factory::create();
@@ -38,9 +37,7 @@ class FileManagerTest extends TestCase
         ];
     }
 
-    /**
-     * @depends test_append_to_file
-     */
+    #[Depends('test_append_to_file')]
     public function test_writte_after_to_file(array $data): void
     {
         $faker = Factory::create();
@@ -54,9 +51,7 @@ class FileManagerTest extends TestCase
         $this->assertStringContainsString($data['word'].$new_word, $file_content);
     }
 
-    /**
-     * @depends test_append_to_file
-     */
+    #[Depends('test_append_to_file')]
     public function test_replace_file(array $data): void
     {
         $faker = Factory::create();
