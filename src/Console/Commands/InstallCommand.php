@@ -46,12 +46,13 @@ class InstallCommand extends Command
 
     private function installInterface(): void
     {
-        $this->info('Instalando interfaz...');
-
-        $this->updateNode();
-        $this->addRoutes();
-        $this->info('Copiando archivos de configuración de la interface...');
-        (new Filesystem)->copyDirectory(__DIR__.'/../../../stubs/interface', base_path());
+        if ($this->confirm('¿Deseas instalar la interfaz, grafica?', true)) {
+            $this->info('Instalando interfaz...');
+            $this->updateNode();
+            $this->addRoutes();
+            $this->info('Copiando archivos de configuración de la interface...');
+            (new Filesystem)->copyDirectory(__DIR__.'/../../../stubs/interface', base_path());
+        }
     }
 
     /**
