@@ -20,7 +20,7 @@ class InstallCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Instala el frontend de Whatsapp Messenger en tu proyecto.';
+    protected $description = 'Instala Whatsapp Messenger en tu proyecto.';
 
     /**
      * Create a new command instance.
@@ -39,11 +39,60 @@ class InstallCommand extends Command
      */
     public function handle()
     {
-        $this->updateNode();
-        $this->copyStubs();
-        $this->addRoutes();
-        $this->enableBroadcastServiceProvider();
+        $this->installInterface();
+        $this->installLibrary();
         $this->finishMessage();
+    }
+
+    private function installInterface(): void
+    {
+        $this->info('Instalando interfaz...');
+
+        $this->updateNode();
+        $this->addRoutes();
+        $this->info('Copiando archivos de configuración de la interface...');
+        (new Filesystem)->copyDirectory(__DIR__.'/../../../stubs/interface', base_path());
+    }
+
+    private function installLibrary(): void
+    {
+        $this->info('Instalando librería...');
+        $this->enableBroadcastServiceProvider();
+        $this->info('Copiando archivos de configuración de la libreria...');
+        (new Filesystem)->copyDirectory(__DIR__.'/../../../stubs/common', base_path());
+
+        switch ($this->getLaravelVersion()) {
+            case 10:
+                $this->copyConfigurationFileForLaravel10();
+                break;
+            case 11:
+                $this->copyConfigurationFileForLaravel11();
+                break;
+            default:
+                $this->error('No se encontró una versión de Laravel compatible.');
+                break;
+        }
+    }
+
+    private function getLaravelVersion()
+    {
+        $laravel = app();
+
+        return intval($laravel::VERSION);
+    }
+
+    private function copyConfigurationFileForLaravel10()
+    {
+        $this->info('Copiando archivos de configuración para laravel 10...');
+
+        (new Filesystem)->copyDirectory(__DIR__.'/../../../stubs/10', base_path());
+    }
+
+    private function copyConfigurationFileForLaravel11()
+    {
+        $this->info('Copiando archivos de configuración para laravel 11...');
+
+        (new Filesystem)->copyDirectory(__DIR__.'/../../../stubs/11', base_path());
     }
 
     /**
@@ -98,13 +147,6 @@ class InstallCommand extends Command
             base_path('package.json'),
             json_encode($packages, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT).PHP_EOL
         );
-    }
-
-    private function copyStubs()
-    {
-        $this->info('Copiando archivos de configuración...');
-
-        (new Filesystem)->copyDirectory(__DIR__.'/../../../stubs', base_path());
     }
 
     private function addRoutes()

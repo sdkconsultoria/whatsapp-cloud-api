@@ -18,9 +18,13 @@ class InstallTest extends TestCase
         });
 
         $this->artisan('sdk:whatsapp-messenger-install')
+            ->expectsOutput('Instalando interfaz...')
             ->expectsOutput('Actualizando Node Packages...')
-            ->expectsOutput('Copiando archivos de configuración...')
+            ->expectsOutput('Copiando archivos de configuración de la interface...')
+            ->expectsOutput('Instalando librería...')
             ->expectsOutput('Habilitando BroadcastServiceProvider...')
+            ->expectsOutput('Copiando archivos de configuración de la libreria...')
+            ->expectsOutput('Copiando archivos de configuración para laravel 10...')
             ->expectsOutput('SDK Whatsapp Messenger instalado correctamente.')
             ->expectsOutput('Ejecuta "npm install && npm run dev" para compilar tu frontend.')
             ->assertExitCode(0);
