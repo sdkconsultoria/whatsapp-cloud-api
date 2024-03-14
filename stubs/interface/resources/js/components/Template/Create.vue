@@ -5,7 +5,7 @@
             <FormModel v-model:model="model"></FormModel>
             <button class="btn btn-primary w-ful">Crear Plantilla</button>
         </form>
-        <div class="w-1/3 flex">
+        <div class="w-1/3">
             <TemplatePreview :model="model" />
         </div>
     </div>

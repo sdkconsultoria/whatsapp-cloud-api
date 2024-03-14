@@ -14,7 +14,7 @@
     <div v-if="model.components.header.type === 'text'" class="form-control">
         <label for="header-text">Texto</label>
         <input v-model="model.components.header.text" id="header-text" type="text" placeholder="Texto de la cabecera"
-            class="input input-bordered w-ful" />
+            class="input input-bordered w-full" />
     </div>
 
     <div v-if="model.components.header.type === 'image'" class="form-control">
