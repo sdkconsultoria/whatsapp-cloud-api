@@ -50,8 +50,8 @@ class CopyMessengerCommand extends Command
     private function copyMessenger(): void
     {
         $this->info('Copiando messenger a los stubs del packate...');
-        $proyectPath = base_path('resources/js/components/Chat');
-        $packagePath = __DIR__.'/../../../stubs/interface/resources/js/components/Chat';
+        $proyectPath = base_path('resources/js/components/Messenger');
+        $packagePath = __DIR__.'/../../../stubs/interface/resources/js/components/Messenger';
         resolve(Filesystem::class)->deleteDirectory($packagePath);
         resolve(Filesystem::class)->copyDirectory($proyectPath, $packagePath);
     }
