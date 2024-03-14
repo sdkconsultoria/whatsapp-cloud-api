@@ -87,11 +87,17 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
     /**
      * Register any application services.
+     *
+     * @codeCoverageIgnore
      */
     public function register(): void
     {
         $this->mergeConfigFrom(
             __DIR__.'/../config/cloudapi.php', 'meta'
         );
+
+        $this->app->bind('WhatsappCloudApi', function () {
+            return new WhatsappCloudApi();
+        });
     }
 }

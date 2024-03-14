@@ -4,6 +4,7 @@ namespace Sdkconsultoria\WhatsappCloudApi\Tests;
 
 use Orchestra\Testbench\TestCase as Orchestra;
 use Sdkconsultoria\WhatsappCloudApi\ServiceProvider;
+use Sdkconsultoria\WhatsappCloudApi\WhatsappCloudApi;
 
 abstract class TestCase extends Orchestra
 {
@@ -48,6 +49,13 @@ abstract class TestCase extends Orchestra
     {
         return [
             ServiceProvider::class,
+        ];
+    }
+
+    protected function getPackageAliases($app)
+    {
+        return [
+            'WhatsappCloudApi' => WhatsappCloudApi::class,
         ];
     }
 
