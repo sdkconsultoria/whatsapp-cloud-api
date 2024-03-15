@@ -34,7 +34,7 @@
 
     <Footer v-model:model="model" />
 
-    <Buttons v-model:model="model" />
+    <Buttons v-model:model="model.components.buttons" />
 </template>
 <script setup>
 import Header from './Header.vue'
