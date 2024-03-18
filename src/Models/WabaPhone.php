@@ -28,7 +28,12 @@ class WabaPhone extends Model
             $wabaPhone->phone_number_clean = str_replace(['-', ' ', '+'], '', $phone['display_phone_number']);
             $wabaPhone->save();
 
-            resolve(BussinessProfile::class)->process($phone['id']);
+            try {
+                resolve(BussinessProfile::class)->process($phone['id']);
+            } catch (\Exception $e) {
+                \Log::error($e->getMessage());
+            }
+
         }
     }
 

@@ -86,4 +86,26 @@ class WabaManagerTest extends TestCase
 
         $this->get(route('waba.init', ['wabaId' => $wabaId]))->assertStatus(200);
     }
+
+    public function test_get_phone_numbers_from_waba_no_profile()
+    {
+        $waba = Waba::factory()->create();
+        $wabaId = $waba->waba_id;
+        $wabaPhonesFake = FakeWabaResponses::fakePhoneNumbers();
+
+        Http::fake([
+            "*$wabaId/phone_numbers" => Http::response($wabaPhonesFake, 200),
+        ]);
+
+        $this->get(route('waba.getPhonesFromMeta', ['wabaId' => $wabaId]))->assertStatus(200);
+
+        foreach ($wabaPhonesFake['data'] as $wabaPhoneFake) {
+            $this->assertDatabaseHas('waba_phones', [
+                'name' => $wabaPhoneFake['verified_name'],
+                'display_phone_number' => $wabaPhoneFake['display_phone_number'],
+                'phone_id' => $wabaPhoneFake['id'],
+                'quality_rating' => $wabaPhoneFake['quality_rating'],
+            ]);
+        }
+    }
 }
