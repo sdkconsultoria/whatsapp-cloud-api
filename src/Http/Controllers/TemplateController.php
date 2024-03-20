@@ -34,6 +34,10 @@ class TemplateController extends APIResourceController
         $template = resolve(TemplateManagerService::class)->createTemplate($waba->waba_id, $processTemplate);
 
         $this->saveTemplate($template, $processTemplate, $waba);
+
+        return response()->json([
+            'message' => 'Template created successfully',
+        ], 201);
     }
 
     private function processTemplate(array $request)
@@ -43,7 +47,7 @@ class TemplateController extends APIResourceController
 
         $components = $request['components'];
         $components = array_map(function ($component) {
-            if ($component['type'] === 'header' && $component['format'] === 'IMAGE') {
+            if ($component['type'] === 'HEADER' && $component['format'] === 'IMAGE') {
                 $filePath = $component['example']['header_handle']->getRealPath();
                 $handler = resolve(ResumableUploadAPI::class)->uploadFile($filePath);
                 $component['example']['header_handle'] = $handler->handler;
