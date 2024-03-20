@@ -18,8 +18,8 @@ import TemplatePreview from './Preview/Index.vue';
 
 const model = ref({
     components: {
-        header: {type: null},
-        body: {text: null},
+        header: { type: null },
+        body: { text: null },
         footer: {},
         buttons: [],
     },
@@ -33,14 +33,30 @@ const breadcrumbs = [
 async function submit() {
     const response = await fetch('/api/v1/template', {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(model.value)
+        body: convertJsonToFormData(model.value)
     });
 
     if (response.ok) {
         alert('Plantilla creada con éxito');
+    }
+}
+
+function convertJsonToFormData(json) {
+    const formData = new FormData();
+    appendObjectToFormData(formData, json);
+    return formData;
+}
+
+function appendObjectToFormData(formData, object, prefix = null) {
+    for (const key in object) {
+        let newPrefix = prefix ? `${prefix}[${key}]` : key;
+        if (object[key] instanceof File) {
+            formData.append(prefix + key, object[key]);
+        } else if (object[key] instanceof Object) {
+            appendObjectToFormData(formData, object[key], newPrefix);
+        } else {
+            formData.append(newPrefix, object[key]);
+        }
     }
 }
 </script>

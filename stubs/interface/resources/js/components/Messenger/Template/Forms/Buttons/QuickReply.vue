@@ -2,9 +2,8 @@
     <div class="flex gap-2 w-full">
         <div class="form-control w-1/3">
             <label for="name">Tipo</label>
-            <select class="select select-bordered w-full">
-                <option value="AUTHENTICATION">Personalizado</option>
-                <!-- <option value="MARKETING">Desactivar marketing</option> -->
+            <select v-model="field.type" class="select select-bordered w-full">
+                <option value="QUICK_REPLY">Personalizado</option>
             </select>
         </div>
         <div class="form-control w-2/3">

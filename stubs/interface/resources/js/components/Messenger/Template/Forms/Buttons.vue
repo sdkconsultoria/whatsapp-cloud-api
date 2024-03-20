@@ -22,9 +22,13 @@
         <div v-for="(button, index) in quickReplyButtons">
             <QuickReply :field="button" :key="index" />
         </div>
-    </div>
-    <div>
-        Llamada a la acción
+        <div>
+            Llamada a la acción
+        </div>
+        <div v-for="(button, index) in callToActionButtons">
+            <PhoneNumber v-if="button.type === 'PHONE_NUMBER'" :field="button" :key="index" />
+            <Url v-if="button.type === 'URL'" :field="button" :key="index" />
+        </div>
     </div>
 </template>
 
@@ -32,14 +36,15 @@
 import { defineModel, computed } from 'vue'
 import { PlusIcon } from '@heroicons/vue/24/outline';
 import QuickReply from './Buttons/QuickReply.vue';
+import PhoneNumber from './Buttons/PhoneNumber.vue';
+import Url from './Buttons/Url.vue';
 
 const model = defineModel('model')
 
-function addButton(type){
+function addButton(type) {
     model.value.push({
         type: type,
         text: '',
-        footer: 'Texto de pie de página'
     })
 
     document.getElementById('select-button').removeAttribute('open');
