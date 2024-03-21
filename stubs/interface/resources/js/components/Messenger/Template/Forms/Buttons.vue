@@ -42,7 +42,11 @@ import Url from './Buttons/Url.vue';
 const model = defineModel('model')
 
 function addButton(type) {
-    model.value.push({
+    if (model.value.buttons === undefined) {
+        model.value.buttons = []
+    }
+
+    model.value.buttons.push({
         type: type,
         text: '',
     })
@@ -51,11 +55,11 @@ function addButton(type) {
 }
 
 const quickReplyButtons = computed(() => {
-    return model.value.filter(button => button.type === 'QUICK_REPLY')
+    return model.value.buttons?.filter(button => button.type === 'QUICK_REPLY')
 })
 
 const callToActionButtons = computed(() => {
-    return model.value.filter(button => button.type === 'URL' || button.type === 'PHONE_NUMBER')
+    return model.value.buttons?.filter(button => button.type === 'URL' || button.type === 'PHONE_NUMBER')
 })
 
 </script>

@@ -1,7 +1,8 @@
 <template>
     <div class="form-control">
         <label for="header">Cabecera</label>
-        <select v-model="model.components.header.format" id="header" class="select select-bordered w-ful">
+        <select v-model="model.components.header.format" id="header" class="select select-bordered w-full"
+            @change="resetFile">
             <option disabled selected>Tipo de Cabecera</option>
             <option value="TEXT">Texto</option>
             <option value="IMAGE">Imagen</option>
@@ -38,7 +39,11 @@ import { defineModel } from 'vue'
 const model = defineModel('model')
 
 function setFile(event) {
-    model.value.components.header.example = {header_handle: null};
+    model.value.components.header.example = { header_handle: null };
     model.value.components.header.example.header_handle = event.target.files[0];
+}
+
+function resetFile() {
+    model.value.components.header.example = { header_handle: null };
 }
 </script>
