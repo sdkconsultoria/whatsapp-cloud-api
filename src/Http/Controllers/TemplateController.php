@@ -49,7 +49,7 @@ class TemplateController extends APIResourceController
         $components = array_map(function ($component, $index) {
             $component['type'] = strtoupper($index);
 
-            if ($component['type'] === 'HEADER' && $component['format'] === 'IMAGE') {
+            if ($component['type'] === 'HEADER' && in_array($component['format'], ['IMAGE', 'VIDEO', 'DOCUMENT'])) {
                 $filePath = $component['example']['header_handle']->getRealPath();
                 $handler = resolve(ResumableUploadAPI::class)->uploadFile($filePath);
                 $component['example']['header_handle'] = $handler->handler;

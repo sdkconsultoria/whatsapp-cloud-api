@@ -11,6 +11,7 @@ use Sdkconsultoria\WhatsappCloudApi\Events\NewWhatsappMessageHook;
 use Sdkconsultoria\WhatsappCloudApi\Models\Message;
 use Sdkconsultoria\WhatsappCloudApi\Models\WabaPhone;
 use Sdkconsultoria\WhatsappCloudApi\Services\MediaManagerService;
+use Sdkconsultoria\WhatsappCloudApi\Tests\Fake\Webhook\FakeReceivedMessage;
 use Sdkconsultoria\WhatsappCloudApi\Tests\TestCase;
 
 class ReceivedMessageTest extends TestCase
@@ -28,44 +29,23 @@ class ReceivedMessageTest extends TestCase
         $wabaPhone = WabaPhone::factory()->create();
         Event::fake();
 
-        $response = $this->post(route('meta.webhook'), [
-            'entry' => [
-                [
-                    'changes' => [
-                        [
-                            'field' => 'messages',
-                            'value' => [
-                                'messaging_product' => 'whatsapp',
-                                'metadata' => [
-                                    'display_phone_number' => $wabaPhone->display_phone_number,
-                                    'phone_number_id' => $wabaPhone->phone_id,
-                                ],
-                                'contacts' => [
-                                    [
-                                        'profile' => [
-                                            'name' => 'Kerry Fisher',
-                                        ],
-                                        'wa_id' => '16315551234',
-                                    ],
-                                ],
-                                'messages' => [
-                                    [
-                                        'from' => '16315551234',
-                                        'id' => $messageId,
-                                        'timestamp' => '1603059201',
-                                        'text' => [
-                                            'body' => 'Hello this is an answer',
-                                        ],
-                                        'type' => 'text',
-                                    ],
-                                ],
-                            ],
-                        ],
-                    ],
-                ],
-            ],
-        ]);
+        $response = $this->post(route('meta.webhook'), FakeReceivedMessage::textMessage($wabaPhone, $messageId));
+        $response->assertStatus(200);
 
+        Event::assertDispatched(NewWhatsappMessageHook::class, function ($e) {
+            return true;
+        });
+    }
+
+    public function test_recive_text_message_verify_signature()
+    {
+        Config::set('meta.webhook_verify_signature', true);
+
+        $messageId = 'wamid.'.$this->faker()->numberBetween(111, 450);
+        $wabaPhone = WabaPhone::factory()->create();
+        Event::fake();
+
+        $response = $this->withHeaders($this->signRequest())->post(route('meta.webhook'), FakeReceivedMessage::textMessage($wabaPhone, $messageId));
         $response->assertStatus(200);
 
         Event::assertDispatched(NewWhatsappMessageHook::class, function ($e) {
@@ -79,44 +59,7 @@ class ReceivedMessageTest extends TestCase
         $wabaPhone = WabaPhone::factory()->create();
         Event::fake();
 
-        $response = $this->post(route('meta.webhook'), [
-            'entry' => [
-                [
-                    'changes' => [
-                        [
-                            'field' => 'messages',
-                            'value' => [
-                                'messaging_product' => 'whatsapp',
-                                'metadata' => [
-                                    'display_phone_number' => $wabaPhone->display_phone_number,
-                                    'phone_number_id' => $wabaPhone->phone_id,
-                                ],
-                                'contacts' => [
-                                    [
-                                        'profile' => [
-                                            'name' => 'Kerry Fisher',
-                                        ],
-                                        'wa_id' => '16315551234',
-                                    ],
-                                ],
-                                'messages' => [
-                                    [
-                                        'from' => '16315551234',
-                                        'id' => $messageId,
-                                        'timestamp' => '1603059201',
-                                        'text' => [
-                                            'body' => 'Hello this is an answer',
-                                        ],
-                                        'type' => 'text',
-                                    ],
-                                ],
-                            ],
-                        ],
-                    ],
-                ],
-            ],
-        ]);
-
+        $response = $this->post(route('meta.webhook'), FakeReceivedMessage::textMessage($wabaPhone, $messageId));
         $response->assertStatus(200);
 
         Event::assertDispatched(NewWhatsappMessageHook::class, function ($e) {
@@ -134,44 +77,7 @@ class ReceivedMessageTest extends TestCase
             $mock->shouldReceive('download')->once()->andReturn('http://localhost/avatar.jpg');
         });
 
-        $response = $this->post(route('meta.webhook'), [
-            'entry' => [
-                [
-                    'changes' => [
-                        [
-                            'field' => 'messages',
-                            'value' => [
-                                'messaging_product' => 'whatsapp',
-                                'metadata' => [
-                                    'display_phone_number' => $wabaPhone->display_phone_number,
-                                    'phone_number_id' => $wabaPhone->phone_id,
-                                ],
-                                'contacts' => [
-                                    [
-                                        'profile' => [
-                                            'name' => 'Kerry Fisher',
-                                        ],
-                                        'wa_id' => '16315551234',
-                                    ],
-                                ],
-                                'messages' => [
-                                    [
-                                        'from' => '16315551234',
-                                        'id' => $messageId,
-                                        'timestamp' => '1603059201',
-                                        'type' => 'image',
-                                        'image' => [
-                                            'id' => $this->faker()->numberBetween(111, 450),
-                                        ],
-                                    ],
-                                ],
-                            ],
-                        ],
-                    ],
-                ],
-            ],
-        ]);
-
+        $response = $this->post(route('meta.webhook'), FakeReceivedMessage::imageMessage($wabaPhone, $messageId));
         $response->assertStatus(200);
 
         Event::assertDispatched(NewWhatsappMessageHook::class, function ($e) {
@@ -185,45 +91,7 @@ class ReceivedMessageTest extends TestCase
         $wabaPhone = WabaPhone::factory()->create();
         Event::fake();
 
-        $response = $this->post(route('meta.webhook'), [
-            'entry' => [
-                [
-                    'changes' => [
-                        [
-                            'field' => 'messages',
-                            'value' => [
-                                'messaging_product' => 'whatsapp',
-                                'metadata' => [
-                                    'display_phone_number' => $wabaPhone->display_phone_number,
-                                    'phone_number_id' => $wabaPhone->phone_id,
-                                ],
-                                'contacts' => [
-                                    [
-                                        'profile' => [
-                                            'name' => 'Kerry Fisher',
-                                        ],
-                                        'wa_id' => '16315551234',
-                                    ],
-                                ],
-                                'messages' => [
-                                    [
-                                        'from' => '16315551234',
-                                        'id' => $this->faker()->numberBetween(111, 450),
-                                        'timestamp' => '1603059201',
-                                        'type' => 'reaction',
-                                        'reaction' => [
-                                            'emoji' => 'Carita feliz',
-                                            'message_id' => $message->message_id,
-                                        ],
-                                    ],
-                                ],
-                            ],
-                        ],
-                    ],
-                ],
-            ],
-        ]);
-
+        $response = $this->withHeaders($this->signRequest())->post(route('meta.webhook'), FakeReceivedMessage::reactionMessage($wabaPhone, $message->message_id));
         $response->assertStatus(200);
 
         $this->assertDatabaseHas('messages', [
@@ -234,5 +102,15 @@ class ReceivedMessageTest extends TestCase
         Event::assertDispatched(NewWhatsappMessageHook::class, function ($e) {
             return true;
         });
+    }
+
+    private function signRequest()
+    {
+        $secret = config('meta.app_secret');
+        $signature = 'sha1='.hash_hmac('sha1', '', $secret);
+
+        return [
+            'x-hub-signature' => $signature,
+        ];
     }
 }

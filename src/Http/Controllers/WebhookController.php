@@ -20,12 +20,15 @@ class WebhookController extends Controller
 
     public function webhook(Request $request)
     {
-        $data = $request->all()['entry'][0]['changes'][0];
+        $this->verifySignature($request);
         $this->redirectRequestIfNeeded($request);
+        $data = $request->all()['entry'][0]['changes'][0];
 
         switch ($data['field']) {
             case 'messages':
                 resolve(ProcessMessageWebhook::class)->process($data['value']);
+                break;
+            case 'message_template_status_update':
                 break;
         }
     }
@@ -37,5 +40,21 @@ class WebhookController extends Controller
         }
 
         Http::post(config('meta.webhook_redirect'), $request->all());
+    }
+
+    private function verifySignature(Request $request)
+    {
+        if (! config('meta.webhook_verify_signature')) {
+            return;
+        }
+
+        $secret = config('meta.app_secret');
+        $signature = $request->header('x-hub-signature') ?? '';
+        $payload = $request->getContent();
+        $expected = 'sha1='.hash_hmac('sha1', $payload, $secret);
+
+        if (! hash_equals($expected, $signature)) {
+            abort(403, 'Invalid signature');
+        }
     }
 }

@@ -9,6 +9,7 @@
     <env name="META_WEBHOOK_TOKEN" value="23653244"/>
     <env name="META_TOKEN" value="7FLZBhGJ1qYHB3mTB"/>
     <env name="META_APP_ID" value="3243242451531464"/>
+    <env name="META_APP_SECRET" value="fv56asdjk9asf"/>
   </php>
   <coverage />
   <testsuites>
