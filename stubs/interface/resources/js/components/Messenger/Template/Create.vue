@@ -18,7 +18,7 @@ import TemplatePreview from './Preview/Index.vue';
 
 const model = ref({
     components: {
-        header: { type: null },
+        header: { },
         body: { text: null },
         footer: {},
         buttons: [],
@@ -51,7 +51,7 @@ function appendObjectToFormData(formData, object, prefix = null) {
     for (const key in object) {
         let newPrefix = prefix ? `${prefix}[${key}]` : key;
         if (object[key] instanceof File) {
-            formData.append(prefix + key, object[key]);
+            formData.append(newPrefix, object[key]);
         } else if (object[key] instanceof Object) {
             appendObjectToFormData(formData, object[key], newPrefix);
         } else {

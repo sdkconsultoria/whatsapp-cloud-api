@@ -46,7 +46,9 @@ class TemplateController extends APIResourceController
         unset($processed['waba_id']);
 
         $components = $request['components'];
-        $components = array_map(function ($component) {
+        $components = array_map(function ($component, $index) {
+            $component['type'] = strtoupper($index);
+
             if ($component['type'] === 'HEADER' && $component['format'] === 'IMAGE') {
                 $filePath = $component['example']['header_handle']->getRealPath();
                 $handler = resolve(ResumableUploadAPI::class)->uploadFile($filePath);
@@ -54,7 +56,7 @@ class TemplateController extends APIResourceController
             }
 
             return $component;
-        }, $components);
+        }, $components, array_keys($components));
         $processed['components'] = $components;
 
         return $processed;

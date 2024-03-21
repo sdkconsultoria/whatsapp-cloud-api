@@ -57,8 +57,7 @@ class CreateTemplateTest extends TestCase
             'language' => 'en_US',
             'category' => 'MARKETING',
             'components' => [
-                [
-                    'type' => 'BODY',
+                'BODY' => [
                     'text' => 'Hi {{1}}! For can get our {{2}} for as low as {{3}} for more information.',
                     'example' => [
                         'body_text' => [
@@ -68,29 +67,25 @@ class CreateTemplateTest extends TestCase
                         ],
                     ],
                 ],
-                [
-                    'type' => 'FOOTER',
+                'FOOTER' => [
                     'text' => 'Shop now through to get of all merchandise.',
                 ],
-                [
-                    'type' => 'BUTTONS',
-                    'buttons' => [
-                        [
-                            'type' => 'QUICK_REPLY',
-                            'text' => 'Unsubcribe from Promos',
-                        ],
-                        [
-                            'type' => 'PHONE_NUMBER',
-                            'text' => 'Call',
-                            'phone_number' => '15550051310',
-                        ],
-                        [
-                            'type' => 'URL',
-                            'text' => 'Shop Now',
-                            'url' => 'https://www.examplesite.com/shop?promo={{1}}',
-                            'example' => [
-                                'summer2023',
-                            ],
+                'BUTTONS' => [
+                    [
+                        'type' => 'QUICK_REPLY',
+                        'text' => 'Unsubcribe from Promos',
+                    ],
+                    [
+                        'type' => 'PHONE_NUMBER',
+                        'text' => 'Call',
+                        'phone_number' => '15550051310',
+                    ],
+                    [
+                        'type' => 'URL',
+                        'text' => 'Shop Now',
+                        'url' => 'https://www.examplesite.com/shop?promo={{1}}',
+                        'example' => [
+                            'summer2023',
                         ],
                     ],
 
@@ -123,15 +118,13 @@ class CreateTemplateTest extends TestCase
             'language' => 'en_US',
             'category' => 'MARKETING',
             'components' => [
-                [
-                    'type' => 'HEADER',
+                'HEADER' => [
                     'format' => 'IMAGE',
                     'example' => [
                         'header_handle' => $file,
                     ],
                 ],
-                [
-                    'type' => 'BODY',
+                'BODY' => [
                     'text' => 'Shop now through to get of all merchandise.',
                 ],
             ],

@@ -1,11 +1,18 @@
 <template>
     <div class="form-control">
+        <label for="waba">Waba</label>
+        <select v-model="model.waba_id" id="waba" class="select select-bordered w-ful">
+            <option disabled selected>Selecciona una Waba</option>
+            <option v-for="waba in wabas" :value="waba.id">{{waba.name}}</option>
+        </select>
+    </div>
+    <div class="form-control">
         <label for="category">Categoría</label>
         <select v-model="model.category" id="category" class="select select-bordered w-ful">
             <option disabled selected>Categoría de la plantilla</option>
-            <option value="AUTHENTICATION">Autenticación</option>
             <option value="MARKETING">Marketing</option>
             <option value="UTILITY">Utilidad</option>
+            <option value="AUTHENTICATION">Autenticación</option>
         </select>
     </div>
     <div class="form-control">
@@ -42,5 +49,17 @@ import Footer from './Footer.vue'
 import Buttons from './Buttons.vue'
 
 const model = defineModel('model')
+const wabas = defineModel()
 
+getWaba();
+function getWaba() {
+    fetch('/api/v1/waba')
+        .then(response => response.json())
+        .then(data => {
+            wabas.value = data.data;
+        })
+        .catch(error => {
+            console.error('Error:', error)
+        })
+}
 </script>
