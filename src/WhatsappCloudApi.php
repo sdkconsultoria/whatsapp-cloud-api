@@ -15,6 +15,7 @@ class WhatsappCloudApi
             Route::get('waba/{wabaId}/get-phones', 'WabaController@getWabaPhonesFromMeta')->name('waba.getPhonesFromMeta');
 
             Route::ApiResource('template', 'TemplateController');
+            Route::get('waba', 'WabaController@index')->name('waba.index');
 
             Route::post('message/send', 'MessageController@sendMessage')->name('message.send');
             Route::post('message/template/send', 'MessageController@sendTemplate')->name('message.template.send');

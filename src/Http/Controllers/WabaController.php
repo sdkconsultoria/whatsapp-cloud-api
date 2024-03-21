@@ -2,12 +2,14 @@
 
 namespace Sdkconsultoria\WhatsappCloudApi\Http\Controllers;
 
-use Illuminate\Routing\Controller;
 use Sdkconsultoria\WhatsappCloudApi\Models\Template;
+use Sdkconsultoria\WhatsappCloudApi\Models\Waba;
 use Sdkconsultoria\WhatsappCloudApi\Services\WabaManagerService;
 
-class WabaController extends Controller
+class WabaController extends APIResourceController
 {
+    protected $resource = Waba::class;
+
     public function init(string $wabaId)
     {
         resolve(WabaManagerService::class)->getWabaInfo($wabaId);

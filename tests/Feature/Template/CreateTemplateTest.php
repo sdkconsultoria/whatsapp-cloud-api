@@ -33,9 +33,9 @@ class CreateTemplateTest extends TestCase
             'components' => [
                 [
                     'type' => 'text',
-                    'text' => 'Hello World'
-                ]
-            ]
+                    'text' => 'Hello World',
+                ],
+            ],
         ])->assertStatus(201);
     }
 
@@ -61,12 +61,12 @@ class CreateTemplateTest extends TestCase
                     'type' => 'BODY',
                     'text' => 'Hi {{1}}! For can get our {{2}} for as low as {{3}} for more information.',
                     'example' => [
-                        "body_text" => [
+                        'body_text' => [
                             [
-                                "Mark","Tuscan Getaway package","800"
-                            ]
-                        ]
-                    ]
+                                'Mark', 'Tuscan Getaway package', '800',
+                            ],
+                        ],
+                    ],
                 ],
                 [
                     'type' => 'FOOTER',
@@ -76,26 +76,26 @@ class CreateTemplateTest extends TestCase
                     'type' => 'BUTTONS',
                     'buttons' => [
                         [
-                            "type" => "QUICK_REPLY",
-                            "text" => "Unsubcribe from Promos"
+                            'type' => 'QUICK_REPLY',
+                            'text' => 'Unsubcribe from Promos',
                         ],
                         [
-                            "type" => "PHONE_NUMBER",
-                            "text" => "Call",
-                            "phone_number" => "15550051310"
+                            'type' => 'PHONE_NUMBER',
+                            'text' => 'Call',
+                            'phone_number' => '15550051310',
                         ],
                         [
-                            "type" => "URL",
-                            "text" => "Shop Now",
-                            "url" => "https://www.examplesite.com/shop?promo={{1}}",
-                            "example"=> [
-                                "summer2023"
-                            ]
-                        ]
-                    ]
+                            'type' => 'URL',
+                            'text' => 'Shop Now',
+                            'url' => 'https://www.examplesite.com/shop?promo={{1}}',
+                            'example' => [
+                                'summer2023',
+                            ],
+                        ],
+                    ],
 
-                ]
-            ]
+                ],
+            ],
         ])->assertStatus(201);
     }
 
