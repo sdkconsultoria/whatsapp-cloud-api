@@ -10,29 +10,28 @@ use Sdkconsultoria\WhatsappCloudApi\Services\MessageService;
 
 class SendTemplate
 {
-    public function Send($request)
+    public function Send(WabaPhone $wabaPhone, Template $template, string $to, array $vars = [])
     {
-        $template = Template::find($request['template']);
-        $phoneNumber = WabaPhone::where('id', $request['waba_phone'])->first();
+        $template->setVarsToComponents($vars);
         $message = resolve(MessageService::class)
-            ->sendTemplate($phoneNumber, $request['to'], $template);
+            ->sendTemplate($wabaPhone, $to, $template);
 
         $messageModel = new Message();
         $messageModel->direction = 'toClient';
-        $messageModel->body = json_encode($template->getMessage());
+        $messageModel->body = json_encode($template->getComponentsWithVars());
         $messageModel->timestamp = time();
         $messageModel->message_id = $message['messages'][0]['id'];
         $messageModel->type = 'text';
-        $messageModel->chat_id = $this->getChatId($phoneNumber, $request['to']);
+        $messageModel->chat_id = $this->getChatId($wabaPhone, $to);
         $messageModel->sended_by = 'BOT';
         $messageModel->save();
     }
 
-    private function getChatId($phoneNumber, $to)
+    private function getChatId($wabaPhone, $to)
     {
         $chat = Chat::firstOrCreate([
-            'waba_phone' => $phoneNumber->phone_number_clean,
-            'waba_phone_id' => $phoneNumber->id,
+            'waba_phone' => $wabaPhone->phone_number_clean,
+            'waba_phone_id' => $wabaPhone->id,
             'client_phone' => $to,
         ]);
 

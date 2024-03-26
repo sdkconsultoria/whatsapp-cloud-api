@@ -22,6 +22,12 @@ class TemplateFactory extends Factory
      */
     public function definition()
     {
+        $content = [
+            'BODY' => [
+                'text' => 'Welcome',
+            ],
+        ];
+
         return [
             'waba_id' => Waba::factory(),
             'name' => $this->faker->word,
@@ -29,7 +35,7 @@ class TemplateFactory extends Factory
             'category' => 'UTILITY',
             'language' => 'es_MX',
             'template_id' => $this->faker->numberBetween(111111111),
-            'content' => '{"id": "242255344975523", "name": "hello_world", "status": "APPROVED", "category": "UTILITY", "language": "en_US", "components": [{"text": "Hello World", "type": "HEADER", "format": "TEXT"}, {"text": "Welcome and congratulations!! This message demonstrates your ability to send a WhatsApp message notification from the Cloud API, hosted by Meta. Thank you for taking the time to test with us.", "type": "BODY"}, {"text": "WhatsApp Business Platform sample message", "type": "FOOTER"}]}',
+            'content' => json_encode(['components' => $content]),
         ];
     }
 }

@@ -14,17 +14,17 @@ class TemplateManagerService extends FacebookService
         return $response->json();
     }
 
+    public function getTemplate(string $templateId): array
+    {
+        $this->graph_url .= $templateId;
+        $response = Http::withToken(config('meta.token'))->get($this->graph_url);
+
+        return $response->json();
+    }
+
     // public function getAllTemplates(string $wabaId): array
     // {
     //     $this->graph_url .= $wabaId;
-    //     $response = Http::withToken(config('meta.token'))->get($this->graph_url);
-
-    //     return $response->json();
-    // }
-
-    // public function getTemplate(string $wabaId): array
-    // {
-    //     $this->graph_url .= $wabaId.'/phone_numbers';
     //     $response = Http::withToken(config('meta.token'))->get($this->graph_url);
 
     //     return $response->json();

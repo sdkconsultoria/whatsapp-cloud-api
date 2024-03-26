@@ -5,7 +5,6 @@ namespace Sdkconsultoria\WhatsappCloudApi\Http\Controllers;
 use Illuminate\Http\Request;
 use Sdkconsultoria\WhatsappCloudApi\Http\Resources\MessageResource;
 use Sdkconsultoria\WhatsappCloudApi\Lib\Message\SendMessage;
-use Sdkconsultoria\WhatsappCloudApi\Lib\Message\SendTemplate;
 use Sdkconsultoria\WhatsappCloudApi\Models\Chat;
 use Sdkconsultoria\WhatsappCloudApi\Models\Message;
 
@@ -51,19 +50,6 @@ class MessageController extends APIResourceController
     public function sendMessage(Request $request)
     {
         $message = resolve(SendMessage::class)->send($request->all());
-
-        return response()->json($message);
-    }
-
-    public function sendTemplate(Request $request)
-    {
-        $request->validate([
-            'waba_phone' => 'required',
-            'to' => 'required',
-            'template' => 'required',
-        ]);
-
-        $message = resolve(SendTemplate::class)->send($request->all());
 
         return response()->json($message);
     }

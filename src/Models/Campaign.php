@@ -17,17 +17,11 @@ class Campaign extends Model
 
     public const STATUS_FINALIZED = 50;
 
-    /**
-     * @codeCoverageIgnore
-     */
     public function wabaPhone()
     {
         return $this->belongsTo(WabaPhone::class);
     }
 
-    /**
-     * @codeCoverageIgnore
-     */
     public function template()
     {
         return $this->belongsTo(Template::class);

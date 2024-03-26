@@ -21,7 +21,7 @@ class MessageService extends FacebookService
         return $response->json();
     }
 
-    public function sendTemplate(WabaPhone $phone, string $to, Template $template, array $data = []): array
+    public function sendTemplate(WabaPhone $phone, string $to, Template $template): array
     {
         $this->graph_url .= "$phone->phone_id/messages";
         $response = Http::withToken(config('meta.token'))->post($this->graph_url, [

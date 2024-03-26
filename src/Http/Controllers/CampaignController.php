@@ -23,11 +23,7 @@ class CampaignController extends APIResourceController
         $campaign->save();
 
         foreach ($phones as $phone) {
-            resolve(SendTemplate::class)->send([
-                'waba_phone' => $campaign->waba_phone_id,
-                'to' => $phone,
-                'template' => $campaign->template_id,
-            ]);
+            resolve(SendTemplate::class)->send($campaign->wabaPhone, $campaign->template, $phone, $request->vars ?? []);
         }
     }
 }

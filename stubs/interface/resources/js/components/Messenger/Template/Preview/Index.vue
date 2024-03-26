@@ -39,8 +39,8 @@ const model = defineModel('model')
 const preview = ref(false)
 
 watch(model.value.components.header, async () => {
-    if (model.value.components.header.example?.header_handle) {
-        preview.value = await fileToBase64(model.value.components.header.example?.header_handle)
+    if (model.value.components.header.example?.header_handle[0]) {
+        preview.value = await fileToBase64(model.value.components.header.example?.header_handle[0])
     } else {
         preview.value = false
     }

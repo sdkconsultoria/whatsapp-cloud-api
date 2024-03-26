@@ -3,10 +3,11 @@
 namespace Sdkconsultoria\WhatsappCloudApi\Tests\Feature\Template;
 
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Sdkconsultoria\WhatsappCloudApi\Models\Waba;
+use Sdkconsultoria\WhatsappCloudApi\Tests\Fake\Template\FakeCreateTemplate;
+use Sdkconsultoria\WhatsappCloudApi\Tests\Fake\Template\FakeTemplateToMetaFormat;
 use Sdkconsultoria\WhatsappCloudApi\Tests\TestCase;
 
 class CreateTemplateTest extends TestCase
@@ -16,123 +17,73 @@ class CreateTemplateTest extends TestCase
     public function test_create_text_template()
     {
         $waba = Waba::factory()->create();
+        $templateId = $this->faker()->uuid;
+        $templateRequest = FakeCreateTemplate::textTemplate($waba);
+        $templateMetaFormat = FakeTemplateToMetaFormat::convert($templateRequest, $templateId);
 
         Http::fake([
             "*/$waba->waba_id/message_templates" => Http::response([
-                'id' => $this->faker()->uuid,
+                'id' => $templateId,
                 'status' => 'PENDING',
                 'category' => 'MARKETING',
             ]),
+            "*/$templateId" => Http::response($templateMetaFormat),
         ]);
 
-        $this->post(route('template.store'), [
-            'waba_id' => $waba->id,
-            'name' => 'template_name',
-            'language' => 'en',
-            'category' => 'MARKETING',
-            'components' => [
-                [
-                    'type' => 'text',
-                    'text' => 'Hello World',
-                ],
-            ],
-        ])->assertStatus(201);
+        $this->post(route('template.store'), $templateRequest)->assertStatus(201);
+        $this->assertDatabase($waba);
     }
 
-    public function test_create_text_template_with_buttons_footer_buttons()
+    public function test_create_template_with_buttons_footer_buttons()
     {
         $waba = Waba::factory()->create();
+        $templateId = $this->faker()->uuid;
+        $templateRequest = FakeCreateTemplate::buttonsFooterBodyVarsTemplate($waba);
+        $templateMetaFormat = FakeTemplateToMetaFormat::convert($templateRequest, $templateId);
 
         Http::fake([
             "*/$waba->waba_id/message_templates" => Http::response([
-                'id' => $this->faker()->uuid,
+                'id' => $templateId,
                 'status' => 'PENDING',
                 'category' => 'MARKETING',
             ]),
+            "*/$templateId" => Http::response($templateMetaFormat),
         ]);
 
-        $this->post(route('template.store'), [
-            'waba_id' => $waba->id,
-            'name' => 'template_name',
-            'language' => 'en_US',
-            'category' => 'MARKETING',
-            'components' => [
-                'BODY' => [
-                    'text' => 'Hi {{1}}! For can get our {{2}} for as low as {{3}} for more information.',
-                    'example' => [
-                        'body_text' => [
-                            [
-                                'Mark', 'Tuscan Getaway package', '800',
-                            ],
-                        ],
-                    ],
-                ],
-                'FOOTER' => [
-                    'text' => 'Shop now through to get of all merchandise.',
-                ],
-                'BUTTONS' => [
-                    [
-                        'type' => 'QUICK_REPLY',
-                        'text' => 'Unsubcribe from Promos',
-                    ],
-                    [
-                        'type' => 'PHONE_NUMBER',
-                        'text' => 'Call',
-                        'phone_number' => '15550051310',
-                    ],
-                    [
-                        'type' => 'URL',
-                        'text' => 'Shop Now',
-                        'url' => 'https://www.examplesite.com/shop?promo={{1}}',
-                        'example' => [
-                            'summer2023',
-                        ],
-                    ],
-
-                ],
-            ],
-        ])->assertStatus(201);
+        $this->post(route('template.store'), $templateRequest)->assertStatus(201);
+        $this->assertDatabase($waba);
     }
 
     public function test_create_template_with_image_header()
     {
-        $waba = Waba::factory()->create();
         $sessionId = $this->faker()->uuid;
+        $waba = Waba::factory()->create();
+        $templateId = $this->faker()->uuid;
+        $templateRequest = FakeCreateTemplate::imageHeaderTemplate($waba);
+        $templateMetaFormat = FakeTemplateToMetaFormat::convert($templateRequest, $templateId);
+        $templateMetaFormat['components'][0]['example']['header_handle'] = ['4::aW1hZ2U6Ly9pb'];
 
         Http::fake([
+            "*/$templateId" => Http::response($templateMetaFormat),
             '*/uploads*' => Http::response(['id' => $sessionId]),
             "*/$sessionId" => Http::response(['h' => $this->faker()->uuid]),
             "*/$waba->waba_id/message_templates" => Http::response([
-                'id' => $this->faker()->uuid,
+                'id' => $templateId,
                 'status' => 'PENDING',
                 'category' => 'MARKETING',
             ]),
         ]);
 
         Storage::fake('local');
-        $file = UploadedFile::fake()->create('file.jpg');
+        $this->post(route('template.store'), $templateRequest)->assertStatus(201);
+        $this->assertDatabase($waba);
+    }
 
-        $this->post(route('template.store'), [
+    private function assertDatabase(Waba $waba)
+    {
+        return $this->assertDatabaseHas('templates', [
             'waba_id' => $waba->id,
-            'name' => 'seasonal_promotion_text_only',
-            'language' => 'en_US',
-            'category' => 'MARKETING',
-            'components' => [
-                'HEADER' => [
-                    'format' => 'IMAGE',
-                    'example' => [
-                        'header_handle' => $file,
-                    ],
-                ],
-                'BODY' => [
-                    'text' => 'Shop now through to get of all merchandise.',
-                ],
-            ],
-        ])->assertStatus(201);
-
-        $this->assertDatabaseHas('templates', [
-            'waba_id' => $waba->id,
-            'name' => 'seasonal_promotion_text_only',
+            'name' => 'template_name',
             'language' => 'en_US',
             'category' => 'MARKETING',
             'status' => 'PENDING',

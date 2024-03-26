@@ -2,12 +2,13 @@
 
 namespace Sdkconsultoria\WhatsappCloudApi\Http\Controllers;
 
+use Sdkconsultoria\WhatsappCloudApi\Http\Requests\SendTemplateRequest;
 use Sdkconsultoria\WhatsappCloudApi\Http\Requests\StoreTemplateRequest;
 use Sdkconsultoria\WhatsappCloudApi\Http\Resources\TemplateResource;
+use Sdkconsultoria\WhatsappCloudApi\Lib\Message\SendTemplate;
+use Sdkconsultoria\WhatsappCloudApi\Lib\Template\CreateTemplate;
 use Sdkconsultoria\WhatsappCloudApi\Models\Template;
-use Sdkconsultoria\WhatsappCloudApi\Models\Waba;
-use Sdkconsultoria\WhatsappCloudApi\Services\ResumableUploadAPI;
-use Sdkconsultoria\WhatsappCloudApi\Services\TemplateManagerService;
+use Sdkconsultoria\WhatsappCloudApi\Models\WabaPhone;
 
 class TemplateController extends APIResourceController
 {
@@ -29,49 +30,28 @@ class TemplateController extends APIResourceController
 
     public function store(StoreTemplateRequest $request)
     {
-        $waba = Waba::find($request->waba_id);
-        $processTemplate = $this->processTemplate($request->all());
-        $template = resolve(TemplateManagerService::class)->createTemplate($waba->waba_id, $processTemplate);
-
-        $this->saveTemplate($template, $processTemplate, $waba);
+        $template = resolve(CreateTemplate::class)->create($request);
 
         return response()->json([
             'message' => 'Template created successfully',
+            'template' => new TemplateResource($template),
         ], 201);
     }
 
-    private function processTemplate(array $request)
+    public function sendTemplate(SendTemplateRequest $request)
     {
-        $processed = $request;
-        unset($processed['waba_id']);
+        $request->validate([
+            'waba_phone' => 'required',
+            'to' => 'required',
+            'template' => 'required',
+            'vars' => 'nullable|array',
+        ]);
 
-        $components = $request['components'];
-        $components = array_map(function ($component, $index) {
-            $component['type'] = strtoupper($index);
+        $template = Template::find($request->template);
+        $wabaPhone = WabaPhone::find($request->waba_phone);
 
-            if ($component['type'] === 'HEADER' && in_array($component['format'], ['IMAGE', 'VIDEO', 'DOCUMENT'])) {
-                $filePath = $component['example']['header_handle']->getRealPath();
-                $handler = resolve(ResumableUploadAPI::class)->uploadFile($filePath);
-                $component['example']['header_handle'] = $handler->handler;
-            }
+        $message = resolve(SendTemplate::class)->send($wabaPhone, $template, $request->to, $request->vars ?? []);
 
-            return $component;
-        }, $components, array_keys($components));
-        $processed['components'] = $components;
-
-        return $processed;
-    }
-
-    private function saveTemplate(array $templateResponse, array $processTemplate, Waba $waba)
-    {
-        $template = new Template();
-        $template->waba_id = $waba->id;
-        $template->template_id = $templateResponse['id'];
-        $template->status = $templateResponse['status'];
-        $template->category = $templateResponse['category'];
-        $template->name = $processTemplate['name'];
-        $template->language = $processTemplate['language'];
-        $template->content = json_encode($processTemplate);
-        $template->save();
+        return response()->json($message);
     }
 }

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Http;
 use Sdkconsultoria\WhatsappCloudApi\Lib\Message\ProcessMessageWebhook;
+use Sdkconsultoria\WhatsappCloudApi\Lib\Template\ProcessStatusWebhook;
 
 class WebhookController extends Controller
 {
@@ -29,6 +30,7 @@ class WebhookController extends Controller
                 resolve(ProcessMessageWebhook::class)->process($data['value']);
                 break;
             case 'message_template_status_update':
+                resolve(ProcessStatusWebhook::class)->process($data['value']);
                 break;
         }
     }

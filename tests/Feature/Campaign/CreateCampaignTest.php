@@ -13,7 +13,7 @@ class CreateCampaignTest extends TestCase
 {
     use WithFaker;
 
-    public function test_create_campaign_simple_template()
+    public function test_create_campaign_text_template()
     {
         $messageId = 'wamid.'.$this->faker->numberBetween(111, 450);
         $campaign = Campaign::factory()->make();

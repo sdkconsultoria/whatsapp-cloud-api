@@ -26,6 +26,7 @@ class StoreCampaignRequest extends FormRequest
             'template_id' => 'required|integer|exists:Sdkconsultoria\WhatsappCloudApi\Models\Template,id',
             'waba_phone_id' => 'required|integer|exists:Sdkconsultoria\WhatsappCloudApi\Models\WabaPhone,id',
             'file' => 'required|extensions:csv',
+            'vars' => 'nullable|array',
         ];
     }
 }

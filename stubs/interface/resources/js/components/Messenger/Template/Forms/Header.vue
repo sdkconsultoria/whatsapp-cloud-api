@@ -39,11 +39,11 @@ import { defineModel } from 'vue'
 const model = defineModel('model')
 
 function setFile(event) {
-    model.value.components.header.example = { header_handle: null };
-    model.value.components.header.example.header_handle = event.target.files[0];
+    model.value.components.header.example = { header_handle: [] };
+    model.value.components.header.example.header_handle = [event.target.files[0]];
 }
 
 function resetFile() {
-    model.value.components.header.example = { header_handle: null };
+    model.value.components.header.example = { header_handle: [] };
 }
 </script>

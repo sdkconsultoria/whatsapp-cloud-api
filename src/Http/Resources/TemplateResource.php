@@ -20,12 +20,7 @@ class TemplateResource extends JsonResource
             'status' => $this->status,
             'category' => $this->category,
             'language' => $this->language,
-            'content' => $this->getTemplateJson(),
+            'components' => json_decode($this->content)->components,
         ];
-    }
-
-    private function getTemplateJson()
-    {
-        return json_decode($this->content)->components;
     }
 }

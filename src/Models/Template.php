@@ -17,37 +17,22 @@ class Template extends Model
 
     private $componentsWithVars = [];
 
-    public function getMessage()
+    public function getComponents()
     {
-        $components = $this->getComponents();
-
-        return [
-            'text' => [
-                'body' => $components['BODY']->text,
-            ],
-            'type' => 'text',
-        ];
+        return json_decode($this->content, true);
     }
 
-    public function setComponentsWithVars(array $components)
+    public function setVarsToComponents(array $vars): void
     {
-        $this->componentsWithVars = $components;
+        if (empty($vars)) {
+            $this->componentsWithVars = $this->getComponents();
+
+            return;
+        }
     }
 
     public function getComponentsWithVars(): array
     {
         return $this->componentsWithVars;
-    }
-
-    private function getComponents(): array
-    {
-        $components = json_decode($this->content)->components;
-        $formattedComponents = [];
-
-        foreach ($components as $component) {
-            $formattedComponents[$component->type] = $component;
-        }
-
-        return $formattedComponents;
     }
 }
