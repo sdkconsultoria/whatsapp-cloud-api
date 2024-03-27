@@ -35,6 +35,24 @@ class SendTemplateTest extends TestCase
         ]);
     }
 
+    public function test_send_text_template_invalid_template()
+    {
+        $wabaPhone = WabaPhone::factory()->create();
+        $messageId = 'wamid.'.$this->faker()->numberBetween(111, 450);
+
+        Http::fake([
+            "*/$wabaPhone->phone_id/messages" => Http::response(FakeMessageCreteResponse::getFakeMessageCreateResponse($messageId)),
+        ]);
+
+        $this->post(route('message.template.send'), [
+            'waba_phone' => $wabaPhone->id,
+            'to' => '2213428198',
+            'template' => $this->faker()->numberBetween(10000),
+        ])
+            ->assertSessionHasErrors(['template'])
+            ->assertStatus(302);
+    }
+
     public function test_send_text_template_with_missing_vars()
     {
         $wabaPhone = WabaPhone::factory()->create();

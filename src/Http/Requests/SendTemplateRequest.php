@@ -27,7 +27,7 @@ class SendTemplateRequest extends FormRequest
         return array_merge([
             'waba_phone' => 'required',
             'to' => 'required',
-            'template' => 'required',
+            'template' => 'required|integer|exists:Sdkconsultoria\WhatsappCloudApi\Models\Template,id',
             'vars' => 'nullable|array',
         ], $this->getValidationsComponents());
     }
@@ -38,7 +38,7 @@ class SendTemplateRequest extends FormRequest
         $template = Template::find($this->template);
 
         if (! $template) {
-            return false;
+            return [];
         }
 
         foreach ($template->getComponents() as $index => $component) {
