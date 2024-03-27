@@ -55,4 +55,34 @@ class SendTemplateTest extends TestCase
             ->assertSessionHasErrors(['vars.body.parameters.0.text'])
             ->assertStatus(302);
     }
+
+    public function test_send_text_template_with_vars()
+    {
+        $wabaPhone = WabaPhone::factory()->create();
+        $template = Template::factory()->create([
+            'content' => json_encode(['BODY' => ['text' => 'Hello {{1}}']]),
+        ]);
+        $messageId = 'wamid.'.$this->faker()->numberBetween(111, 450);
+
+        Http::fake([
+            "*/$wabaPhone->phone_id/messages" => Http::response(FakeMessageCreteResponse::getFakeMessageCreateResponse($messageId)),
+        ]);
+
+        $this->post(route('message.template.send'), [
+            'waba_phone' => $wabaPhone->id,
+            'to' => '2213428198',
+            'template' => $template->id,
+            'vars' => [
+                'body' => [
+                    'parameters' => [
+                        [
+                            'type' => 'text',
+                            'text' => 'World',
+                        ],
+                    ],
+                ],
+            ],
+        ])
+            ->assertStatus(200);
+    }
 }

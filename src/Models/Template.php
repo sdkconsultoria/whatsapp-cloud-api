@@ -15,7 +15,9 @@ class Template extends Model
 
     public const STATUS_REJECTED = 'REJECTED';
 
-    private $componentsWithVars = [];
+    private array $componentsWithVars = [];
+
+    public array $vars = [];
 
     public function getComponents()
     {

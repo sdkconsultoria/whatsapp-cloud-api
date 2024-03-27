@@ -40,13 +40,6 @@ class TemplateController extends APIResourceController
 
     public function sendTemplate(SendTemplateRequest $request)
     {
-        $request->validate([
-            'waba_phone' => 'required',
-            'to' => 'required',
-            'template' => 'required',
-            'vars' => 'nullable|array',
-        ]);
-
         $template = Template::find($request->template);
         $wabaPhone = WabaPhone::find($request->waba_phone);
 

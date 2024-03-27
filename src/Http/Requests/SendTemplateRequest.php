@@ -44,7 +44,7 @@ class SendTemplateRequest extends FormRequest
         foreach ($template->getComponents() as $index => $component) {
             switch (strtoupper($index)) {
                 case 'BODY':
-                    $validations['vars.body.parameters.0.text'] = $this->getValidationOfTextVars($component['text']);
+                    $this->getValidationOfTextVars($component['text'], $validations);
                     break;
 
                 default:
@@ -55,15 +55,26 @@ class SendTemplateRequest extends FormRequest
         return $validations;
     }
 
-    private function getValidationOfTextVars(string $text): string
+    private function getValidationOfTextVars(string $text, array &$validations): void
+    {
+        $uniques = $this->countUniqueVars($text);
+
+        if ($uniques === 0) {
+            $validations['vars.body.parameters'] = 'nullable';
+        }
+
+        $validations['vars.body.parameters'] = 'required|array|size:'.$uniques;
+
+        for ($i = 0; $i < $uniques; $i++) {
+            $validations["vars.body.parameters.$i.text"] = 'required';
+        }
+    }
+
+    private function countUniqueVars(string $text): int
     {
         preg_match_all('/{{([0-9]{1,2})}}/', $text, $matches);
         $uniques = array_unique(array_map('intval', $matches[1]));
 
-        if (count($uniques) === 0) {
-            return 'nullable';
-        }
-
-        return 'required|array|size:'.count($uniques);
+        return count($uniques);
     }
 }

@@ -12,7 +12,7 @@ class SendTemplate
 {
     public function Send(WabaPhone $wabaPhone, Template $template, string $to, array $vars = [])
     {
-        $template->setVarsToComponents($vars);
+        $template->vars = $vars;
         $message = resolve(MessageService::class)
             ->sendTemplate($wabaPhone, $to, $template);
 
