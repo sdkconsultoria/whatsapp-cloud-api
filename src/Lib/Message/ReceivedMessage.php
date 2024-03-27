@@ -19,6 +19,7 @@ class ReceivedMessage
         $chat = Chat::findOrCreateChat($content['from'], $wabaPhoneNumber);
 
         switch ($content['type']) {
+            case 'unsupported':
             case 'contacts':
             case 'text':
                 $this->processIfIsResponse($content);
