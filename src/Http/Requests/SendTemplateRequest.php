@@ -44,7 +44,10 @@ class SendTemplateRequest extends FormRequest
         foreach ($template->getComponents() as $index => $component) {
             switch (strtoupper($index)) {
                 case 'BODY':
-                    $this->getValidationOfTextVars($component['text'], $validations);
+                    $this->getComponentVarsValidations($component, $validations, 'body');
+                    break;
+                case 'HEADER':
+                    $this->getHeaderValidations($component, $validations);
                     break;
 
                 default:
@@ -55,18 +58,21 @@ class SendTemplateRequest extends FormRequest
         return $validations;
     }
 
-    private function getValidationOfTextVars(string $text, array &$validations): void
+    private function getComponentVarsValidations(array $component, array &$validations, $type): void
     {
-        $uniques = $this->countUniqueVars($text);
+        $uniques = $this->countUniqueVars($component['text']);
 
         if ($uniques === 0) {
-            $validations['vars.body.parameters'] = 'nullable';
+            $validations["vars.$type.parameters"] = 'nullable';
+
+            return;
         }
 
-        $validations['vars.body.parameters'] = 'required|array|size:'.$uniques;
+        $validations["vars.$type.parameters"] = 'required|array|size:'.$uniques;
 
         for ($i = 0; $i < $uniques; $i++) {
-            $validations["vars.body.parameters.$i.text"] = 'required';
+            $validations["vars.$type.parameters.$i.text"] = 'required|string';
+            $validations["vars.$type.parameters.$i.type"] = 'required|string';
         }
     }
 
@@ -76,5 +82,20 @@ class SendTemplateRequest extends FormRequest
         $uniques = array_unique(array_map('intval', $matches[1]));
 
         return count($uniques);
+    }
+
+    private function getHeaderValidations(array $component, array &$validations): void
+    {
+        switch ($component['format']) {
+            case 'text':
+                $this->getComponentVarsValidations($component, $validations, 'header');
+                break;
+            case 'image':
+            case 'document':
+            case 'video':
+                $validations['vars.header.parameters.0.type'] = 'required|string';
+                $validations['vars.header.parameters.0.'.$component['format'].'.link'] = 'required|string';
+                break;
+        }
     }
 }

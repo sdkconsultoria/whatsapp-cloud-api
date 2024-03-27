@@ -85,4 +85,57 @@ class SendTemplateTest extends TestCase
         ])
             ->assertStatus(200);
     }
+
+    public function test_send_template_header_image()
+    {
+        $wabaPhone = WabaPhone::factory()->create();
+        $template = Template::factory()->create([
+            'content' => json_encode(['body' => ['text' => 'Hello this is a test'], 'header' => ['format' => 'image']]),
+        ]);
+        $messageId = 'wamid.'.$this->faker()->numberBetween(111, 450);
+
+        Http::fake([
+            "*/$wabaPhone->phone_id/messages" => Http::response(FakeMessageCreteResponse::getFakeMessageCreateResponse($messageId)),
+        ]);
+
+        $this->post(route('message.template.send'), [
+            'waba_phone' => $wabaPhone->id,
+            'to' => '2213428198',
+            'template' => $template->id,
+            'vars' => [
+                'header' => [
+                    'parameters' => [
+                        [
+                            'type' => 'image',
+                            'image' => [
+                                'link' => 'https://example.com/image.jpg',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ])
+            ->assertStatus(200);
+    }
+
+    public function test_send_template_header_image_missing_var()
+    {
+        $wabaPhone = WabaPhone::factory()->create();
+        $template = Template::factory()->create([
+            'content' => json_encode(['body' => ['text' => 'Hello this is a test'], 'header' => ['format' => 'image']]),
+        ]);
+        $messageId = 'wamid.'.$this->faker()->numberBetween(111, 450);
+
+        Http::fake([
+            "*/$wabaPhone->phone_id/messages" => Http::response(FakeMessageCreteResponse::getFakeMessageCreateResponse($messageId)),
+        ]);
+
+        $this->post(route('message.template.send'), [
+            'waba_phone' => $wabaPhone->id,
+            'to' => '2213428198',
+            'template' => $template->id,
+        ])
+            ->assertSessionHasErrors(['vars.header.parameters.0.image.link'])
+            ->assertStatus(302);
+    }
 }
