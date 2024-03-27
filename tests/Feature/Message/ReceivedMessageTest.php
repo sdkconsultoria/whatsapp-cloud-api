@@ -81,6 +81,27 @@ class ReceivedMessageTest extends TestCase
         });
     }
 
+    public function test_recive_text_message_reply()
+    {
+        $messageId = 'wamid.'.$this->faker()->numberBetween(111, 450);
+        Message::factory()->create(['message_id' => $messageId.'-reply']);
+        $wabaPhone = WabaPhone::factory()->create();
+        Event::fake();
+
+        $response = $this->post(route('meta.webhook'), FakeReceivedMessage::responseTextMessage($wabaPhone, $messageId));
+        $response->assertStatus(200);
+    }
+
+    public function test_recive_text_message_reply_missing_message()
+    {
+        $messageId = 'wamid.'.$this->faker()->numberBetween(111, 450);
+        $wabaPhone = WabaPhone::factory()->create();
+        Event::fake();
+
+        $response = $this->post(route('meta.webhook'), FakeReceivedMessage::responseTextMessage($wabaPhone, $messageId));
+        $response->assertStatus(404);
+    }
+
     public function test_recive_image_message()
     {
         $messageId = 'wamid.'.$this->faker()->numberBetween(111, 450);

@@ -69,9 +69,7 @@ class SendTemplateTest extends TestCase
             'waba_phone' => $wabaPhone->id,
             'to' => '2213428198',
             'template' => $template->id,
-        ])
-            ->assertSessionHasErrors(['vars.header.parameters.0.text'])
-            ->assertStatus(200);
+        ])->assertStatus(200);
     }
 
     public function test_send_text_header_template_missing_vars()
@@ -90,7 +88,8 @@ class SendTemplateTest extends TestCase
             'waba_phone' => $wabaPhone->id,
             'to' => '2213428198',
             'template' => $template->id,
-        ])->assertStatus(302);
+        ])->assertSessionHasErrors(['vars.header.parameters.0.text'])
+            ->assertStatus(302);
     }
 
     public function test_send_text_template_with_missing_vars()

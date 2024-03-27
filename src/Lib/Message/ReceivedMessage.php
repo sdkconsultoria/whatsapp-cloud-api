@@ -45,7 +45,7 @@ class ReceivedMessage
     private function processIfIsResponse(array &$content): void
     {
         if (isset($content['context'])) {
-            $message = Message::where('message_id', $content['context']['id'])->first();
+            $message = Message::where('message_id', $content['context']['id'])->firstOrFail();
             $content['context']['message'] = $message->body;
         }
     }
