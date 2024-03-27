@@ -15,7 +15,7 @@ class MessageTest extends TestCase
     {
         $chat = Chat::factory()->create();
         Message::factory()->count(5)->create();
-        Message::factory()->count(7)->create(['chat_id' => $chat->id]);
+        Message::factory()->count(6)->create(['chat_id' => $chat->id]);
         Message::factory()->create([
             'chat_id' => $chat->id,
             'type' => 'image',
@@ -30,6 +30,11 @@ class MessageTest extends TestCase
             'chat_id' => $chat->id,
             'type' => 'contacts',
             'body' => '{"contacts":{"contact":"Mire esta slegible"},"context": "contexto"}',
+        ]);
+        Message::factory()->create([
+            'chat_id' => $chat->id,
+            'type' => 'template',
+            'body' => '{}',
         ]);
 
         $this->get(route('message.index').'?chat_id='.$chat->id)

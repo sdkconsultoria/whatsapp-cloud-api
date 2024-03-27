@@ -49,6 +49,8 @@ class MessageResource extends JsonResource
                 return $body->contacts;
             case 'text':
                 return $body->text->body;
+            case 'template':
+                return $body;
         }
     }
 

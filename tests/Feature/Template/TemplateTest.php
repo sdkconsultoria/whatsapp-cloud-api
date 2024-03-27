@@ -29,7 +29,7 @@ class TemplateTest extends TestCase
     public function test_get_all_templates_filter_by_name()
     {
         Template::factory()->count(1)->create();
-        Template::factory(['status' => 'PENDING'])->count(5)->create();
+        Template::factory(['status' => 'PENDING'])->count(3)->create();
         $template = Template::factory()->create();
 
         $this->get(route('template.index').'?name='.$template->name)
