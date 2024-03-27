@@ -26,8 +26,6 @@ class Template extends Model
     {
         if (empty($vars)) {
             $this->componentsWithVars = $this->getComponents();
-
-            return;
         }
     }
 
