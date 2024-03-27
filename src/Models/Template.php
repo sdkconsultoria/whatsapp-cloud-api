@@ -21,7 +21,7 @@ class Template extends Model
 
     public function getComponents()
     {
-        return json_decode($this->content, true);
+        return json_decode($this->content, true)['components'];
     }
 
     public function getComponentsWithVars(): array

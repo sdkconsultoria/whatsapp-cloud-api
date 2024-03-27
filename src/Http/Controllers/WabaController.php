@@ -2,7 +2,7 @@
 
 namespace Sdkconsultoria\WhatsappCloudApi\Http\Controllers;
 
-use Sdkconsultoria\WhatsappCloudApi\Models\Template;
+use Sdkconsultoria\WhatsappCloudApi\Lib\Template\Adapter\MetaToApp;
 use Sdkconsultoria\WhatsappCloudApi\Models\Waba;
 use Sdkconsultoria\WhatsappCloudApi\Services\WabaManagerService;
 
@@ -31,26 +31,8 @@ class WabaController extends APIResourceController
     private function saveTemplates($templates, $wabaId)
     {
         foreach ($templates['data'] as $template) {
-            $this->saveTemplate($template, $wabaId);
+            resolve(MetaToApp::class)->process($template, $wabaId);
         }
-    }
-
-    private function saveTemplate($template, $wabaId)
-    {
-        $templateModel = Template::where('template_id', $template['id'])->first();
-
-        if (! $templateModel) {
-            $templateModel = new Template();
-        }
-
-        $templateModel->waba_id = $wabaId;
-        $templateModel->name = $template['name'];
-        $templateModel->status = $template['status'];
-        $templateModel->category = $template['category'];
-        $templateModel->language = $template['language'];
-        $templateModel->template_id = $template['id'];
-        $templateModel->content = json_encode($template);
-        $templateModel->save();
     }
 
     public function getWabaInfoFromMeta(string $wabaId)
