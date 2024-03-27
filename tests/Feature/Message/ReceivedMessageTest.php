@@ -53,6 +53,20 @@ class ReceivedMessageTest extends TestCase
         });
     }
 
+    public function test_recive_text_message_verify_signature_invalid()
+    {
+        Config::set('meta.webhook_verify_signature', true);
+
+        $messageId = 'wamid.'.$this->faker()->numberBetween(111, 450);
+        $wabaPhone = WabaPhone::factory()->create();
+        Event::fake();
+
+        $response = $this->withHeaders([
+            'x-hub-signature' => 'fake-signature',
+        ])->post(route('meta.webhook'), FakeReceivedMessage::textMessage($wabaPhone, $messageId));
+        $response->assertStatus(403);
+    }
+
     public function test_recive_text_message()
     {
         $messageId = 'wamid.'.$this->faker()->numberBetween(111, 450);
