@@ -42,9 +42,9 @@ class SendTemplateRequest extends FormRequest
         }
 
         foreach ($template->getComponents() as $index => $component) {
-            switch ($index) {
+            switch (strtoupper($index)) {
                 case 'BODY':
-                    $validations['vars.body.parameters.0.text'] = 'required';
+                    $validations['vars.body.parameters.0.text'] = $this->getValidationOfTextVars($component['text']);
                     break;
 
                 default:
@@ -55,13 +55,13 @@ class SendTemplateRequest extends FormRequest
         return $validations;
     }
 
-    private function getValidationOfTextVars(string $text): int
+    private function getValidationOfTextVars(string $text): string
     {
         preg_match_all('/{{([0-9]{1,2})}}/', $text, $matches);
         $uniques = array_unique(array_map('intval', $matches[1]));
 
         if (count($uniques) === 0) {
-            return ['nullable'];
+            return 'nullable';
         }
 
         return 'required|array|size:'.count($uniques);
