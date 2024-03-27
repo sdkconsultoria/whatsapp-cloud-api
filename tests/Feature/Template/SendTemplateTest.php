@@ -96,7 +96,7 @@ class SendTemplateTest extends TestCase
     {
         $wabaPhone = WabaPhone::factory()->create();
         $template = Template::factory()->create([
-            'content' => json_encode(['BODY' => ['text' => 'Hello {{1}}']]),
+            'content' => json_encode(['body' => ['text' => 'Hello {{1}}']]),
         ]);
 
         $this->post(route('message.template.send'), [
@@ -112,7 +112,7 @@ class SendTemplateTest extends TestCase
     {
         $wabaPhone = WabaPhone::factory()->create();
         $template = Template::factory()->create([
-            'content' => json_encode(['BODY' => ['text' => 'Hello {{1}}']]),
+            'content' => json_encode(['body' => ['text' => 'Hello {{1}}']]),
         ]);
         $messageId = 'wamid.'.$this->faker()->numberBetween(111, 450);
 
