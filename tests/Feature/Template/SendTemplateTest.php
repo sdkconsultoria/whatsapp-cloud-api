@@ -38,6 +38,27 @@ class SendTemplateTest extends TestCase
     public function test_send_text_template_invalid_template()
     {
         $wabaPhone = WabaPhone::factory()->create();
+
+        $this->post(route('message.template.send'), [
+            'waba_phone' => $wabaPhone->id,
+            'to' => '2213428198',
+            'template' => $this->faker()->numberBetween(10000),
+        ])
+            ->assertSessionHasErrors(['template'])
+            ->assertStatus(302);
+    }
+
+    public function test_send_text_header_template()
+    {
+        $wabaPhone = WabaPhone::factory()->create();
+        $template = Template::factory()->create([
+            'content' => json_encode([
+                'body' => [
+                    'text' => 'Hello this is a test',
+                ],
+                'header' => ['format' => 'text', 'text' => 'Header text'],
+            ]),
+        ]);
         $messageId = 'wamid.'.$this->faker()->numberBetween(111, 450);
 
         Http::fake([
@@ -47,10 +68,29 @@ class SendTemplateTest extends TestCase
         $this->post(route('message.template.send'), [
             'waba_phone' => $wabaPhone->id,
             'to' => '2213428198',
-            'template' => $this->faker()->numberBetween(10000),
+            'template' => $template->id,
         ])
-            ->assertSessionHasErrors(['template'])
-            ->assertStatus(302);
+            ->assertSessionHasErrors(['vars.header.parameters.0.text'])
+            ->assertStatus(200);
+    }
+
+    public function test_send_text_header_template_missing_vars()
+    {
+        $wabaPhone = WabaPhone::factory()->create();
+        $template = Template::factory()->create([
+            'content' => json_encode([
+                'body' => [
+                    'text' => 'Hello this is a test',
+                ],
+                'header' => ['format' => 'text', 'text' => 'Header {{1}} text'],
+            ]),
+        ]);
+
+        $this->post(route('message.template.send'), [
+            'waba_phone' => $wabaPhone->id,
+            'to' => '2213428198',
+            'template' => $template->id,
+        ])->assertStatus(302);
     }
 
     public function test_send_text_template_with_missing_vars()
