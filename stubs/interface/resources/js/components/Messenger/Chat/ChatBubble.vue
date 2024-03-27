@@ -34,12 +34,17 @@
                     </li>
                 </ul>
             </span>
+
+            <span v-if="message.type == 'template'">
+                <Template :content="message.content" />
+            </span>
         </div>
     </div>
 </template>
 
 <script setup>
 import { computed } from 'vue'
+import Template from './Template.vue';
 
 const props = defineProps({
     message: Object

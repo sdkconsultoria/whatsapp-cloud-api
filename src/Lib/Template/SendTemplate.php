@@ -18,13 +18,25 @@ class SendTemplate
 
         $messageModel = new Message();
         $messageModel->direction = 'toClient';
-        $messageModel->body = json_encode($template->getComponentsWithVars());
+        $messageModel->body = $this->fixComponentsWithVars($template);
         $messageModel->timestamp = time();
         $messageModel->message_id = $message['messages'][0]['id'];
         $messageModel->type = 'template';
         $messageModel->chat_id = $this->getChatId($wabaPhone, $to);
         $messageModel->sended_by = $sendedBy;
         $messageModel->save();
+    }
+
+    private function fixComponentsWithVars(Template $template)
+    {
+        $components = $template->getComponentsWithVars();
+        $fixedComponents = [];
+
+        foreach ($components['components'] as $component) {
+            $fixedComponents[$component['type']] = $component;
+        }
+
+        return json_encode($fixedComponents);
     }
 
     private function getChatId($wabaPhone, $to)
