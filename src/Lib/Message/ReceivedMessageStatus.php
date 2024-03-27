@@ -23,7 +23,7 @@ class ReceivedMessageStatus
 
     private function processSent($messageEvent): void
     {
-        $message = Message::where('message_id', $messageEvent['statuses'][0]['id'])->first();
+        $message = Message::where('message_id', $messageEvent['statuses'][0]['id'])->firstOrFail();
         $message->sent_at = $messageEvent['statuses'][0]['timestamp'];
         $message->save();
 
@@ -34,14 +34,14 @@ class ReceivedMessageStatus
 
     private function processDelivered($messageEvent): void
     {
-        $message = Message::where('message_id', $messageEvent['statuses'][0]['id'])->first();
+        $message = Message::where('message_id', $messageEvent['statuses'][0]['id'])->firstOrFail();
         $message->delivered_at = $messageEvent['statuses'][0]['timestamp'];
         $message->save();
     }
 
     private function processRead($messageEvent): void
     {
-        $message = Message::where('message_id', $messageEvent['statuses'][0]['id'])->first();
+        $message = Message::where('message_id', $messageEvent['statuses'][0]['id'])->firstOrFail();
         $message->read_at = $messageEvent['statuses'][0]['timestamp'];
         $message->save();
     }
