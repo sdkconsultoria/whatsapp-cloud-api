@@ -90,9 +90,9 @@ class SendTemplateRequest extends FormRequest
             case 'text':
                 $this->getComponentVarsValidations($component, $validations, 'header');
                 break;
-            case 'image':
             case 'document':
             case 'video':
+            case 'image':
                 $validations['vars.header.parameters.0.type'] = 'required|string';
                 $validations['vars.header.parameters.0.'.$component['format'].'.link'] = 'required|string';
                 break;

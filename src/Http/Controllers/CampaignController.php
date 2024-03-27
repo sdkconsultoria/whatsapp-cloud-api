@@ -3,7 +3,7 @@
 namespace Sdkconsultoria\WhatsappCloudApi\Http\Controllers;
 
 use Sdkconsultoria\WhatsappCloudApi\Http\Requests\StoreCampaignRequest;
-use Sdkconsultoria\WhatsappCloudApi\Lib\Message\SendTemplate;
+use Sdkconsultoria\WhatsappCloudApi\Lib\Template\SendTemplate;
 use Sdkconsultoria\WhatsappCloudApi\Models\Campaign;
 
 class CampaignController extends APIResourceController

@@ -1,6 +1,6 @@
 <?php
 
-namespace Sdkconsultoria\WhatsappCloudApi\Tests\Feature\Message;
+namespace Sdkconsultoria\WhatsappCloudApi\Tests\Feature\Template;
 
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Http;

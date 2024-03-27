@@ -1,6 +1,6 @@
 <?php
 
-namespace Sdkconsultoria\WhatsappCloudApi\Lib\Message;
+namespace Sdkconsultoria\WhatsappCloudApi\Lib\Template;
 
 use Sdkconsultoria\WhatsappCloudApi\Models\Chat;
 use Sdkconsultoria\WhatsappCloudApi\Models\Message;

@@ -5,8 +5,8 @@ namespace Sdkconsultoria\WhatsappCloudApi\Http\Controllers;
 use Sdkconsultoria\WhatsappCloudApi\Http\Requests\SendTemplateRequest;
 use Sdkconsultoria\WhatsappCloudApi\Http\Requests\StoreTemplateRequest;
 use Sdkconsultoria\WhatsappCloudApi\Http\Resources\TemplateResource;
-use Sdkconsultoria\WhatsappCloudApi\Lib\Message\SendTemplate;
 use Sdkconsultoria\WhatsappCloudApi\Lib\Template\CreateTemplate;
+use Sdkconsultoria\WhatsappCloudApi\Lib\Template\SendTemplate;
 use Sdkconsultoria\WhatsappCloudApi\Models\Template;
 use Sdkconsultoria\WhatsappCloudApi\Models\WabaPhone;
 
