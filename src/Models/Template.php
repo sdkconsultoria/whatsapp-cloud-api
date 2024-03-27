@@ -15,7 +15,7 @@ class Template extends Model
 
     public const STATUS_REJECTED = 'REJECTED';
 
-    private array $componentsWithVars = [];
+    public array $componentsWithVars = [];
 
     public array $vars = [];
 
@@ -24,26 +24,32 @@ class Template extends Model
         return json_decode($this->content, true)['components'];
     }
 
-    public function getComponentsWithVars(): array
+    public function setVars(array $vars): void
     {
         $components = $this->getComponents();
-        if (empty($this->vars)) {
-            return $components;
-        }
+        $fixedVars = [];
+        foreach ($vars as $key => $var) {
+            $key = strtoupper($key);
+            $fixedVars[] = array_merge($var, ['type' => $key]);
+            $components[$key] = $components[$key] ?? [];
 
-        foreach ($this->vars as $key => $var) {
             switch ($key) {
-                case 'body':
+                case 'BODY':
                     $components[$key] = $this->replaceVars($components[$key], $var);
+                    break;
+                case 'BUTTON':
+                    $components['BUTTON'] = $components['BUTTON'] ?? [];
+                    $components['BUTTON'][] = $var;
                     break;
 
                 default:
-                    $components[$key]['parameters'] = $var['parameters'];
+                    $components[$key]['parameters'] = $var;
                     break;
             }
         }
 
-        return $components;
+        $this->componentsWithVars = $components;
+        $this->vars = $fixedVars;
     }
 
     private function replaceVars(array $component, array $var): array

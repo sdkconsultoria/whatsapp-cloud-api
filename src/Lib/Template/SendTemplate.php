@@ -12,13 +12,13 @@ class SendTemplate
 {
     public function Send(WabaPhone $wabaPhone, Template $template, string $to, array $vars = [], $sendedBy = null)
     {
-        $template->vars = $vars;
+        $template->setVars($vars);
         $message = resolve(MessageService::class)
             ->sendTemplate($wabaPhone, $to, $template);
 
         $messageModel = new Message();
         $messageModel->direction = 'toClient';
-        $messageModel->body = json_encode($template->getComponentsWithVars());
+        $messageModel->body = json_encode($template->componentsWithVars);
         $messageModel->timestamp = time();
         $messageModel->message_id = $message['messages'][0]['id'];
         $messageModel->type = 'template';

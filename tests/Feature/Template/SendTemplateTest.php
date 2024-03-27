@@ -54,10 +54,10 @@ class SendTemplateTest extends TestCase
         $template = Template::factory()->create([
             'content' => json_encode([
                 'components' => [
-                    'body' => [
+                    'BODY' => [
                         'text' => 'Hello this is a test',
                     ],
-                    'header' => ['format' => 'text', 'text' => 'Header text'],
+                    'HEADER' => ['format' => 'text', 'text' => 'Header text'],
                 ],
             ]),
         ]);
@@ -79,10 +79,10 @@ class SendTemplateTest extends TestCase
         $wabaPhone = WabaPhone::factory()->create();
         $template = Template::factory()->create([
             'content' => json_encode(['components' => [
-                'body' => [
+                'BODY' => [
                     'text' => 'Hello this is a test',
                 ],
-                'header' => ['format' => 'text', 'text' => 'Header {{1}} text'],
+                'HEADER' => ['format' => 'text', 'text' => 'Header {{1}} text'],
             ]]),
         ]);
 
@@ -98,7 +98,7 @@ class SendTemplateTest extends TestCase
     {
         $wabaPhone = WabaPhone::factory()->create();
         $template = Template::factory()->create([
-            'content' => json_encode(['components' => ['body' => ['text' => 'Hello {{1}}']]]),
+            'content' => json_encode(['components' => ['BODY' => ['text' => 'Hello {{1}}']]]),
         ]);
 
         $this->post(route('message.template.send'), [
@@ -114,7 +114,7 @@ class SendTemplateTest extends TestCase
     {
         $wabaPhone = WabaPhone::factory()->create();
         $template = Template::factory()->create([
-            'content' => json_encode(['components' => ['body' => ['text' => 'Hello {{1}}']]]),
+            'content' => json_encode(['components' => ['BODY' => ['text' => 'Hello {{1}}']]]),
         ]);
         $messageId = 'wamid.'.$this->faker()->numberBetween(111, 450);
 
@@ -145,7 +145,7 @@ class SendTemplateTest extends TestCase
         $wabaPhone = WabaPhone::factory()->create();
         $template = Template::factory()->create([
             'content' => json_encode([
-                'components' => ['components' => ['body' => ['text' => 'Hello this is a test'], 'header' => ['format' => 'image']]],
+                'components' => ['components' => ['BODY' => ['text' => 'Hello this is a test'], 'HEADER' => ['format' => 'image']]],
             ]),
         ]);
         $messageId = 'wamid.'.$this->faker()->numberBetween(111, 450);
@@ -178,7 +178,7 @@ class SendTemplateTest extends TestCase
     {
         $wabaPhone = WabaPhone::factory()->create();
         $template = Template::factory()->create([
-            'content' => json_encode(['components' => ['body' => ['text' => 'Hello this is a test'], 'header' => ['format' => 'image']]]),
+            'content' => json_encode(['components' => ['BODY' => ['text' => 'Hello this is a test'], 'HEADER' => ['format' => 'image']]]),
         ]);
 
         $this->post(route('message.template.send'), [

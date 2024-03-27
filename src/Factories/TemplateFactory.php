@@ -23,7 +23,7 @@ class TemplateFactory extends Factory
     public function definition()
     {
         $content = [
-            'body' => [
+            'BODY' => [
                 'text' => 'Welcome',
             ],
         ];
