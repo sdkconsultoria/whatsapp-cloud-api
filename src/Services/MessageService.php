@@ -16,7 +16,7 @@ class MessageService extends FacebookService
             'messaging_product' => 'whatsapp',
             'recipient_type' => 'individual',
             'to' => $to,
-        ], $message));
+        ], $message))->throw();
 
         return $response->json();
     }
@@ -36,7 +36,7 @@ class MessageService extends FacebookService
                 ],
                 'components' => $template->vars,
             ],
-        ]);
+        ])->throw();
 
         return $response->json();
     }

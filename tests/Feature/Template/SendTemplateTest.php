@@ -41,11 +41,6 @@ class SendTemplateTest extends TestCase
         $template = Template::factory()->create([
             'content' => json_encode(['BODY' => ['text' => 'Hello {{1}}']]),
         ]);
-        $messageId = 'wamid.'.$this->faker()->numberBetween(111, 450);
-
-        Http::fake([
-            "*/$wabaPhone->phone_id/messages" => Http::response(FakeMessageCreteResponse::getFakeMessageCreateResponse($messageId)),
-        ]);
 
         $this->post(route('message.template.send'), [
             'waba_phone' => $wabaPhone->id,
@@ -124,11 +119,6 @@ class SendTemplateTest extends TestCase
         $template = Template::factory()->create([
             'content' => json_encode(['body' => ['text' => 'Hello this is a test'], 'header' => ['format' => 'image']]),
         ]);
-        $messageId = 'wamid.'.$this->faker()->numberBetween(111, 450);
-
-        Http::fake([
-            "*/$wabaPhone->phone_id/messages" => Http::response(FakeMessageCreteResponse::getFakeMessageCreateResponse($messageId)),
-        ]);
 
         $this->post(route('message.template.send'), [
             'waba_phone' => $wabaPhone->id,
@@ -137,5 +127,29 @@ class SendTemplateTest extends TestCase
         ])
             ->assertSessionHasErrors(['vars.header.parameters.0.image.link'])
             ->assertStatus(302);
+    }
+
+    public function test_send_template_fail_to_send()
+    {
+        $wabaPhone = WabaPhone::factory()->create();
+        $template = Template::factory()->create();
+        $messageId = 'wamid.'.$this->faker()->numberBetween(111, 450);
+
+        Http::fake([
+            "*/$wabaPhone->phone_id/messages" => Http::response([
+                'error' => [
+                    'message' => 'Invalid OAuth access token - Cannot parse access token',
+                    'type' => 'OAuthException',
+                    'code' => 190,
+                    'fbtrace_id' => 'ACbE05M7Rh6qXPVN_9_NNdG',
+                ],
+            ], 500),
+        ]);
+
+        $this->post(route('message.template.send'), [
+            'waba_phone' => $wabaPhone->id,
+            'to' => '2213428198',
+            'template' => $template->id,
+        ])->assertStatus(500);
     }
 }

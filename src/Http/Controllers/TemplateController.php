@@ -43,7 +43,11 @@ class TemplateController extends APIResourceController
         $template = Template::find($request->template);
         $wabaPhone = WabaPhone::find($request->waba_phone);
 
-        $message = resolve(SendTemplate::class)->send($wabaPhone, $template, $request->to, $request->vars ?? []);
+        try {
+            $message = resolve(SendTemplate::class)->send($wabaPhone, $template, $request->to, $request->vars ?? []);
+        } catch (\Exception $e) {
+            return response()->json($e->getMessage(), 500);
+        }
 
         return response()->json($message);
     }
